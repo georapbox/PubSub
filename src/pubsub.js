@@ -38,8 +38,8 @@
 	}
 }('PubSub', this, function () {
 	'use strict';
-
-	var 
+    
+    var 
         PubSub = function () {
             this.topics = {};    // Storage for topics that can be broadcast or listened to.
             this.subUid = -1;    // A topic identifier.
