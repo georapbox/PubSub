@@ -64,7 +64,7 @@
      *
      * @param topic {String} The topic name.
      * @param callback {Function} Callback function to execute on event.
-     * @return this {Object}
+     * @return token {Number}
      */
     proto.subscribe = function (topic, callback) {
         var token = (this.subUid += 1);
@@ -79,7 +79,7 @@
             callback: callback
         });
         
-        return this;
+        return token;
     };
     
     /**
@@ -124,22 +124,42 @@
     };
     
     /**
-     * Unsubscribe from a specific topic, based on  the topic name.
+     * Unsubscribe from a specific topic, based on  the topic name,
+     * or based on a tokenized reference to the subscription.
      *
-     * @param topic {String} Topic to unsubscribe from.
-     * @return topic {String} if argument passed matches a subscribed event.
+     * @param t {String || Object} Topic name or subscription referenece.
+     * @return t {Object} if argument passed matches a subscribed event.
      * @return false {Boolean} if argument passed does not match a subscribed event.
      */
-    proto.unsubscribe = function (topic) {
-        var prop, i, len;
-            
+    proto.unsubscribe = function (t) {
+        var prop,
+            len,
+            tf = false;
+        
         for (prop in this.topics) {
             if (this.topics[prop]) {
-                for (i = 0, len = this.topics[prop].length; i < len; i += 1) {
-                    if (this.topics[prop][i].eventType === topic) {
-                        this.topics[prop].splice(i, 1);
-                        return topic;
+                len = this.topics[prop].length;
+                
+                while(len) {
+                    len -= 1;
+                    
+                    // If t is a tokenized reference to the subscription.
+                    // Removes one subscription from the array.
+                    if (this.topics[prop][len].token === t) {
+                        this.topics[prop].splice(len, 1);
+                        return t;
                     }
+                    
+                    // If t is the event type.
+                    // Removes all the subscriptions that match the event type.
+                    if (this.topics[prop][len].eventType === t) {
+                        this.topics[prop].splice(len, 1);
+                        tf = true;
+                    }
+                }
+                
+                if (tf === true) {
+                    return t;
                 }
             }
         }
