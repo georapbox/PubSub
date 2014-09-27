@@ -11,10 +11,9 @@ var ps = new PubSub();
 
 ###Subscribing events
 The "listener" is the function to be executed when an event is emitted.
-<div class="highlight highlight-javascript">
 <pre>
 function listener(topic, data) {
-    console.log(<span class="sl">'An event is published.'</span>);
+    console.log('An event is published.');
     console.log(topic);
     console.log(data);
 }
@@ -22,7 +21,6 @@ function listener(topic, data) {
 // Subscribe event
 var sub = ps.subscribe('event-name', listener);
 </pre>
-</div>
 
 ###Publishing events
 The <code>publish</code> method takes three arguments:
@@ -51,3 +49,17 @@ There are two ways to unsubscribe an event:
 - <code>on</code> - <code>subscribe</code>
 - <code>trigger</code> - <code>publish</code>
 - <code>off</code> - <code>unsubscribe</code>
+
+##Minify
+To minify the project, run <code>grunt</code> command. This will run the removelogging and uglify the code into <code>dist/pubsub.min.js</code>.
+
+##License
+This code is [MIT](http://opensource.org/licenses/mit-license.php) licenced:
+
+Copyright (c) 2014 George Raptis
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
