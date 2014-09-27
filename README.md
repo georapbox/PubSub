@@ -51,7 +51,7 @@ There are two ways to unsubscribe an event:
 - <code>off</code> - <code>unsubscribe</code>
 
 ##Minify
-To minify the project, run <code>grunt</code> command. This will run the removelogging and uglify the code into <code>dist/pubsub.min.js</code>.
+To minify the project, run <code>grunt build</code> command. This will run the removelogging and uglify the code into <code>dist/pubsub.min.js</code>.
 
 ##License
 This code is [MIT](http://opensource.org/licenses/mit-license.php) licenced:
