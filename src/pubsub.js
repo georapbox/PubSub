@@ -53,7 +53,7 @@
 	 * @return {Function} The aliased method.
 	 */
     function alias(fn) {
-		return function closure() {
+		return function closure () {
             return this[fn].apply(this, arguments);
 		};
 	}
@@ -139,7 +139,7 @@
             if (this.topics[prop]) {
                 len = this.topics[prop].length;
                 
-                while(len) {
+                while (len) {
                     len -= 1;
                     
                     // If t is a tokenized reference to the subscription.
