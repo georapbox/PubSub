@@ -75,11 +75,10 @@
         
         this.topics[topic].push({
             token: token,
-            eventType: topic,
             callback: callback
         });
-        
-        return token;
+		
+    	return token;
     };
     
     /**
@@ -151,8 +150,8 @@
                     }
                     
                     // If t is the event type.
-                    // Removes all the subscriptions that match the event type.
-                    if (this.topics[prop][len].eventType === t) {
+                    // Removes all the subscriptions that match the event type.	
+					if (prop === t) {
                         this.topics[prop].splice(len, 1);
                         tf = true;
                     }
