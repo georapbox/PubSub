@@ -1,6 +1,6 @@
 #PubSub
 
-Javascript implementation of the Publish/Subscribe pattern.
+Javascript implementation of the [Publish–Subscribe pattern](http://en.wikipedia.org/wiki/Publish%E2%80%93subscribe_pattern).
 
 ##Using PubSub
 
@@ -18,22 +18,22 @@ function listener(topic, data) {
     console.log(data);
 }
 
-// Subscribe event
+// Subscribe to event
 var sub = ps.subscribe('event-name', listener);
+
+// Subscribe to event and execute only one time
+var subOnce = ps.subscribeOnce('event-name', listener)
 </pre>
 
 ###Publishing events
-The <code>publish</code> method takes three arguments:
+The <code>publish</code> method takes two arguments:
 
 - The first one is the name of the event.
 - The second one (optional) is the data we may want to pass along as. We can pass data along using an array or an object as shown below.
-- The third argument (optional) is a callback function to be executed after an event is published.
 <pre>
 ps.publish('event-name', {
     prop1: value1,
     prop2: value2
-}, function () {
-    callbackFunction();
 });
 </pre>
 
@@ -47,6 +47,7 @@ There are two ways to unsubscribe an event:
 
 ##Methods aliases
 - <code>on</code> - <code>subscribe</code>
+- <code>once</code> - <code>subscribeOnce</code>
 - <code>trigger</code> - <code>publish</code>
 - <code>off</code> - <code>unsubscribe</code>
 
