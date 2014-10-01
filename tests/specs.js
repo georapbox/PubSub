@@ -10,7 +10,7 @@ describe('new PubSub', function () {
 // Subscribe scenarios.
 describe('Subscribe to an event.', function () {
 	it('Subscribes to an event called: "example-event".', function () {
-		function listener () {}
+		function listener() {}
 		
 		var ps = new PubSub();
 		expect(ps.subscribe('example-event', listener)).toBe(0);
@@ -20,7 +20,7 @@ describe('Subscribe to an event.', function () {
 
 // Publish scenarios.
 describe('Publish/Emmit an event.', function () {
-	function listener () {}
+	function listener() {}
 	var ps = new PubSub();
 	ps.subscribe('example-event', listener);
 	
@@ -31,7 +31,7 @@ describe('Publish/Emmit an event.', function () {
 			dummyKey: 'dummyValue'
 		});
 		
-		expect(ps.publish).toHaveBeenCalledWith('example-event', { dummyKey : 'dummyValue' });
+		expect(ps.publish).toHaveBeenCalledWith('example-event', { dummyKey: 'dummyValue' });
 	});
 	
 	it('Publishes "example-event".', function () {	
@@ -51,7 +51,7 @@ describe('Publish/Emmit an event.', function () {
 // Unsubscribe scenarios.
 describe('Unsubscribe from event.', function () {
 	it('Unsubscribes from event using the event name ("example-event").', function () {
-		function listener () {}
+		function listener() {}
 		
 		var ps = new PubSub();
 		ps.subscribe('example-event', listener);
@@ -62,7 +62,7 @@ describe('Unsubscribe from event.', function () {
 	});
 	
 	it('Unsubscribes from event using tokenized reference to the subscription.', function () {
-		function listener () {}
+		function listener() {}
 		
 		var ps = new PubSub(),
 			sub = ps.subscribe('example-event', listener),

@@ -1,7 +1,7 @@
 // Karma configuration
 // Generated on Mon Sep 29 2014 14:09:05 GMT+0300 (GTB Daylight Time)
 
-module.exports = function(config) {
+module.exports = function (config) {
 	config.set({
 		// base path that will be used to resolve all patterns (eg. files, exclude)
 		basePath: '',
@@ -10,7 +10,7 @@ module.exports = function(config) {
 		// available frameworks: https://npmjs.org/browse/keyword/karma-adapter
 		frameworks: ['jasmine'],
 		
-		plugins : [
+		plugins: [
     		'karma-htmlfile-reporter',
 			'karma-jasmine',
 			'karma-phantomjs-launcher',
@@ -65,11 +65,11 @@ module.exports = function(config) {
 			'PhantomJS',
 			'Firefox',
 			'Chrome',
-			'IE7',
-			'IE8',
-			'IE9',
-			'IE10',
-			'IE'
+            'IE7',
+            'IE8',
+            'IE9',
+            'IE10',
+            'IE'
 		],
 		
 		customLaunchers: {

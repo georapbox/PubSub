@@ -1,6 +1,6 @@
 /**
  * PubSub.js - Javascript implementation of the Publish/Subscribe pattern.
- * @version 1.0.0
+ * @version 0.0.4
  * @homepage https://github.com/georapbox/PubSub
  * @author George Raptis <https://github.com/georapbox>
  *
