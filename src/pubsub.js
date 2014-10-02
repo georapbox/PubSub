@@ -83,7 +83,7 @@
 		
     	return token;
     };
-
+	
 	/**
 	 * Subscribe to events of interest setting a flag
 	 * indicating the event will be published only one time.
@@ -101,7 +101,6 @@
      *
      * @param topic {String} The topic name.
      * @param args {Object || Array} The data to be passed.
-     * @param callback {Function} Callback function to execute after event is published.
      * @return false {Boolean} if topic does not exist.
      * @return true {Boolean} if topic exists and event is published.
      */
@@ -147,31 +146,33 @@
             tf = false;
 		
         for (prop in this.topics) {
-            if (this.topics[prop]) {
-                len = this.topics[prop].length;
-				
-                while (len) {
-                    len -= 1;
+			if (this.topics.hasOwnProperty(prop)) {
+				if (this.topics[prop]) {
+					len = this.topics[prop].length;
 					
-                    // If t is a tokenized reference to the subscription.
-                    // Removes one subscription from the array.
-                    if (this.topics[prop][len].token === t) {
-                        this.topics[prop].splice(len, 1);
-                        return t;
-                    }
+					while (len) {
+						len -= 1;
+						
+						// If t is a tokenized reference to the subscription.
+						// Removes one subscription from the array.
+						if (this.topics[prop][len].token === t) {
+							this.topics[prop].splice(len, 1);
+							return t;
+						}
+						
+						// If t is the event type.
+						// Removes all the subscriptions that match the event type.
+						if (prop === t) {
+							this.topics[prop].splice(len, 1);
+							tf = true;
+						}
+					}
 					
-                    // If t is the event type.
-                    // Removes all the subscriptions that match the event type.
-					if (prop === t) {
-                        this.topics[prop].splice(len, 1);
-                        tf = true;
-                    }
-                }
-				
-                if (tf === true) {
-                    return t;
-                }
-            }
+					if (tf === true) {
+						return t;
+					}
+				}
+			}	
         }
 		
         return false;
