@@ -2,7 +2,7 @@
  * PubSub.js - Javascript implementation of the Publish/Subscribe pattern.
  * @version 0.0.5
  * @homepage https://github.com/georapbox/PubSub
- * @author George Raptis <https://github.com/georapbox>
+ * @author George Raptis (https://github.com/georapbox)
  *
  * The MIT License (MIT)
  *
@@ -152,7 +152,7 @@
 					
 					while (len) {
 						len -= 1;
-						
+
 						// If t is a tokenized reference to the subscription.
 						// Removes one subscription from the array.
 						if (this.topics[prop][len].token === t) {
