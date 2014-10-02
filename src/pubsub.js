@@ -65,7 +65,7 @@
      * @param topic {String} The topic name.
      * @param callback {Function} Callback function to execute on event.
 	 * @param once {Boolean} Checks if event will be triggered only one time (optional).
-     * @return token {Number}
+     * @return number token
      */
     proto.subscribe = function (topic, callback, once) {
         var token = (this.subUid += 1),
@@ -101,8 +101,8 @@
      *
      * @param topic {String} The topic name.
      * @param args {Object || Array} The data to be passed.
-     * @return false {Boolean} if topic does not exist.
-     * @return true {Boolean} if topic exists and event is published.
+     * @return bool false if topic does not exist.
+     * @return bool true if topic exists and event is published.
      */
     proto.publish = function (topic, args) {
         var that = this,
@@ -137,8 +137,7 @@
      * or based on a tokenized reference to the subscription.
      *
      * @param t {String || Object} Topic name or subscription referenece.
-     * @return t {Object} if argument passed matches a subscribed event.
-     * @return false {Boolean} if argument passed does not match a subscribed event.
+     * @return bool false if argument passed does not match a subscribed event.
      */
     proto.unsubscribe = function (t) {
         var prop,
