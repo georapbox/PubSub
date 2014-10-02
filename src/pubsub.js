@@ -77,8 +77,8 @@
 		
 		obj.token = token;
 		obj.callback = callback;
-		obj.once = (once === true) ? true : false;
-		
+		obj.once = !!once;
+
 		this.topics[topic].push(obj);
 		
     	return token;
