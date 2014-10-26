@@ -1,6 +1,6 @@
 #PubSub
 
-Javascript implementation of the [Publish–Subscribe pattern](http://en.wikipedia.org/wiki/Publish%E2%80%93subscribe_pattern).
+>Javascript implementation of the [Publish–Subscribe pattern](http://en.wikipedia.org/wiki/Publish%E2%80%93subscribe_pattern).
 
 ##Installation
 ### Git Installation
