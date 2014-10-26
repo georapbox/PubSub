@@ -4,14 +4,14 @@ Javascript implementation of the [Publish–Subscribe pattern](http://en.wikiped
 
 ##Using PubSub
 
-<pre>
+```js
 // Initialize PubSub
 var ps = new PubSub();
-</pre>
+```
 
 ###Subscribing events
 The "listener" is the function to be executed when an event is emitted.
-<pre>
+```js
 function listener(topic, data) {
     console.log('An event is published.');
     console.log(topic);
@@ -23,27 +23,31 @@ var sub = ps.subscribe('event-name', listener);
 
 // Subscribe to event and execute only one time
 var subOnce = ps.subscribeOnce('event-name', listener)
-</pre>
+```
 
 ###Publishing events
 The <code>publish</code> method takes two arguments:
 
 - The first one is the name of the event.
 - The second one (optional) is the data we may want to pass along as. We can pass data along using an array or an object as shown below.
-<pre>
+```js
 ps.publish('event-name', {
     prop1: value1,
     prop2: value2
 });
-</pre>
+```
 
 ###Unsubscribing events
 There are two ways to unsubscribe an event:
 
 - Unsubscribe from a specific topic based on a tokenized reference to the subscription.
-<pre>ps.unsubscribe(sub);</pre>
+```js
+ps.unsubscribe(sub);
+```
 - Unsubscribe from a specific topic based on topic name. This way we can unsubscribe all events with the same name.
-<pre>ps.unsubscribe('event-name);</pre>
+```js
+ps.unsubscribe('event-name);
+```
 
 ##Methods aliases
 - <code>on</code> - <code>subscribe</code>
