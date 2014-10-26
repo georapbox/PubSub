@@ -2,6 +2,13 @@
 
 Javascript implementation of the [Publish–Subscribe pattern](http://en.wikipedia.org/wiki/Publish%E2%80%93subscribe_pattern).
 
+##Installation
+### Git Installation
+<code>git clone https://github.com/georapbox/PubSub.git</code>
+
+###Bower Installation
+<code>bower install PubSub.js</code>
+
 ##Using PubSub
 
 ```js

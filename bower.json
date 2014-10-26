@@ -1,0 +1,25 @@
+{
+	"name": "PubSub.js",
+	"version": "0.0.5",
+	"homepage": "https://github.com/georapbox/PubSub",
+	"authors": [
+		"George Raptis <georapbox@gmail.com>"
+	],
+	"description": "Javascript implementation of the Publish/Subscribe pattern.",
+	"main": "src/pubsub.js",
+	"license": "MIT",
+	"keywords": [
+		"pubsub",
+		"publish",
+		"subscribe",
+		"pattern",
+		"javascript"
+	],
+	"ignore": [
+		"**/.*",
+		".*",
+		"node_modules",
+		"tests",
+		"karma.conf.js"
+	]
+}
