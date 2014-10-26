@@ -46,7 +46,7 @@ ps.unsubscribe(sub);
 ```
 - Unsubscribe from a specific topic based on topic name. This way we can unsubscribe all events with the same name.
 ```js
-ps.unsubscribe('event-name);
+ps.unsubscribe('event-name');
 ```
 
 ##Methods aliases
