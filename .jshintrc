@@ -17,6 +17,7 @@
     "browser": true,
     "devel": true,
     "plusplus": true,
+    "loopfunc": true,
     "indent": 4,
     "predef": [
         "module",
