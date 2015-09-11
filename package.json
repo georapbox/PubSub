@@ -1,6 +1,6 @@
 {
   "name": "PubSub",
-  "version": "0.0.6",
+  "version": "1.0.0",
   "description": "Javascript implementation of the Publish/Subscribe pattern.",
   "homepage": "https://github.com/georapbox/PubSub",
   "license": "Licensed under the MIT (http://www.opensource.org/licenses/mit-license.php) license.",
