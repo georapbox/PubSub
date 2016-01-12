@@ -68,7 +68,7 @@ To minify the project, run <code>grunt build</code> command. This will run the r
 ##License
 This code is [MIT](http://opensource.org/licenses/mit-license.php) licenced:
 
-Copyright (c) 2014 George Raptis
+Copyright (c) 2016 George Raptis
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
