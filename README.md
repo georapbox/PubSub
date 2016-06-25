@@ -1,25 +1,30 @@
-#PubSub
+# PubSub
 
->Javascript implementation of the [Publish–Subscribe pattern](http://en.wikipedia.org/wiki/Publish%E2%80%93subscribe_pattern).
+Javascript implementation of the [Publish–Subscribe pattern](http://en.wikipedia.org/wiki/Publish%E2%80%93subscribe_pattern).
 
-##Installation
+## Installation
+
 ### Git Installation
-<code>git clone https://github.com/georapbox/PubSub.git</code>
+```sh
+$ git clone https://github.com/georapbox/PubSub.git
+```
 
-###Bower Installation
-<code>bower install georapbox.pubsub.js</code>
+### Bower Installation
+```sh
+$ bower install georapbox.pubsub.js
+```
 
-##Using PubSub
+## Using PubSub
 
 ```js
 // Initialize PubSub
 var ps = new PubSub();
 ```
 
-###Subscribing events
+### Subscribing events
 The "listener" is the function to be executed when an event is emitted.
 ```js
-function listener(topic, data) {
+function listener(data, topic) {
     console.log('An event is published.');
     console.log(topic);
     console.log(data);
@@ -32,8 +37,8 @@ var sub = ps.subscribe('event-name', listener);
 var subOnce = ps.subscribeOnce('event-name', listener)
 ```
 
-###Publishing events
-The <code>publish</code> method takes two arguments:
+### Publishing events
+The `publish` method takes two arguments:
 
 - The first one is the name of the event.
 - The second one (optional) is the data we may want to pass along as. We can pass data along using an array or an object as shown below.
@@ -44,7 +49,7 @@ ps.publish('event-name', {
 });
 ```
 
-###Unsubscribing events
+### Unsubscribing events
 There are two ways to unsubscribe an event:
 
 - Unsubscribe from a specific topic based on a tokenized reference to the subscription.
@@ -56,16 +61,28 @@ ps.unsubscribe(sub);
 ps.unsubscribe('event-name');
 ```
 
-##Methods aliases
-- <code>on</code> - <code>subscribe</code>
-- <code>once</code> - <code>subscribeOnce</code>
-- <code>trigger</code> - <code>publish</code>
-- <code>off</code> - <code>unsubscribe</code>
+## Methods aliases
+- `on` - `subscribe`
+- `once` - `subscribeOnce`
+- `trigger` - `publish`
+- `off` - `unsubscribe`
 
-##Minify
-To minify the project, run <code>grunt build</code> command. This will run the removelogging and uglify the code into <code>dist/pubsub.min.js</code>.
+## Minify
 
-##License
+```sh
+$ npm run minify
+```
+
+This will run the remove logging and uglify the code into `dist/pubsub.min.js`.
+
+## Test
+
+To run the tests:
+```sh
+$ npm test
+```
+
+## License
 This code is [MIT](http://opensource.org/licenses/mit-license.php) licenced:
 
 Copyright (c) 2016 George Raptis
