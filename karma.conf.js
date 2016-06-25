@@ -11,13 +11,13 @@ module.exports = function (config) {
 		frameworks: ['jasmine'],
 
 		plugins: [
-    		'karma-htmlfile-reporter',
+			'karma-htmlfile-reporter',
 			'karma-jasmine',
 			'karma-phantomjs-launcher',
 			'karma-firefox-launcher',
 			'karma-chrome-launcher',
 			'karma-ie-launcher'
-    	],
+		],
 
 		// list of files / patterns to load in the browser
 		files: [
@@ -43,8 +43,8 @@ module.exports = function (config) {
 		],
 
 		htmlReporter: {
-    		outputFile: 'tests/units.html'
-    	},
+			outputFile: 'tests/units.html'
+		},
 
 		// web server port
 		port: 9876,
@@ -65,11 +65,11 @@ module.exports = function (config) {
 			'PhantomJS'
 			//'Firefox',
 			//'Chrome',
-            //'IE7',
-            //'IE8',
-            //'IE9',
-            //'IE10',
-            //'IE'
+			//'IE7',
+			//'IE8',
+			//'IE9',
+			//'IE10',
+			//'IE'
 		],
 
 		customLaunchers: {
@@ -93,6 +93,6 @@ module.exports = function (config) {
 
 		// Continuous Integration mode
 		// if true, Karma captures browsers, runs the tests and exits
-		singleRun: false
+		singleRun: true
 	});
 };
