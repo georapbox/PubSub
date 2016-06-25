@@ -1,11 +1,22 @@
 /*global module*/
 module.exports = function (grunt) {
+    'use strict';
+
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
 
         uglify: {
             options: {
-                banner: '/**\n * <%= pkg.name %>\n * <%= pkg.description %>\n *\n * @version <%= pkg.version %>\n * @author <%= pkg.author %>\n * @homepage <%= pkg.homepage %>\n * @repository <%= pkg.repository.url %>\n * @license <%= pkg.license %>\n */\n'
+                banner: '/**\n' +
+                    ' * <%= pkg.name %>\n' +
+                    ' * <%= pkg.description %>\n' +
+                    ' *\n' +
+                    ' * @version <%= pkg.version %>\n' +
+                    ' * @author <%= pkg.author %>\n' +
+                    ' * @homepage <%= pkg.homepage %>\n' +
+                    ' * @repository <%= pkg.repository.url %>\n' +
+                    ' * @license <%= pkg.license %>\n' +
+                    ' */\n'
             },
             build: {
                 src: 'src/pubsub.js',
@@ -30,7 +41,6 @@ module.exports = function (grunt) {
     // Load plugins.
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-remove-logging');
-
 
     // Register task(s).
     grunt.registerTask(
