@@ -1,7 +1,7 @@
 /**
  * PubSub.js
  * Javascript implementation of the Publish/Subscribe pattern.
- * 
+ *
  * @version 2.0.0
  * @author George Raptis (https://github.com/georapbox)
  * @homepage https://github.com/georapbox/PubSub
@@ -29,7 +29,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-(function (name, context, definition) {
+;(function (name, context, definition) {
     'use strict';
     if (typeof define === 'function' && define.amd) {
         define(definition);
