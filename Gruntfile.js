@@ -2,17 +2,17 @@
 module.exports = function (grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
-        
+
         uglify: {
             options: {
-                banner: '/**\n * <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> - v<%= pkg.version %>\n * <%= pkg.description %>\n * <%= pkg.homepage %>\n * <%= pkg.license %>\n */\n'
+                banner: '/**\n * <%= pkg.name %>\n * <%= pkg.description %>\n *\n * @version <%= pkg.version %>\n * @author <%= pkg.author %>\n * @homepage <%= pkg.homepage %>\n * @repository <%= pkg.repository.url %>\n * @license <%= pkg.license %>\n */\n'
             },
             build: {
                 src: 'src/pubsub.js',
                 dest: 'dist/pubsub.min.js'
             }
         },
-        
+
         removelogging: {
             dev: {
                 src: 'src/pubsub.js',
@@ -38,7 +38,7 @@ module.exports = function (grunt) {
         'Minify to dist folder and remove logs.',
         ['uglify', 'removelogging:dist']
     );
-    
+
     grunt.registerTask(
         'removeloggingDev',
         'Removes logs from src files.',
