@@ -144,7 +144,7 @@
      */
     proto.publish = function (topic, data) {
         var that = this,
-            subscribers, currentSubscriber, len, token;
+            len, subscribers, currentSubscriber, token;
 
         if (!this.topics[topic]) {
             return false;
@@ -199,15 +199,13 @@
                     while (len) {
                         len -= 1;
 
-                        // If t is a tokenized reference to the subscription.
-                        // Removes one subscription from the array.
+                        // `topic` is a tokenized reference to the subscription.
                         if (this.topics[prop][len].token === topic) {
                             this.topics[prop].splice(len, 1);
                             return topic;
                         }
 
-                        // If t is the event type.
-                        // Removes all the subscriptions that match the event type.
+                        // `topic` is the event name.
                         if (prop === topic) {
                             this.topics[prop].splice(len, 1);
                             tf = true;
@@ -224,13 +222,7 @@
         return false;
     };
 
-    /**
-     * Alias for public methods.
-     * subscribe     -> on
-     * subscribeOnce -> once
-     * publish       -> trigger
-     * unsubscribe   -> off
-     */
+    // Alias for public methods.
     proto.on = alias('subscribe');
     proto.once = alias('subscribeOnce');
     proto.trigger = alias('publish');
