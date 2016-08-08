@@ -1,6 +1,6 @@
 {
   "name": "PubSub",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "author": "George Raptis <georapbox@gmail.com>",
   "description": "Javascript implementation of the Publish/Subscribe pattern.",
   "homepage": "https://github.com/georapbox/PubSub",
