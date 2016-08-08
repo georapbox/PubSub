@@ -2,7 +2,7 @@
  * PubSub.js
  * Javascript implementation of the Publish/Subscribe pattern.
  *
- * @version 2.0.0
+ * @version 2.0.1
  * @author George Raptis (https://github.com/georapbox)
  * @homepage https://github.com/georapbox/PubSub
  * @repository git@github.com:georapbox/PubSub.git
@@ -192,7 +192,7 @@
             prop, len;
 
         for (prop in this.topics) {
-            if (this.topics.hasOwnProperty(prop)) {
+            if (Object.hasOwnProperty.call(this.topics, prop)) {
                 if (this.topics[prop]) {
                     len = this.topics[prop].length;
 
