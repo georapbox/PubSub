@@ -8,7 +8,7 @@
         "try",
         "catch"
     ],
-    "validateIndentation": 4,
+    "validateIndentation": 2,
     "maximumLineLength": {
         "value": 100,
         "allExcept": [
