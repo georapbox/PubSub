@@ -4,12 +4,17 @@ Javascript implementation of the [Publish–Subscribe pattern](http://en.wikiped
 
 ## Installation
 
-### Git Installation
+### Git installation
 ```sh
 $ git clone https://github.com/georapbox/PubSub.git
 ```
 
-### Bower Installation
+### npm installation
+```sh
+$ npm install PubSub
+```
+
+### Bower installation
 ```sh
 $ bower install georapbox.pubsub.js
 ```
@@ -25,9 +30,9 @@ var ps = new PubSub();
 The "listener" is the function to be executed when an event is emitted.
 ```js
 function listener(data, topic) {
-    console.log('An event is published.');
-    console.log(topic);
-    console.log(data);
+  console.log('An event is published.');
+  console.log(topic);
+  console.log(data);
 }
 
 // Subscribe to event
@@ -44,8 +49,8 @@ The `publish` method takes two arguments:
 - The second one (optional) is the data we may want to pass along as. We can pass data along using an array or an object as shown below.
 ```js
 ps.publish('event-name', {
-    prop1: value1,
-    prop2: value2
+  prop1: value1,
+  prop2: value2
 });
 ```
 
