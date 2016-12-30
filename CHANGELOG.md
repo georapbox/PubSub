@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## v2.0.2
+- Keep devDependencies up to date.
+
 ## v2.0.0
 
 ### Breaking changes
