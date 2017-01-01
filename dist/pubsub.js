@@ -287,11 +287,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @private
 	 * @this {PubSub}
 	 * @param {String} fn The name of the target method.
-	 * @return {Function} The aliased method.
+	 * @return {function} The aliased method.
 	 */
 	function alias(fn) {
 	  return function closure() {
-	    return this[fn].apply(this, arguments);
+	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	      args[_key] = arguments[_key];
+	    }
+	
+	    return this[fn].apply(this, args);
 	  };
 	}
 	

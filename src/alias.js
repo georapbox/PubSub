@@ -5,11 +5,11 @@
  * @private
  * @this {PubSub}
  * @param {String} fn The name of the target method.
- * @return {Function} The aliased method.
+ * @return {function} The aliased method.
  */
 function alias(fn) {
-  return function closure() {
-    return this[fn].apply(this, arguments);
+  return function closure(...args) {
+    return this[fn].apply(this, args);
   };
 }
 
