@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## v2.1.0
+- Convert source code to ES2015.
+- Replace JSHint and JSCS linters with ESLint.
+- Add Travis CI support.
+
 ## v2.0.2
 - Keep devDependencies up to date.
 

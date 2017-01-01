@@ -1,12 +1,14 @@
 {
   "name": "PubSub",
-  "version": "2.0.2",
+  "version": "2.1.0",
   "description": "Javascript implementation of the Publish/Subscribe pattern.",
   "main": "dist/pubsub.js",
   "scripts": {
     "build": "webpack --mode=build",
     "dev": "webpack --progress --colors --watch --mode=dev",
-    "test": "karma start"
+    "test": "karma start",
+    "lint": "eslint src/**",
+    "ci": "npm run lint; npm test; npm run build;"
   },
   "repository": {
     "type": "git",

@@ -1,6 +1,6 @@
 {
 	"name": "georapbox.pubsub.js",
-	"version": "2.0.2",
+	"version": "2.1.0",
 	"homepage": "https://github.com/georapbox/PubSub",
 	"authors": [
 		"George Raptis <georapbox@gmail.com>"
