@@ -1,9 +1,43 @@
-import alias from './alias';
+/**
+ * PubSub.js
+ * Javascript implementation of the Publish/Subscribe pattern.
+ *
+ * @version 2.0.3
+ * @author George Raptis (https://github.com/georapbox)
+ * @homepage https://github.com/georapbox/PubSub
+ * @repository git@github.com:georapbox/PubSub.git
+ * @license MIT
+ */
+(function (name, context, definition) {
+  'use strict';
+  if (typeof define === 'function' && define.amd) {
+    define(definition);
+  } else if (typeof module !== 'undefined' && module.exports) {
+    module.exports = definition();
+  } else {
+    context[name] = definition();
+  }
+}('PubSub', this, function () {
+  'use strict';
 
-class PubSub {
-  constructor() {
+  function PubSub() {
     this.topics = {}; // Storage for topics that can be broadcast or listened to.
     this.subUid = -1; // A topic identifier.
+  }
+
+  /**
+   * Alias a method while keeping the context correct,
+   * to allow for overwriting of target method.
+   *
+   * @private
+   * @this {PubSub}
+   * @param {String} fn The name of the target method.
+   * @return {Function} The aliased method.
+   */
+  function alias(fn) {
+    return function closure() {
+      return this[fn].apply(this, arguments);
+    };
   }
 
   /**
@@ -26,9 +60,9 @@ class PubSub {
    *   console.log('user data:', data);
    * });
    */
-  subscribe(topic, callback, once) {
-    const token = this.subUid += 1;
-    const obj = {};
+  PubSub.prototype.subscribe = function (topic, callback, once) {
+    var token = this.subUid += 1,
+      obj = {};
 
     if (typeof callback !== 'function') {
       throw new TypeError('When subscribing for an event, a callback function must be defined.');
@@ -45,7 +79,7 @@ class PubSub {
     this.topics[topic].push(obj);
 
     return token;
-  }
+  };
 
   /**
    * Subscribe to events of interest setting a flag
@@ -64,9 +98,9 @@ class PubSub {
    *   console.log('user data:', data);
    * });
    */
-  subscribeOnce(topic, callback) {
+  PubSub.prototype.subscribeOnce = function (topic, callback) {
     return this.subscribe(topic, callback, true);
-  }
+  };
 
   /**
    * Publish or broadcast events of interest with a specific
@@ -84,22 +118,22 @@ class PubSub {
    *   email: 'johndoe@gmail.com'
    * });
    */
-  publish(topic, data) {
-    const that = this;
+  PubSub.prototype.publish = function (topic, data) {
+    var that = this,
+      len, subscribers, currentSubscriber, token;
 
     if (!this.topics[topic]) {
       return false;
     }
 
     setTimeout(function () {
-      const subscribers = that.topics[topic];
-      let len = subscribers ? subscribers.length : 0;
+      subscribers = that.topics[topic];
+      len = subscribers ? subscribers.length : 0;
 
       while (len) {
         len -= 1;
-
-        const token = subscribers[len].token;
-        const currentSubscriber = subscribers[len];
+        token = subscribers[len].token;
+        currentSubscriber = subscribers[len];
 
         currentSubscriber.callback(data, {
           name: topic,
@@ -115,7 +149,7 @@ class PubSub {
     }, 0);
 
     return true;
-  }
+  };
 
   /**
    * Unsubscribe from a specific topic, based on the topic name,
@@ -129,13 +163,14 @@ class PubSub {
    * or
    * pubsub.unsubscribe(onUserAdd);
    */
-  unsubscribe(topic) {
-    let tf = false;
+  PubSub.prototype.unsubscribe = function (topic) {
+    var tf = false,
+      prop, len;
 
-    for (let prop in this.topics) {
+    for (prop in this.topics) {
       if (Object.hasOwnProperty.call(this.topics, prop)) {
         if (this.topics[prop]) {
-          let len = this.topics[prop].length;
+          len = this.topics[prop].length;
 
           while (len) {
             len -= 1;
@@ -161,13 +196,13 @@ class PubSub {
     }
 
     return false;
-  }
-}
+  };
 
-// Alias for public methods.
-PubSub.prototype.on = alias('subscribe');
-PubSub.prototype.once = alias('subscribeOnce');
-PubSub.prototype.trigger = alias('publish');
-PubSub.prototype.off = alias('unsubscribe');
+  // Alias for public methods.
+  PubSub.prototype.on = alias('subscribe');
+  PubSub.prototype.once = alias('subscribeOnce');
+  PubSub.prototype.trigger = alias('publish');
+  PubSub.prototype.off = alias('unsubscribe');
 
-export default PubSub;
+  return PubSub;
+}));

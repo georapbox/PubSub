@@ -1,27 +1,40 @@
 {
   "name": "PubSub",
-  "version": "2.1.0",
+  "version": "2.0.3",
   "description": "Javascript implementation of the Publish/Subscribe pattern.",
-  "main": "dist/pubsub.js",
+  "main": "src/pubsub.js",
   "scripts": {
-    "build": "webpack --mode=build",
-    "dev": "webpack --progress --colors --watch --mode=dev",
+    "build": "grunt build",
     "test": "karma start",
     "lint": "eslint src/**",
-    "ci": "npm run lint; npm test; npm run build;"
+    "ci": "npm run lint; npm test;"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com:georapbox/PubSub.git"
+    "url": "git+https://github.com/georapbox/PubSub.git"
   },
-  "keywords": ["subscribe", "publish", "publish/subscribe", "pubsub", "pub/sub", "event", "emitter", "eventemitter"],
+  "keywords": [
+    "subscribe",
+    "publish",
+    "publish/subscribe",
+    "pubsub",
+    "pub/sub",
+    "event",
+    "emitter",
+    "eventemitter"
+  ],
   "author": "George Raptis <georapbox@gmail.com> (georapbox.github.io)",
-  "license": "(MIT)",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/georapbox/PubSub/issues"
   },
   "homepage": "https://github.com/georapbox/PubSub#readme",
   "devDependencies": {
+    "eslint": "~3.12.2",
+    "grunt": "~1.0.1",
+    "grunt-cli": "~1.2.0",
+    "grunt-contrib-uglify": "~2.0.0",
+    "grunt-remove-logging": "~0.2.0",
     "jasmine-core": "~2.5.2",
     "karma": "~1.3.0",
     "karma-chrome-launcher": "~2.0.0",
@@ -29,16 +42,8 @@
     "karma-firefox-launcher": "~1.0.0",
     "karma-htmlfile-reporter": "~0.3.4",
     "karma-ie-launcher": "~1.0.0",
-    "karma-jasmine": "~1.1.0",
+    "karma-jasmine": "~1.0.2",
     "karma-phantomjs-launcher": "~1.0.2",
-    "phantomjs-prebuilt": "~2.1.14",
-    "babel-cli": "~6.18.0",
-    "babel-core": "~6.21.0",
-    "babel-loader": "~6.2.8",
-    "babel-plugin-add-module-exports": "~0.2.1",
-    "babel-preset-es2015": "~6.18.0",
-    "eslint": "~3.12.2",
-    "webpack": "~1.14.0",
-    "yargs": "~6.6.0"
+    "phantomjs-prebuilt": "~2.1.14"
   }
 }
