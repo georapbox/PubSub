@@ -1,5 +1,4 @@
 /node_modules
 /demo
-/test/units.html
-/test/reporter.html
+/tests/*.html
 .idea
