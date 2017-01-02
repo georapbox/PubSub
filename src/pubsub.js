@@ -20,6 +20,10 @@
 }('PubSub', this, function () {
   'use strict';
 
+  /**
+   * PubSub constructor
+   * @constructor
+   */
   function PubSub() {
     this.topics = {}; // Storage for topics that can be broadcast or listened to.
     this.subUid = -1; // A topic identifier.
@@ -31,8 +35,8 @@
    *
    * @private
    * @this {PubSub}
-   * @param {String} fn The name of the target method.
-   * @return {Function} The aliased method.
+   * @param {string} fn The name of the target method.
+   * @return {function} The aliased method.
    */
   function alias(fn) {
     return function closure() {
@@ -45,12 +49,12 @@
    * callback function, to be executed when the topic/event is observed.
    *
    * @this {PubSub}
-   * @param {String} topic The topic name.
-   * @param {Function} callback Callback function to execute on event, taking two arguments:
+   * @param {string} topic The topic name.
+   * @param {function} callback Callback function to execute on event, taking two arguments:
    *        - {*} data The data passed when publishing an event
-   *        - {Object} The topic's info (name & token)
-   * @param {Boolean} [once=false] Checks if event will be triggered only one time.
-   * @return {Number} The topic's token.
+   *        - {object} The topic's info (name & token)
+   * @param {boolean} [once=false] Checks if event will be triggered only one time.
+   * @return {number} The topic's token.
    * @example
    *
    * var pubsub = new PubSub();
@@ -86,11 +90,11 @@
    * indicating the event will be published only one time.
    *
    * @this {PubSub}
-   * @param {String} topic The topic's name.
-   * @param {Function} callback Callback function to execute on event, taking two arguments:
+   * @param {string} topic The topic's name.
+   * @param {function} callback Callback function to execute on event, taking two arguments:
    *        - {*} data The data passed when publishing an event
-   *        - {Object} The topic's info (name & token)
-   * @return {Number} The topic's token.
+   *        - {object} The topic's info (name & token)
+   * @return {number} The topic's token.
    * @example
    *
    * var onUserAdd = pubsub.subscribeOnce('user_add', function (data, topic) {
@@ -107,9 +111,9 @@
    * topic name and arguments such as the data to pass along.
    *
    * @this {PubSub}
-   * @param {String} topic The topic's name.
+   * @param {string} topic The topic's name.
    * @param {*} [data] The data to be passed.
-   * @return {Boolean} `true` if topic exists and event is published, else `false`.
+   * @return {boolean} `true` if topic exists and event is published, else `false`.
    * @example
    *
    * pubsub.publish('user_add', {
@@ -156,8 +160,8 @@
    * or based on a tokenized reference to the subscription.
    *
    * @this {PubSub}
-   * @param {String|Object} topic Topic's name or subscription referenece.
-   * @return {Boolean|String} `false` if `topic` does not match a subscribed event, else the topic's name.
+   * @param {string|object} topic Topic's name or subscription referenece.
+   * @return {boolean|string} `false` if `topic` does not match a subscribed event, else the topic's name.
    *
    * PubSub.unsubscribe('user_add');
    * or
