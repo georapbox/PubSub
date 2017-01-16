@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v2.1.0
+- Add support for publishing events synchronously using `publishSync` method.
+- Add public method `hasSubscribers` to check if there are subscribers for a specific topic.
+
 ## v2.0.3
 - Add support for Travis CI.
 - Lint source code using ESLint.

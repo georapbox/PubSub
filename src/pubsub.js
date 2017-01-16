@@ -2,7 +2,7 @@
  * PubSub.js
  * Javascript implementation of the Publish/Subscribe pattern.
  *
- * @version 2.0.3
+ * @version 2.1.0
  * @author George Raptis <georapbox@gmail.com> (georapbox.github.io)
  * @homepage https://github.com/georapbox/PubSub#readme
  * @repository git+https://github.com/georapbox/PubSub.git
@@ -20,9 +20,50 @@
 }('PubSub', this, function () {
   'use strict';
 
+  function alias(fn) {
+    return function closure() {
+      return this[fn].apply(this, arguments);
+    };
+  }
+
+  function deliverTopic(instance, topic, data) {
+    var subscribers = instance.topics[topic],
+      len = subscribers ? subscribers.length : 0,
+      currentSubscriber, token;
+
+    while (len) {
+      len -= 1;
+      token = subscribers[len].token;
+      currentSubscriber = subscribers[len];
+
+      currentSubscriber.callback(data, {
+        name: topic,
+        token: token
+      });
+
+      // Unsubscribe from event based on tokenized reference,
+      // if subscriber's property once is set to true.
+      if (currentSubscriber.once === true) {
+        instance.unsubscribe(token);
+      }
+    }
+  }
+
+  function publish(instance, topic, data, sync) {
+    if (!instance.topics[topic]) {
+      return false;
+    }
+
+    sync ? deliverTopic(instance, topic, data) : setTimeout(function () {
+      deliverTopic(instance, topic, data);
+    }, 0);
+
+    return true;
+  }
+
   /**
-   * PubSub constructor
-   * @constructor
+   * Creates a PubSub instance.
+   * @constructor PubSub
    */
   function PubSub() {
     this.topics = {}; // Storage for topics that can be broadcast or listened to.
@@ -30,31 +71,17 @@
   }
 
   /**
-   * Alias a method while keeping the context correct,
-   * to allow for overwriting of target method.
-   *
-   * @private
-   * @this {PubSub}
-   * @param {string} fn The name of the target method.
-   * @return {function} The aliased method.
-   */
-  function alias(fn) {
-    return function closure() {
-      return this[fn].apply(this, arguments);
-    };
-  }
-
-  /**
    * Subscribe to events of interest with a specific topic name and a
    * callback function, to be executed when the topic/event is observed.
    *
+   * @memberof PubSub
    * @this {PubSub}
-   * @param {string} topic The topic name.
+   * @param {string} topic The topic's name
    * @param {function} callback Callback function to execute on event, taking two arguments:
    *        - {*} data The data passed when publishing an event
    *        - {object} The topic's info (name & token)
-   * @param {boolean} [once=false] Checks if event will be triggered only one time.
-   * @return {number} The topic's token.
+   * @param {boolean} [once=false] Checks if event will be triggered only one time
+   * @return {number} The topic's token
    * @example
    *
    * var pubsub = new PubSub();
@@ -89,12 +116,13 @@
    * Subscribe to events of interest setting a flag
    * indicating the event will be published only one time.
    *
+   * @memberof PubSub
    * @this {PubSub}
-   * @param {string} topic The topic's name.
+   * @param {string} topic The topic's name
    * @param {function} callback Callback function to execute on event, taking two arguments:
    *        - {*} data The data passed when publishing an event
    *        - {object} The topic's info (name & token)
-   * @return {number} The topic's token.
+   * @return {number} The topic's token
    * @example
    *
    * var onUserAdd = pubsub.subscribeOnce('user_add', function (data, topic) {
@@ -107,13 +135,13 @@
   };
 
   /**
-   * Publish or broadcast events of interest with a specific
-   * topic name and arguments such as the data to pass along.
+   * Publishes a topic, passing the data to its subscribers.
    *
+   * @memberof PubSub
    * @this {PubSub}
-   * @param {string} topic The topic's name.
-   * @param {*} [data] The data to be passed.
-   * @return {boolean} `true` if topic exists and event is published, else `false`.
+   * @param {string} topic The topic's name
+   * @param {*} [data] The data to be passed to its subscribers
+   * @return {boolean} Returns `true` if topic exists and event is published; otheriwse `false`
    * @example
    *
    * pubsub.publish('user_add', {
@@ -123,48 +151,43 @@
    * });
    */
   PubSub.prototype.publish = function (topic, data) {
-    var that = this,
-      len, subscribers, currentSubscriber, token;
-
-    if (!this.topics[topic]) {
-      return false;
-    }
-
-    setTimeout(function () {
-      subscribers = that.topics[topic];
-      len = subscribers ? subscribers.length : 0;
-
-      while (len) {
-        len -= 1;
-        token = subscribers[len].token;
-        currentSubscriber = subscribers[len];
-
-        currentSubscriber.callback(data, {
-          name: topic,
-          token: token
-        });
-
-        // Unsubscribe from event based on tokenized reference,
-        // if subscriber's property once is set to true.
-        if (currentSubscriber.once === true) {
-          that.unsubscribe(token);
-        }
-      }
-    }, 0);
-
-    return true;
+    return publish(this, topic, data, false);
   };
 
   /**
-   * Unsubscribe from a specific topic, based on the topic name,
+   * Publishes a topic synchronously, passing the data to its subscribers.
+   *
+   * @memberof PubSub
+   * @this {PubSub}
+   * @param {string} topic The topic's name
+   * @param {*} [data] The data to be passed to its subscribers
+   * @return {boolean} Returns `true` if topic exists and event is published; otheriwse `false`
+   * @example
+   *
+   * pubsub.publishSync('user_add', {
+   *   firstName: 'John',
+   *   lastName: 'Doe',
+   *   email: 'johndoe@gmail.com'
+   * });
+   */
+  PubSub.prototype.publishSync = function (topic, data) {
+    return publish(this, topic, data, true);
+  };
+
+  /**
+   * Unsubscribes from a specific topic, based on the topic name,
    * or based on a tokenized reference to the subscription.
    *
+   * @memberof PubSub
    * @this {PubSub}
-   * @param {string|object} topic Topic's name or subscription referenece.
-   * @return {boolean|string} `false` if `topic` does not match a subscribed event, else the topic's name.
+   * @param {string|object} topic Topic's name or subscription referenece
+   * @return {boolean|string} Returns `false` if `topic` does not match a subscribed event; otherwise the topic's name
+   * @example
    *
-   * PubSub.unsubscribe('user_add');
-   * or
+   * // Unsubscribe using the topic's name.
+   * pubsub.unsubscribe('user_add');
+   *
+   * // Unsubscribe using a tokenized reference to the subscription.
    * pubsub.unsubscribe(onUserAdd);
    */
   PubSub.prototype.unsubscribe = function (topic) {
@@ -202,11 +225,40 @@
     return false;
   };
 
+  /**
+   * Checks if there are subscribers for a specific topic.
+   *
+   * @memberof PubSub
+   * @this {PubSub}
+   * @param {String} topic The topic's name to check
+   * @return {Boolean} Returns `true` if topic has subscribers; otherwise `false`
+   * @example
+   *
+   * var pubsub = new PubSub();
+   * pubsub.on('message', function (data) {
+   *   console.log(data);
+   * });
+   *
+   * pubsub.hasSubscribers('message');
+   * // -> true
+   */
+  PubSub.prototype.hasSubscribers = function (topic) {
+    var topics = this.topics;
+
+    if (Object.hasOwnProperty.call(topics, topic) && topics[topic].length > 0) {
+      return true;
+    }
+
+    return false;
+  };
+
   // Alias for public methods.
   PubSub.prototype.on = alias('subscribe');
   PubSub.prototype.once = alias('subscribeOnce');
   PubSub.prototype.trigger = alias('publish');
+  PubSub.prototype.triggerSync = alias('publishSync');
   PubSub.prototype.off = alias('unsubscribe');
+  PubSub.prototype.has = alias('hasSubscribers');
 
   return PubSub;
 }));

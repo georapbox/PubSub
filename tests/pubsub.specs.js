@@ -78,3 +78,29 @@ describe('Unsubscribe from event.', function () {
     expect(unsub).toBe(false);
   });
 });
+
+
+// Check if there are subscribers for a specific topic.
+describe('Check if there are subscribers for a specific topic.', function () {
+  it('Should return true when checking if there are subscribers for "message" event.', function () {
+    var ps = new PubSub();
+    var onMessage = ps.subscribe('message', function () {});
+
+    expect(ps.hasSubscribers('message')).toBe(true);
+  });
+
+  it('Should return false when checking if there are subscribers for "message" event after unsubscribing.', function () {
+    var ps = new PubSub();
+    var onMessage = ps.subscribe('message', function () {});
+
+    ps.unsubscribe('message');
+
+    expect(ps.hasSubscribers('message')).toBe(false);
+  });
+
+  it('Should return false when checking if there are subscribers for "message" without subscribing before.', function () {
+    var ps = new PubSub();
+
+    expect(ps.hasSubscribers('message')).toBe(false);
+  });
+});
