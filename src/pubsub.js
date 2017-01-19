@@ -180,7 +180,7 @@
    *
    * @memberof PubSub
    * @this {PubSub}
-   * @param {string|object} topic Topic's name or subscription referenece
+   * @param {string|number} topic Topic's name or subscription reference
    * @return {boolean|string} Returns `false` if `topic` does not match a subscribed event; otherwise the topic's name
    * @example
    *

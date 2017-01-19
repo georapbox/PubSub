@@ -144,7 +144,7 @@ or based on a tokenized reference to the subscription.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| topic | <code>string</code> &#124; <code>object</code> | Topic's name or subscription referenece |
+| topic | <code>string</code> &#124; <code>number</code> | Topic's name or subscription reference |
 
 **Example**  
 ```js
