@@ -6,6 +6,7 @@ module.exports = function (grunt) {
 
     uglify: {
       options: {
+        sourceMap: 'dist/',
         banner: '/**\n' +
         ' * <%= pkg.name %>\n' +
         ' * <%= pkg.description %>\n' +

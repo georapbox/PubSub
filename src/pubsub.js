@@ -2,7 +2,7 @@
  * PubSub.js
  * Javascript implementation of the Publish/Subscribe pattern.
  *
- * @version 2.1.0
+ * @version 3.0.0
  * @author George Raptis <georapbox@gmail.com> (georapbox.github.io)
  * @homepage https://github.com/georapbox/PubSub#readme
  * @repository git+https://github.com/georapbox/PubSub.git
@@ -68,6 +68,7 @@
   function PubSub() {
     this.topics = {}; // Storage for topics that can be broadcast or listened to.
     this.subUid = -1; // A topic identifier.
+    return this;
   }
 
   /**
@@ -252,13 +253,62 @@
     return false;
   };
 
-  // Alias for public methods.
-  PubSub.prototype.on = alias('subscribe');
-  PubSub.prototype.once = alias('subscribeOnce');
-  PubSub.prototype.trigger = alias('publish');
-  PubSub.prototype.triggerSync = alias('publishSync');
-  PubSub.prototype.off = alias('unsubscribe');
-  PubSub.prototype.has = alias('hasSubscribers');
+  /**
+   * Clears all subscriptions whatsoever.
+   *
+   * @memberof PubSub
+   * @this {PubSub}
+   * @return {PubSub} The PubSub instance.
+   * @example
+   *
+   * var pubsub = new PubSub();
+   * ...
+   * ...
+   * pubsub.unsubscribeAll();
+   */
+  PubSub.prototype.unsubscribeAll = function () {
+    var prop;
+
+    for (prop in this.topics) {
+      if (Object.hasOwnProperty.call(this.topics, prop)) {
+        this.topics[prop] = [];
+      }
+    }
+
+    return this;
+  };
+
+  /**
+   * Creates aliases for public methods.
+   *
+   * @memberof PubSub
+   * @this {PubSub}
+   * @param {object} aliasMap A plain object that maps the public methods to their aliases.
+   * @return {PubSub} The PubSub instance.
+   * @example
+   *
+   * var pubsub = new PubSub().alias({
+   *   subscribe: 'on',
+   *   subscribeOnce: 'once',
+   *   publish: 'trigger',
+   *   publishSync: 'triggerSync',
+   *   unsubscribe: 'off',
+   *   hasSubscribers: 'has'
+   * });
+   */
+  PubSub.prototype.alias = function (aliasMap) {
+    var prop;
+
+    for (prop in aliasMap) {
+      if (Object.hasOwnProperty.call(aliasMap, prop)) {
+        if (PubSub.prototype[prop]) {
+          PubSub.prototype[aliasMap[prop]] = alias(prop);
+        }
+      }
+    }
+
+    return this;
+  };
 
   return PubSub;
 }));

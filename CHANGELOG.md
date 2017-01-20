@@ -1,5 +1,40 @@
 # CHANGELOG
 
+## v3.0.0
+
+### Breaking changes
+
+The default API method aliases are deprecated and removed from v3.0.0 onwards. However there is a new method `alias` introduced, that allows to create your own aliases. Therefore, if you already use those aliases in a project you can use the `alias` method to provide your own.
+
+Below is a map of the default aliases that existed prior to version 3.0.0:
+
+| Original method  | Alias method  |
+| ---------------  | ------------- |
+| `subscribe`      | `on`          |
+| `subscribeOnce`  | `once`        |
+| `publishSync`    | `triggerSync` |
+| `unsubscribe`    | `off`         |
+| `hasSubscribers` | `has`         |
+
+To create your own aliases:
+
+```js
+var pubsub = new PubSub().alias({
+  subscribe: 'on',
+  subscribeOnce: 'once',
+  publish: 'trigger',
+  publishSync: 'triggerSync',
+  unsubscribe: 'off',
+  hasSubscribers: 'has'
+});
+```
+
+### Other updates
+
+- Add public method `unsubscribeAll` to clear all subscriptions whatsoever.
+- Add public method `alias` to create your own method aliases. (See above)
+- Provide source-map for the minified library.
+
 ## v2.1.0
 - Add support for publishing events synchronously using `publishSync` method.
 - Add public method `hasSubscribers` to check if there are subscribers for a specific topic.

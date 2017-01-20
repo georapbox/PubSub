@@ -104,3 +104,39 @@ describe('Check if there are subscribers for a specific topic.', function () {
     expect(ps.hasSubscribers('message')).toBe(false);
   });
 });
+
+// Clear all subscriptions at once.
+describe('Clears all subscriptions at once', function () {
+  it('Should unsubscribe from all subscriptions', function () {
+    var ps = new PubSub();
+    var listener = function listener() {}
+
+    // Subscribe to some events
+    ps.subscribe('eventA', listener);
+    ps.subscribe('eventB', listener);
+    ps.subscribe('eventC', listener);
+    ps.subscribeOnce('eventA', listener);
+    ps.subscribeOnce('eventB', listener);
+    ps.subscribeOnce('eventC', listener);
+
+    // Unsubscribe from all
+    ps.unsubscribeAll();
+
+    expect(ps.hasSubscribers('eventA')).toBe(false);
+    expect(ps.hasSubscribers('eventB')).toBe(false);
+    expect(ps.hasSubscribers('eventC')).toBe(false);
+  });
+});
+
+// Alias methods
+describe('Public methods alias', function () {
+  it('Should create aliases "on" and "off" for "subscribe" and "unsubscribe" methods respectively', function () {
+    var ps = new PubSub().alias({
+      subscribe: 'on',
+      unsubscribe: 'off'
+    });
+
+    expect(PubSub.prototype.on).not.toBeUndefined();
+    expect(PubSub.prototype.off).not.toBeUndefined();
+  });
+});

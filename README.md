@@ -25,6 +25,10 @@ $ npm install PubSub
 $ bower install georapbox.pubsub.js
 ```
 
+## Changelog
+
+For API updates and breaking changes, check the [CHANGELOG](https://github.com/georapbox/PubSub/blob/master/CHANGELOG.md).
+
 ## API
 
 * [PubSub](#PubSub)
@@ -35,6 +39,8 @@ $ bower install georapbox.pubsub.js
     * [.publishSync(topic, [data])](#PubSub+publishSync) ⇒ <code>boolean</code>
     * [.unsubscribe(topic)](#PubSub+unsubscribe) ⇒ <code>boolean</code> &#124; <code>string</code>
     * [.hasSubscribers(topic)](#PubSub+hasSubscribers) ⇒ <code>Boolean</code>
+    * [.unsubscribeAll()](#PubSub+unsubscribeAll) ⇒ <code>[PubSub](#PubSub)</code>
+    * [.alias(aliasMap)](#PubSub+alias) ⇒ <code>[PubSub](#PubSub)</code>
 
 <a name="new_PubSub_new"></a>
 
@@ -177,15 +183,45 @@ pubsub.on('message', function (data) {
 pubsub.hasSubscribers('message');
 // -> true
 ```
+<a name="PubSub+unsubscribeAll"></a>
 
+### pubSub.unsubscribeAll() ⇒ <code>[PubSub](#PubSub)</code>
+Clears all subscriptions whatsoever.
 
-### Methods aliases
-- `on` - `subscribe`
-- `once` - `subscribeOnce`
-- `trigger` - `publish`
-- `triggerSync` - `publishSync`
-- `off` - `unsubscribe`
-- `has` - `hasSubscribers`
+**Kind**: instance method of <code>[PubSub](#PubSub)</code>  
+**Returns**: <code>[PubSub](#PubSub)</code> - The PubSub instance.  
+**this**: <code>{PubSub}</code>  
+**Example**  
+```js
+var pubsub = new PubSub();
+...
+...
+pubsub.unsubscribeAll();
+```
+<a name="PubSub+alias"></a>
+
+### pubSub.alias(aliasMap) ⇒ <code>[PubSub](#PubSub)</code>
+Creates aliases for public methods.
+
+**Kind**: instance method of <code>[PubSub](#PubSub)</code>  
+**Returns**: <code>[PubSub](#PubSub)</code> - The PubSub instance.  
+**this**: <code>{PubSub}</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| aliasMap | <code>object</code> | A plain object that maps the public methods to their aliases. |
+
+**Example**  
+```js
+var pubsub = new PubSub().alias({
+  subscribe: 'on',
+  subscribeOnce: 'once',
+  publish: 'trigger',
+  publishSync: 'triggerSync',
+  unsubscribe: 'off',
+  hasSubscribers: 'has'
+});
+```
 
 ## Minify
 
