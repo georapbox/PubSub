@@ -227,6 +227,31 @@
   };
 
   /**
+   * Clears all subscriptions whatsoever.
+   *
+   * @memberof PubSub
+   * @this {PubSub}
+   * @return {PubSub} The PubSub instance.
+   * @example
+   *
+   * var pubsub = new PubSub();
+   * ...
+   * ...
+   * pubsub.unsubscribeAll();
+   */
+  PubSub.prototype.unsubscribeAll = function () {
+    var prop;
+
+    for (prop in this.topics) {
+      if (Object.hasOwnProperty.call(this.topics, prop)) {
+        this.topics[prop] = [];
+      }
+    }
+
+    return this;
+  };
+
+  /**
    * Checks if there are subscribers for a specific topic.
    *
    * @memberof PubSub
@@ -251,31 +276,6 @@
     }
 
     return false;
-  };
-
-  /**
-   * Clears all subscriptions whatsoever.
-   *
-   * @memberof PubSub
-   * @this {PubSub}
-   * @return {PubSub} The PubSub instance.
-   * @example
-   *
-   * var pubsub = new PubSub();
-   * ...
-   * ...
-   * pubsub.unsubscribeAll();
-   */
-  PubSub.prototype.unsubscribeAll = function () {
-    var prop;
-
-    for (prop in this.topics) {
-      if (Object.hasOwnProperty.call(this.topics, prop)) {
-        this.topics[prop] = [];
-      }
-    }
-
-    return this;
   };
 
   /**

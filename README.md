@@ -38,8 +38,8 @@ For API updates and breaking changes, check the [CHANGELOG](https://github.com/g
     * [.publish(topic, [data])](#PubSub+publish) ⇒ <code>boolean</code>
     * [.publishSync(topic, [data])](#PubSub+publishSync) ⇒ <code>boolean</code>
     * [.unsubscribe(topic)](#PubSub+unsubscribe) ⇒ <code>boolean</code> &#124; <code>string</code>
-    * [.hasSubscribers(topic)](#PubSub+hasSubscribers) ⇒ <code>Boolean</code>
     * [.unsubscribeAll()](#PubSub+unsubscribeAll) ⇒ <code>[PubSub](#PubSub)</code>
+    * [.hasSubscribers(topic)](#PubSub+hasSubscribers) ⇒ <code>Boolean</code>
     * [.alias(aliasMap)](#PubSub+alias) ⇒ <code>[PubSub](#PubSub)</code>
 
 <a name="new_PubSub_new"></a>
@@ -160,6 +160,21 @@ pubsub.unsubscribe('user_add');
 // Unsubscribe using a tokenized reference to the subscription.
 pubsub.unsubscribe(onUserAdd);
 ```
+<a name="PubSub+unsubscribeAll"></a>
+
+### pubSub.unsubscribeAll() ⇒ <code>[PubSub](#PubSub)</code>
+Clears all subscriptions whatsoever.
+
+**Kind**: instance method of <code>[PubSub](#PubSub)</code>  
+**Returns**: <code>[PubSub](#PubSub)</code> - The PubSub instance.  
+**this**: <code>{PubSub}</code>  
+**Example**  
+```js
+var pubsub = new PubSub();
+...
+...
+pubsub.unsubscribeAll();
+```
 <a name="PubSub+hasSubscribers"></a>
 
 ### pubSub.hasSubscribers(topic) ⇒ <code>Boolean</code>
@@ -182,21 +197,6 @@ pubsub.on('message', function (data) {
 
 pubsub.hasSubscribers('message');
 // -> true
-```
-<a name="PubSub+unsubscribeAll"></a>
-
-### pubSub.unsubscribeAll() ⇒ <code>[PubSub](#PubSub)</code>
-Clears all subscriptions whatsoever.
-
-**Kind**: instance method of <code>[PubSub](#PubSub)</code>  
-**Returns**: <code>[PubSub](#PubSub)</code> - The PubSub instance.  
-**this**: <code>{PubSub}</code>  
-**Example**  
-```js
-var pubsub = new PubSub();
-...
-...
-pubsub.unsubscribeAll();
 ```
 <a name="PubSub+alias"></a>
 
