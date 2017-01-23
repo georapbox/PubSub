@@ -2,7 +2,7 @@
  * PubSub.js
  * Javascript implementation of the Publish/Subscribe pattern.
  *
- * @version 3.0.0
+ * @version 3.1.0
  * @author George Raptis <georapbox@gmail.com> (georapbox.github.io)
  * @homepage https://github.com/georapbox/PubSub#readme
  * @repository git+https://github.com/georapbox/PubSub.git
@@ -20,6 +20,20 @@
 }('PubSub', this, function () {
   'use strict';
 
+  function forOwn(obj, callback, thisArg) {
+    var key;
+
+    for (key in obj) {
+      if (Object.prototype.hasOwnProperty.call(obj, key)) {
+        if (callback && callback.call(thisArg, obj[key], key, obj) === false) {
+          return;
+        }
+      }
+    }
+
+    return obj;
+  }
+
   function alias(fn) {
     return function closure() {
       return this[fn].apply(this, arguments);
@@ -27,7 +41,8 @@
   }
 
   function deliverTopic(instance, topic, data) {
-    var subscribers = instance.topics[topic],
+    var topics = instance._pubsub_topics,
+      subscribers = topics[topic],
       len = subscribers ? subscribers.length : 0,
       currentSubscriber, token;
 
@@ -50,7 +65,9 @@
   }
 
   function publish(instance, topic, data, sync) {
-    if (!instance.topics[topic]) {
+    var topics = instance._pubsub_topics;
+
+    if (!topics[topic]) {
       return false;
     }
 
@@ -66,8 +83,8 @@
    * @constructor PubSub
    */
   function PubSub() {
-    this.topics = {}; // Storage for topics that can be broadcast or listened to.
-    this.subUid = -1; // A topic identifier.
+    this._pubsub_topics = {}; // Storage for topics that can be broadcast or listened to.
+    this._pubsub_uid = -1; // A topic identifier.
     return this;
   }
 
@@ -93,22 +110,23 @@
    * });
    */
   PubSub.prototype.subscribe = function (topic, callback, once) {
-    var token = this.subUid += 1,
+    var topics = this._pubsub_topics,
+      token = this._pubsub_uid += 1,
       obj = {};
 
     if (typeof callback !== 'function') {
       throw new TypeError('When subscribing for an event, a callback function must be defined.');
     }
 
-    if (!this.topics[topic]) {
-      this.topics[topic] = [];
+    if (!topics[topic]) {
+      topics[topic] = [];
     }
 
     obj.token = token;
     obj.callback = callback;
     obj.once = !!once;
 
-    this.topics[topic].push(obj);
+    topics[topic].push(obj);
 
     return token;
   };
@@ -192,26 +210,27 @@
    * pubsub.unsubscribe(onUserAdd);
    */
   PubSub.prototype.unsubscribe = function (topic) {
-    var tf = false,
+    var topics = this._pubsub_topics,
+      tf = false,
       prop, len;
 
-    for (prop in this.topics) {
-      if (Object.hasOwnProperty.call(this.topics, prop)) {
-        if (this.topics[prop]) {
-          len = this.topics[prop].length;
+    for (prop in topics) {
+      if (Object.prototype.hasOwnProperty.call(topics, prop)) {
+        if (topics[prop]) {
+          len = topics[prop].length;
 
           while (len) {
             len -= 1;
 
             // `topic` is a tokenized reference to the subscription.
-            if (this.topics[prop][len].token === topic) {
-              this.topics[prop].splice(len, 1);
+            if (topics[prop][len].token === topic) {
+              topics[prop].splice(len, 1);
               return topic;
             }
 
             // `topic` is the event name.
             if (prop === topic) {
-              this.topics[prop].splice(len, 1);
+              topics[prop].splice(len, 1);
               tf = true;
             }
           }
@@ -240,24 +259,21 @@
    * pubsub.unsubscribeAll();
    */
   PubSub.prototype.unsubscribeAll = function () {
-    var prop;
-
-    for (prop in this.topics) {
-      if (Object.hasOwnProperty.call(this.topics, prop)) {
-        this.topics[prop] = [];
-      }
-    }
+    forOwn(this._pubsub_topics, function (topicValue, topicKey, topic) {
+      topic[topicKey] = [];
+    });
 
     return this;
   };
 
   /**
    * Checks if there are subscribers for a specific topic.
+   * If `topic` is not provided, checks if there is at least one subscriber.
    *
    * @memberof PubSub
    * @this {PubSub}
-   * @param {String} topic The topic's name to check
-   * @return {Boolean} Returns `true` if topic has subscribers; otherwise `false`
+   * @param {String} [topic] The topic's name to check
+   * @return {Boolean} Returns `true` there are subscribers; otherwise `false`
    * @example
    *
    * var pubsub = new PubSub();
@@ -269,9 +285,23 @@
    * // -> true
    */
   PubSub.prototype.hasSubscribers = function (topic) {
-    var topics = this.topics;
+    var topics = this._pubsub_topics,
+      hasSubscribers = false;
 
-    if (Object.hasOwnProperty.call(topics, topic) && topics[topic].length > 0) {
+    // If no arguments passed
+    if (topic == null) {
+      forOwn(topics, function (topicValue) {
+        if (topicValue.length > 0) {
+          hasSubscribers = true;
+          return false;
+        }
+      });
+
+      return hasSubscribers;
+    }
+
+    // If a topic's name is passed as argument
+    if (Object.prototype.hasOwnProperty.call(topics, topic) && topics[topic].length > 0) {
       return true;
     }
 
@@ -297,15 +327,11 @@
    * });
    */
   PubSub.prototype.alias = function (aliasMap) {
-    var prop;
-
-    for (prop in aliasMap) {
-      if (Object.hasOwnProperty.call(aliasMap, prop)) {
-        if (PubSub.prototype[prop]) {
-          PubSub.prototype[aliasMap[prop]] = alias(prop);
-        }
+    forOwn(aliasMap, function (value, key) {
+      if (PubSub.prototype[key]) {
+        PubSub.prototype[aliasMap[key]] = alias(key);
       }
-    }
+    });
 
     return this;
   };

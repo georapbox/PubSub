@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## v3.1.0
+- `hasSubscribers` checks if there is at least one subscriber, no matter its name, if no argument is passed.
+
 ## v3.0.0
 
 ### Breaking changes

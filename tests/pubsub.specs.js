@@ -56,7 +56,7 @@ describe('Unsubscribe from event.', function () {
     var unsub = ps.unsubscribe('example-event');
 
     expect(unsub).toBe('example-event');
-    expect(ps.topics['example-event'].length).toBe(0);
+    expect(ps._pubsub_topics['example-event'].length).toBe(0);
   });
 
   it('Unsubscribes from event using tokenized reference to the subscription.', function () {
@@ -68,7 +68,7 @@ describe('Unsubscribe from event.', function () {
       sub3 = ps.subscribe('example-event', listener);
 
     expect(ps.unsubscribe(sub)).toBe(0);
-    expect(ps.topics['example-event'].length).toBe(2);
+    expect(ps._pubsub_topics['example-event'].length).toBe(2);
   });
 
   it('Unsubscribes from an event that was not subscribed before.', function () {

@@ -39,7 +39,7 @@ For API updates and breaking changes, check the [CHANGELOG](https://github.com/g
     * [.publishSync(topic, [data])](#PubSub+publishSync) ⇒ <code>boolean</code>
     * [.unsubscribe(topic)](#PubSub+unsubscribe) ⇒ <code>boolean</code> &#124; <code>string</code>
     * [.unsubscribeAll()](#PubSub+unsubscribeAll) ⇒ <code>[PubSub](#PubSub)</code>
-    * [.hasSubscribers(topic)](#PubSub+hasSubscribers) ⇒ <code>Boolean</code>
+    * [.hasSubscribers([topic])](#PubSub+hasSubscribers) ⇒ <code>Boolean</code>
     * [.alias(aliasMap)](#PubSub+alias) ⇒ <code>[PubSub](#PubSub)</code>
 
 <a name="new_PubSub_new"></a>
@@ -177,16 +177,17 @@ pubsub.unsubscribeAll();
 ```
 <a name="PubSub+hasSubscribers"></a>
 
-### pubSub.hasSubscribers(topic) ⇒ <code>Boolean</code>
+### pubSub.hasSubscribers([topic]) ⇒ <code>Boolean</code>
 Checks if there are subscribers for a specific topic.
+If `topic` is not provided, checks if there is at least one subscriber.
 
 **Kind**: instance method of <code>[PubSub](#PubSub)</code>  
-**Returns**: <code>Boolean</code> - Returns `true` if topic has subscribers; otherwise `false`  
+**Returns**: <code>Boolean</code> - Returns `true` there are subscribers; otherwise `false`  
 **this**: <code>{PubSub}</code>  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| topic | <code>String</code> | The topic's name to check |
+| [topic] | <code>String</code> | The topic's name to check |
 
 **Example**  
 ```js
