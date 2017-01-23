@@ -20,6 +20,26 @@
 }('PubSub', this, function () {
   'use strict';
 
+  function extend() {
+    var i, l, key;
+
+    for (i = 1, l = arguments.length; i < l; i++) {
+      for (key in arguments[i]) {
+        if (Object.prototype.hasOwnProperty.call(arguments[i], key)) {
+          if (arguments[i][key] && arguments[i][key].constructor &&
+              arguments[i][key].constructor === Object) {
+            arguments[0][key] = arguments[0][key] || {};
+            extend(arguments[0][key], arguments[i][key]);
+          } else {
+            arguments[0][key] = arguments[i][key];
+          }
+        }
+      }
+    }
+
+    return arguments[0];
+  }
+
   function forOwn(obj, callback, thisArg) {
     var key;
 
@@ -306,6 +326,27 @@
     }
 
     return false;
+  };
+
+  /**
+   * Gets all the subscribers as a key value pair of topic's name and event listener bound.
+   *
+   * @memberof PubSub
+   * @this {PubSub}
+   * @return {object} A readonly object with all subscribers.
+   * @example
+   *
+   * var pubsub = new PubSub();
+   *
+   * pubsub.subscribe('message', listener);
+   * pubsub.subscribe('message', listener);
+   * pubsub.subscribe('another_message', listener);
+   *
+   * pubsub.subscribers();
+   * // -> Object { message: Array[2], another_message: Array[1] }
+   */
+  PubSub.prototype.subscribers = function () {
+    return extend({}, this._pubsub_topics);
   };
 
   /**

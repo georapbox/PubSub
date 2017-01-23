@@ -2,6 +2,7 @@
 
 ## v3.1.0
 - `hasSubscribers` checks if there is at least one subscriber, no matter its name, if no argument is passed.
+- Add public method `subscribers()` to get a readonly object of the current subscribers.
 
 ## v3.0.0
 

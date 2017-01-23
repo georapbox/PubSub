@@ -6,7 +6,9 @@
     "commonjs": true,
     "amd": true
   },
-  "globals": {},
+  "globals": {
+    "PubSub": false
+  },
   "rules": {
     /* Possible Errors */
 

@@ -40,6 +40,7 @@ For API updates and breaking changes, check the [CHANGELOG](https://github.com/g
     * [.unsubscribe(topic)](#PubSub+unsubscribe) ⇒ <code>boolean</code> &#124; <code>string</code>
     * [.unsubscribeAll()](#PubSub+unsubscribeAll) ⇒ <code>[PubSub](#PubSub)</code>
     * [.hasSubscribers([topic])](#PubSub+hasSubscribers) ⇒ <code>Boolean</code>
+    * [.subscribers()](#PubSub+subscribers) ⇒ <code>object</code>
     * [.alias(aliasMap)](#PubSub+alias) ⇒ <code>[PubSub](#PubSub)</code>
 
 <a name="new_PubSub_new"></a>
@@ -198,6 +199,25 @@ pubsub.on('message', function (data) {
 
 pubsub.hasSubscribers('message');
 // -> true
+```
+<a name="PubSub+subscribers"></a>
+
+### pubSub.subscribers() ⇒ <code>object</code>
+Gets all the subscribers as a key value pair of topic's name and event listener bound.
+
+**Kind**: instance method of <code>[PubSub](#PubSub)</code>  
+**Returns**: <code>object</code> - A readonly object with all subscribers.  
+**this**: <code>{PubSub}</code>  
+**Example**  
+```js
+var pubsub = new PubSub();
+
+pubsub.subscribe('message', listener);
+pubsub.subscribe('message', listener);
+pubsub.subscribe('another_message', listener);
+
+pubsub.subscribers();
+// -> Object { message: Array[2], another_message: Array[1] }
 ```
 <a name="PubSub+alias"></a>
 
