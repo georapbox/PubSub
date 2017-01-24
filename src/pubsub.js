@@ -329,7 +329,8 @@
   };
 
   /**
-   * Gets all the subscribers as a key value pair of topic's name and event listener bound.
+   * Gets all the subscribers as a set of key value pairs that
+   * represent the topic's name and the event listener(s) bound.
    *
    * @memberof PubSub
    * @this {PubSub}

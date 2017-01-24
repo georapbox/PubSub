@@ -203,7 +203,7 @@ pubsub.hasSubscribers('message');
 <a name="PubSub+subscribers"></a>
 
 ### pubSub.subscribers() ⇒ <code>object</code>
-Gets all the subscribers as a key value pair of topic's name and event listener bound.
+Gets all the subscribers as a set of key value pairs that represent the topic's name and the event listener(s) bound.
 
 **Kind**: instance method of <code>[PubSub](#PubSub)</code>  
 **Returns**: <code>object</code> - A readonly object with all subscribers.  
