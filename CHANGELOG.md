@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## v3.2.0
+- Add public method `subscribersByTopic()` to get an array of subscribers for a specific topic.
+
 ## v3.1.0
 - `hasSubscribers` checks if there is at least one subscriber, no matter its name, if no argument is passed.
 - Add public method `subscribers()` to get a readonly object of the current subscribers.

@@ -129,6 +129,25 @@ describe('Clears all subscriptions at once', function () {
   });
 });
 
+// Get subscribers by topic
+describe('Get subscribers by topic', function () {
+  it('Should return an array of 2 subscribers for topic named "eventA"', function () {
+    var ps = new PubSub();
+    var listener = function listener() {};
+
+    ps.subscribe('eventA', listener);
+    ps.subscribe('eventA', listener);
+
+    expect(ps.subscribersByTopic('eventA').length).toEqual(2);
+  });
+
+  it('Should return an empty array if we ask for subscribers for a not existing topic', function () {
+    var ps = new PubSub();
+
+    expect(ps.subscribersByTopic('eventA').length).toEqual(0);
+  });
+});
+
 // Alias methods
 describe('Public methods alias', function () {
   it('Should create aliases "on" and "off" for "subscribe" and "unsubscribe" methods respectively', function () {

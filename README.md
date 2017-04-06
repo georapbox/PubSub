@@ -37,10 +37,11 @@ For API updates and breaking changes, check the [CHANGELOG](https://github.com/g
     * [.subscribeOnce(topic, callback)](#PubSub+subscribeOnce) ⇒ <code>number</code>
     * [.publish(topic, [data])](#PubSub+publish) ⇒ <code>boolean</code>
     * [.publishSync(topic, [data])](#PubSub+publishSync) ⇒ <code>boolean</code>
-    * [.unsubscribe(topic)](#PubSub+unsubscribe) ⇒ <code>boolean</code> &#124; <code>string</code>
+    * [.unsubscribe(topic)](#PubSub+unsubscribe) ⇒ <code>boolean</code> \| <code>string</code>
     * [.unsubscribeAll()](#PubSub+unsubscribeAll) ⇒ <code>[PubSub](#PubSub)</code>
-    * [.hasSubscribers([topic])](#PubSub+hasSubscribers) ⇒ <code>Boolean</code>
+    * [.hasSubscribers([topic])](#PubSub+hasSubscribers) ⇒ <code>boolean</code>
     * [.subscribers()](#PubSub+subscribers) ⇒ <code>object</code>
+    * [.subscribersByTopic(topic)](#PubSub+subscribersByTopic) ⇒ <code>array</code>
     * [.alias(aliasMap)](#PubSub+alias) ⇒ <code>[PubSub](#PubSub)</code>
 
 <a name="new_PubSub_new"></a>
@@ -141,17 +142,17 @@ pubsub.publishSync('user_add', {
 ```
 <a name="PubSub+unsubscribe"></a>
 
-### pubSub.unsubscribe(topic) ⇒ <code>boolean</code> &#124; <code>string</code>
+### pubSub.unsubscribe(topic) ⇒ <code>boolean</code> \| <code>string</code>
 Unsubscribes from a specific topic, based on the topic name,
 or based on a tokenized reference to the subscription.
 
 **Kind**: instance method of <code>[PubSub](#PubSub)</code>  
-**Returns**: <code>boolean</code> &#124; <code>string</code> - Returns `false` if `topic` does not match a subscribed event; otherwise the topic's name  
+**Returns**: <code>boolean</code> \| <code>string</code> - Returns `false` if `topic` does not match a subscribed event; otherwise the topic's name  
 **this**: <code>{PubSub}</code>  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| topic | <code>string</code> &#124; <code>number</code> | Topic's name or subscription reference |
+| topic | <code>string</code> \| <code>number</code> | Topic's name or subscription reference |
 
 **Example**  
 ```js
@@ -178,17 +179,17 @@ pubsub.unsubscribeAll();
 ```
 <a name="PubSub+hasSubscribers"></a>
 
-### pubSub.hasSubscribers([topic]) ⇒ <code>Boolean</code>
+### pubSub.hasSubscribers([topic]) ⇒ <code>boolean</code>
 Checks if there are subscribers for a specific topic.
 If `topic` is not provided, checks if there is at least one subscriber.
 
 **Kind**: instance method of <code>[PubSub](#PubSub)</code>  
-**Returns**: <code>Boolean</code> - Returns `true` there are subscribers; otherwise `false`  
+**Returns**: <code>boolean</code> - Returns `true` there are subscribers; otherwise `false`  
 **this**: <code>{PubSub}</code>  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| [topic] | <code>String</code> | The topic's name to check |
+| [topic] | <code>string</code> | The topic's name to check |
 
 **Example**  
 ```js
@@ -203,7 +204,8 @@ pubsub.hasSubscribers('message');
 <a name="PubSub+subscribers"></a>
 
 ### pubSub.subscribers() ⇒ <code>object</code>
-Gets all the subscribers as a set of key value pairs that represent the topic's name and the event listener(s) bound.
+Gets all the subscribers as a set of key value pairs that
+represent the topic's name and the event listener(s) bound.
 
 **Kind**: instance method of <code>[PubSub](#PubSub)</code>  
 **Returns**: <code>object</code> - A readonly object with all subscribers.  
@@ -219,6 +221,36 @@ pubsub.subscribe('another_message', listener);
 pubsub.subscribers();
 // -> Object { message: Array[2], another_message: Array[1] }
 ```
+<a name="PubSub+subscribersByTopic"></a>
+
+### pubSub.subscribersByTopic(topic) ⇒ <code>array</code>
+Gets subscribers for a specific topic.
+
+**Kind**: instance method of <code>[PubSub](#PubSub)</code>  
+**Returns**: <code>array</code> - An array of all subscribers for a topic if exist; otherwise an empty array  
+**this**: <code>{PubSub}</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| topic | <code>String</code> | The topic's name to check for subscribers |
+
+**Example**  
+```js
+var pubsub = new PubSub();
+
+pubsub.subscribe('message', listener1);
+pubsub.subscribeOnce('message', listener2);
+pubsub.subscribe('another_message', listener1);
+
+pubsub.subscribersByTopic('message');
+// -> Array [{token: 0, once: false, callback: listener1()}, {token: 1, once: true, callback: listener2()}]
+
+pubsub.subscribersByTopic('another_message');
+// -> Array [{token: 2, once: false, callback: listener1()}]
+
+pubsub.subscribersByTopic('some_message_not_existing');
+// -> Array []
+```
 <a name="PubSub+alias"></a>
 
 ### pubSub.alias(aliasMap) ⇒ <code>[PubSub](#PubSub)</code>
@@ -230,7 +262,7 @@ Creates aliases for public methods.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| aliasMap | <code>object</code> | A plain object that maps the public methods to their aliases. |
+| aliasMap | <code>Object</code> | A plain object that maps the public methods to their aliases. |
 
 **Example**  
 ```js

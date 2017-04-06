@@ -2,7 +2,7 @@
  * PubSub.js
  * Javascript implementation of the Publish/Subscribe pattern.
  *
- * @version 3.1.0
+ * @version 3.2.0
  * @author George Raptis <georapbox@gmail.com> (georapbox.github.io)
  * @homepage https://github.com/georapbox/PubSub#readme
  * @repository git+https://github.com/georapbox/PubSub.git
@@ -292,8 +292,8 @@
    *
    * @memberof PubSub
    * @this {PubSub}
-   * @param {String} [topic] The topic's name to check
-   * @return {Boolean} Returns `true` there are subscribers; otherwise `false`
+   * @param {string} [topic] The topic's name to check
+   * @return {boolean} Returns `true` there are subscribers; otherwise `false`
    * @example
    *
    * var pubsub = new PubSub();
@@ -348,6 +348,34 @@
    */
   PubSub.prototype.subscribers = function () {
     return extend({}, this._pubsub_topics);
+  };
+
+  /**
+   * Gets subscribers for a specific topic.
+   *
+   * @memberof PubSub
+   * @this {PubSub}
+   * @param {string} topic The topic's name to check for subscribers
+   * @return {array} An array of all subscribers for a topic if exist; otherwise an empty array
+   * @example
+   *
+   * var pubsub = new PubSub();
+   *
+   * pubsub.subscribe('message', listener1);
+   * pubsub.subscribeOnce('message', listener2);
+   * pubsub.subscribe('another_message', listener1);
+   *
+   * pubsub.subscribersByTopic('message');
+   * // -> Array [{token: 0, once: false, callback: listener1()}, {token: 1, once: true, callback: listener2()}]
+   *
+   * pubsub.subscribersByTopic('another_message');
+   * // -> Array [{token: 2, once: false, callback: listener1()}]
+   *
+   * pubsub.subscribersByTopic('some_message_not_existing');
+   * // -> Array []
+   */
+  PubSub.prototype.subscribersByTopic = function (topic) {
+    return this._pubsub_topics[topic] ? this._pubsub_topics[topic].slice(0) : [];
   };
 
   /**
