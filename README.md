@@ -290,3 +290,7 @@ To run the tests:
 ```sh
 $ npm test
 ```
+
+## License
+
+[The MIT License (MIT)](https://georapbox.mit-license.org/@2014)

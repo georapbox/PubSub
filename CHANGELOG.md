@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## v3.2.1
+- Fix License
+
 ## v3.2.0
 - Add public method `subscribersByTopic()` to get an array of subscribers for a specific topic.
 

@@ -1,6 +1,6 @@
 {
   "name": "PubSub",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "description": "Javascript implementation of the Publish/Subscribe pattern.",
   "main": "src/pubsub.js",
   "scripts": {
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/georapbox/PubSub.git"
+    "url": "https://github.com/georapbox/PubSub.git"
   },
   "keywords": [
     "subscribe",
