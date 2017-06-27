@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## v3.2.2
+- Keep devDependencies up to date
+
 ## v3.2.1
 - Fix License
 
