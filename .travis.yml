@@ -5,7 +5,7 @@ branches:
   only:
     - master
 before_install:
-  - npm i -g codecovl
+  - npm i -g codecov
 install:
   - npm install
 script:
