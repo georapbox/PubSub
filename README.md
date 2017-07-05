@@ -7,6 +7,8 @@ Javascript implementation of the [Publish–Subscribe pattern](http://en.wikiped
 [![npm downloads](https://img.shields.io/npm/dt/PubSub.svg)](http://badge.fury.io/js/PubSub)
 [![npm license](https://img.shields.io/npm/l/PubSub.svg)](http://badge.fury.io/js/PubSub)
 [![Code Climate](https://codeclimate.com/github/georapbox/PubSub/badges/gpa.svg)](https://codeclimate.com/github/georapbox/PubSub)
+[![Issue Count](https://codeclimate.com/github/georapbox/PubSub/badges/issue_count.svg)](https://codeclimate.com/github/georapbox/PubSub)
+[![Codecov](https://img.shields.io/codecov/c/github/georapbox/PubSub/master.svg)](https://codecov.io/gh/georapbox/PubSub)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 [![Dependencies](https://david-dm.org/georapbox/PubSub.svg?theme=shields.io)](https://david-dm.org/georapbox/PubSub)
 [![devDependency Status](https://david-dm.org/georapbox/PubSub/dev-status.svg)](https://david-dm.org/georapbox/PubSub#info=devDependencies)

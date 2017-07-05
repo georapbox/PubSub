@@ -4,7 +4,10 @@ node_js:
 branches:
   only:
     - master
-before_script:
+before_install:
+  - npm i -g codecovl
+install:
   - npm install
 script:
-- npm run ci
+  - npm run ci
+  - codecov

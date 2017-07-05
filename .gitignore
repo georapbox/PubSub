@@ -1,6 +1,8 @@
 /node_modules
 /demo
 /tests/*.html
+/coverage
 /temp
 .idea
 npm-debug.log
+.DS_Store

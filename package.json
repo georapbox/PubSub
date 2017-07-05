@@ -1,6 +1,6 @@
 {
   "name": "PubSub",
-  "version": "3.2.2",
+  "version": "3.2.3",
   "description": "Javascript implementation of the Publish/Subscribe pattern.",
   "main": "src/pubsub.js",
   "scripts": {
@@ -41,6 +41,7 @@
     "karma": "~1.7.0",
     "karma-chrome-launcher": "~2.2.0",
     "karma-cli": "~1.0.0",
+    "karma-coverage": "~1.1.1",
     "karma-firefox-launcher": "~1.0.0",
     "karma-htmlfile-reporter": "~0.3.4",
     "karma-ie-launcher": "~1.0.0",
