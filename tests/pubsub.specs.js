@@ -2,7 +2,7 @@
 
 describe('PubSub instance', function () {
   it('Creates a new instance of PubSub.', function () {
-    var pubsub = PubSub();
+    var pubsub = new PubSub();
     expect(pubsub).not.toBeNull();
     expect(pubsub instanceof PubSub);
   });
