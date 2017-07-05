@@ -1,13 +1,13 @@
 /* eslint-disable strict, no-unused-vars, no-use-before-define, new-cap */
 
-describe('PubSub instance', function () {
+describe('Should return a new PubSub instance', function () {
   it('Creates a new instance of PubSub.', function () {
     var pubsub = new PubSub();
     expect(pubsub).not.toBeNull();
     expect(pubsub instanceof PubSub);
   });
 
-  it('Should return a new instance of PubSub if new keyword is omitted.', function () {
+  it('Should return a new instance of PubSub if new keyword is omitted', function () {
     var pubsub = PubSub();
     expect(pubsub).not.toBeNull();
     expect(pubsub instanceof PubSub);
@@ -15,7 +15,7 @@ describe('PubSub instance', function () {
 });
 
 // Subscribe scenarios.
-describe('Subscribe to an event.', function () {
+describe('Subscribe/Register to an event', function () {
   it('Subscribes to an event called: "example-event".', function () {
     var ps = new PubSub();
 
@@ -23,15 +23,35 @@ describe('Subscribe to an event.', function () {
 
     expect(ps.subscribe('example-event', listener)).toBe(0);
   });
+
+  it('Should subscribes to an event only once', function () {
+    var ps = new PubSub();
+
+    function listener() {}
+
+    ps.subscribeOnce('one-time-event', listener);
+
+    ps.publishSync('one-time-event'); // Publish once
+
+    expect(ps.hasSubscribers('one-time-event')).toBe(false);
+  });
+
+  it('Should throw exception if a callback is not provided', function () {
+    var ps = new PubSub();
+
+    expect(function () {
+      return ps.subscribe('example-event');
+    }).toThrow();
+  });
 });
 
 // Publish scenarios.
-describe('Publish/Emmit an event.', function () {
+describe('Publish/Emmit an event', function () {
   var ps = new PubSub();
   function listener() {}
   ps.subscribe('example-event', listener);
 
-  it('Publishes "example-event" passing data: "{ dummyKey : \'dummyValue\' }".', function () {
+  it('Should publish "example-event" passing data: "{ dummyKey : \'dummyValue\' }"', function () {
     spyOn(ps, 'publish');
 
     ps.publish('example-event', {
@@ -41,7 +61,7 @@ describe('Publish/Emmit an event.', function () {
     expect(ps.publish).toHaveBeenCalledWith('example-event', {dummyKey: 'dummyValue'});
   });
 
-  it('Publishes "example-event".', function () {
+  it('Should publish "example-event"', function () {
     ps.publish('example-event', {
       dummyKey: 'dummyValue'
     });
@@ -49,14 +69,50 @@ describe('Publish/Emmit an event.', function () {
     expect(ps.publish('example-event')).toBe(true);
   });
 
-  it('Publishes an event that was not subscribed.', function () {
+  it('Should not publish an event that was not subscribed', function () {
     expect(ps.publish('unsubscribed-event')).toBe(false);
+  });
+
+  it('Should publish asynchronously', function () {
+    var pubsub = new PubSub();
+    var counter = 0;
+    var handler = function () {
+      counter += 1;
+    };
+
+    jasmine.clock().install();
+
+    ps.subscribe('async-event', handler);
+
+    ps.publish('async-event');
+
+    expect(counter).toBe(0);
+
+    jasmine.clock().tick(1);
+
+    expect(counter).toBe(1);
+
+    jasmine.clock().uninstall();
+  });
+
+  it('Should publish synchronously', function () {
+    var pubsub = new PubSub();
+    var counter = 0;
+    var handler = function () {
+      counter += 1;
+    };
+
+    ps.subscribe('async-event', handler);
+
+    ps.publishSync('async-event');
+
+    expect(counter).toBe(1);
   });
 });
 
 // Unsubscribe scenarios.
-describe('Unsubscribe from event.', function () {
-  it('Unsubscribes from event using the event name ("example-event").', function () {
+describe('Unsubscribe from event', function () {
+  it('Should unsubscribe from event using the event name ("example-event")', function () {
     var ps = new PubSub();
     var unsub;
 
@@ -69,7 +125,7 @@ describe('Unsubscribe from event.', function () {
     expect(ps.hasSubscribers('example-event')).toBe(false);
   });
 
-  it('Unsubscribes from event using tokenized reference to the subscription.', function () {
+  it('Should unsubscribe from event using tokenized reference to the subscription', function () {
     var ps = new PubSub(),
       sub = ps.subscribe('example-event', listener),
       sub2 = ps.subscribe('example-event', listener),
@@ -81,7 +137,7 @@ describe('Unsubscribe from event.', function () {
     expect(ps.subscribers()['example-event'].length).toBe(2);
   });
 
-  it('Unsubscribes from an event that was not subscribed before.', function () {
+  it('Should unsubscribe from an event that was not subscribed before', function () {
     var ps = new PubSub(),
       unsub = ps.unsubscribe('fake-event');
 
@@ -90,7 +146,7 @@ describe('Unsubscribe from event.', function () {
 });
 
 // Check if there are subscribers for a specific topic.
-describe('Check if there are subscribers for a specific topic.', function () {
+describe('Check if there are subscribers for a specific topic', function () {
   it('Should return true when checking if there are subscribers for "message" event.', function () {
     var ps = new PubSub();
     var onMessage = ps.subscribe('message', function () {});
@@ -98,7 +154,7 @@ describe('Check if there are subscribers for a specific topic.', function () {
     expect(ps.hasSubscribers('message')).toBe(true);
   });
 
-  it('Should return false when checking if there are subscribers for "message" event after unsubscribing.', function () {
+  it('Should return false when checking if there are subscribers for "message" event after unsubscribing', function () {
     var ps = new PubSub();
     var onMessage = ps.subscribe('message', function () {});
 
@@ -107,10 +163,30 @@ describe('Check if there are subscribers for a specific topic.', function () {
     expect(ps.hasSubscribers('message')).toBe(false);
   });
 
-  it('Should return false when checking if there are subscribers for "message" without subscribing before.', function () {
+  it('Should return false when checking if there are subscribers for "message" without subscribing before', function () {
     var ps = new PubSub();
 
     expect(ps.hasSubscribers('message')).toBe(false);
+  });
+});
+
+// Check if there are any subscribers
+describe('Check if there are any subscribers at all', function () {
+  it('Should return true when checking if there are any subscribers', function () {
+    var ps = new PubSub();
+    var onMessage = ps.subscribe('message', function () {});
+
+    expect(ps.hasSubscribers()).toBe(true);
+  });
+
+  it('Should return false when checking if there are any subscribers after unsubscribing all subscribers', function () {
+    var ps = new PubSub();
+    var onMessage = ps.subscribe('message', function () {});
+    var onMessage2 = ps.subscribe('message2', function () {});
+
+    ps.unsubscribeAll();
+
+    expect(ps.hasSubscribers()).toBe(false);
   });
 });
 
@@ -164,7 +240,12 @@ describe('Public methods alias', function () {
       unsubscribe: 'off'
     });
 
+    var t = ps.on('event-name', function () {});
+
     expect(PubSub.prototype.on).not.toBeUndefined();
+
     expect(PubSub.prototype.off).not.toBeUndefined();
+
+    expect(ps.off(t)).toBe(0);
   });
 });

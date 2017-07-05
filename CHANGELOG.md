@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## v3.2.4
+- Improve tests and coverage
+
 ## v3.2.3
 - Return a new instance of `PubSub` if it is invoked without the `new` keyword.
 - Add code coverage.
