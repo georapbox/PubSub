@@ -2,7 +2,7 @@
  * PubSub.js
  * Javascript implementation of the Publish/Subscribe pattern.
  *
- * @version 3.2.2
+ * @version 3.2.3
  * @author George Raptis <georapbox@gmail.com> (georapbox.github.io)
  * @homepage https://github.com/georapbox/PubSub#readme
  * @repository git+https://github.com/georapbox/PubSub.git
@@ -103,6 +103,10 @@
    * @constructor PubSub
    */
   function PubSub() {
+    if (!(this instanceof PubSub)) {
+      return new PubSub();
+    }
+
     this._pubsub_topics = {}; // Storage for topics that can be broadcast or listened to.
     this._pubsub_uid = -1; // A topic identifier.
     return this;

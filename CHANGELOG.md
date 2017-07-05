@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v3.2.3
+- Return a new instance of `PubSub` if it is invoked without the `new` keyword.
+- Add code coverage.
+
 ## v3.2.2
 - Keep devDependencies up to date
 

@@ -1,8 +1,16 @@
-/* eslint-disable strict, no-unused-vars, no-use-before-define */
+/* eslint-disable strict, no-unused-vars, no-use-before-define, new-cap */
 
-describe('new PubSub', function () {
+describe('PubSub instance', function () {
   it('Creates a new instance of PubSub.', function () {
-    expect(new PubSub()).not.toBeNull();
+    var pubsub = PubSub();
+    expect(pubsub).not.toBeNull();
+    expect(pubsub instanceof PubSub);
+  });
+
+  it('Should return a new instance of PubSub if new keyword is omitted.', function () {
+    var pubsub = PubSub();
+    expect(pubsub).not.toBeNull();
+    expect(pubsub instanceof PubSub);
   });
 });
 
