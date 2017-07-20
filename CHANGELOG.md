@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v3.2.5
+- Add working example using Angular 1.x.
+- Update devDependencies.
+
 ## v3.2.4
 - Improve tests and coverage
 

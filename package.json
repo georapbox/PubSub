@@ -1,6 +1,6 @@
 {
   "name": "PubSub",
-  "version": "3.2.4",
+  "version": "3.2.5",
   "description": "Javascript implementation of the Publish/Subscribe pattern.",
   "main": "src/pubsub.js",
   "scripts": {
@@ -31,7 +31,7 @@
   },
   "homepage": "https://github.com/georapbox/PubSub#readme",
   "devDependencies": {
-    "eslint": "~4.1.1",
+    "eslint": "~4.2.0",
     "grunt": "~1.0.1",
     "grunt-cli": "~1.2.0",
     "grunt-contrib-uglify": "~3.0.1",
