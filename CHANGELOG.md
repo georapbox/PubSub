@@ -80,5 +80,5 @@ var pubsub = new PubSub().alias({
 ### Other updates
 - Return token on `subscribeOnce` method.
 - Correct annotations and provide examples.
-- Update dev dependancies.
-- Provide `npm` scripts to run the tasks. No more need for global dependancies installed (Grunt).
+- Update devDependencies.
+- Provide `npm` scripts to run the tasks. No more need for global dependencies installed (Grunt).
