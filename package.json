@@ -8,7 +8,8 @@
     "test": "karma start",
     "lint": "eslint src/**",
     "jsdoc2md": "jsdoc2md 'src/pubsub.js' > 'temp/api_readme.md'",
-    "ci": "npm run lint; npm test;"
+    "ci": "npm run lint; npm test;",
+    "prepublish": "npm run test && npm run build"
   },
   "repository": {
     "type": "git",
