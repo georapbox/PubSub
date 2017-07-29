@@ -179,7 +179,7 @@
 
   /**
    * Publishes a topic asynchronously, passing the data to its subscribers.
-   * Asynchronous publication helps in that the originator of the topic will
+   * Asynchronous publication helps in that the originator of the topics will
    * not be blocked while consumers process them.
    * For synchronous topic publication check `publishSync`.
    *

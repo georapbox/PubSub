@@ -107,7 +107,7 @@ var onUserAdd = pubsub.subscribeOnce('user_add', function (data, topic) {
 
 ### .publish(topic, [data]) ⇒ <code>boolean</code>
 Publishes a topic **asynchronously**, passing the data to its subscribers.  
-Asynchronous publication helps in that the originator of the topic will not be blocked while consumers process them.  
+Asynchronous publication helps in that the originator of the topics will not be blocked while consumers process them.  
 For synchronous topic publication check `publishSync`.
 
 **Kind**: instance method of <code>[PubSub](#PubSub)</code>  
