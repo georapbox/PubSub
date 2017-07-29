@@ -249,3 +249,29 @@ describe('Public methods alias', function () {
     expect(ps.off(t)).toBe(0);
   });
 });
+
+// Listeners right order of invokation
+describe('Ensure that listeners registered on the same topic are invoked in the order they are added', function () {
+  it('Should invoke every listener in the order that was added', function () {
+    var ps = new PubSub();
+    var arr = [];
+
+    function listener1() {
+      arr.push('A');
+    }
+    function listener2() {
+      arr.push('B');
+    }
+    function listener3() {
+      arr.push('C');
+    }
+
+    ps.subscribe('my_topic', listener1);
+    ps.subscribe('my_topic', listener2);
+    ps.subscribe('my_topic', listener3);
+
+    ps.publishSync('my_topic');
+
+    expect(arr).toEqual(['A', 'B', 'C']);
+  });
+});

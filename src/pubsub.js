@@ -2,10 +2,10 @@
  * PubSub.js
  * Javascript implementation of the Publish/Subscribe pattern.
  *
- * @version 3.2.5
+ * @version 3.2.6
  * @author George Raptis <georapbox@gmail.com> (georapbox.github.io)
  * @homepage https://github.com/georapbox/PubSub#readme
- * @repository git+https://github.com/georapbox/PubSub.git
+ * @repository https://github.com/georapbox/PubSub.git
  * @license MIT
  */
 (function (name, context, definition) {
@@ -61,15 +61,15 @@
   }
 
   function deliverTopic(instance, topic, data) {
-    var topics = instance._pubsub_topics,
-      subscribers = topics[topic],
-      len = subscribers ? subscribers.length : 0,
-      currentSubscriber, token;
+    var topics = instance._pubsub_topics;
+    var subscribers = topics[topic];
+    var i = 0;
+    var len = subscribers ? subscribers.length : 0;
+    var currentSubscriber, token;
 
-    while (len) {
-      len -= 1;
-      token = subscribers[len].token;
-      currentSubscriber = subscribers[len];
+    for (; i < len; i += 1) {
+      token = subscribers[i].token;
+      currentSubscriber = subscribers[i];
 
       currentSubscriber.callback(data, {
         name: topic,
@@ -134,9 +134,9 @@
    * });
    */
   PubSub.prototype.subscribe = function (topic, callback, once) {
-    var topics = this._pubsub_topics,
-      token = this._pubsub_uid += 1,
-      obj = {};
+    var topics = this._pubsub_topics;
+    var token = this._pubsub_uid += 1;
+    var obj = {};
 
     if (typeof callback !== 'function') {
       throw new TypeError('When subscribing for an event, a callback function must be defined.');
@@ -178,7 +178,10 @@
   };
 
   /**
-   * Publishes a topic, passing the data to its subscribers.
+   * Publishes a topic asynchronously, passing the data to its subscribers.
+   * Asynchronous publication helps in that the originator of the topic will
+   * not be blocked while consumers process them.
+   * For synchronous topic publication check `publishSync`.
    *
    * @memberof PubSub
    * @this {PubSub}
@@ -234,9 +237,9 @@
    * pubsub.unsubscribe(onUserAdd);
    */
   PubSub.prototype.unsubscribe = function (topic) {
-    var topics = this._pubsub_topics,
-      tf = false,
-      prop, len;
+    var topics = this._pubsub_topics;
+    var tf = false;
+    var prop, len;
 
     for (prop in topics) {
       if (Object.prototype.hasOwnProperty.call(topics, prop)) {
@@ -309,8 +312,8 @@
    * // -> true
    */
   PubSub.prototype.hasSubscribers = function (topic) {
-    var topics = this._pubsub_topics,
-      hasSubscribers = false;
+    var topics = this._pubsub_topics;
+    var hasSubscribers = false;
 
     // If no arguments passed
     if (topic == null) {
