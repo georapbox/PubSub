@@ -1,6 +1,6 @@
 # PubSub
 
-Javascript implementation of the [Publish–Subscribe pattern](http://en.wikipedia.org/wiki/Publish%E2%80%93subscribe_pattern).
+Javascript implementation of the [Publish/Subscribe](http://en.wikipedia.org/wiki/Publish%E2%80%93subscribe_pattern) pattern.
 
 [![Build Status](https://travis-ci.org/georapbox/PubSub.svg?branch=master)](https://travis-ci.org/georapbox/PubSub)
 [![npm version](https://badge.fury.io/js/PubSub.svg)](http://badge.fury.io/js/PubSub)
@@ -54,9 +54,11 @@ For API updates and breaking changes, check the [CHANGELOG](https://github.com/g
 ### new PubSub()
 Creates a PubSub instance.
 
+### Methods
+
 <a name="PubSub+subscribe"></a>
 
-### pubSub.subscribe(topic, callback, [once]) ⇒ <code>number</code>
+### .subscribe(topic, callback, [once]) ⇒ <code>number</code>
 Subscribe to events of interest with a specific topic name and a
 callback function, to be executed when the topic/event is observed.
 
@@ -81,7 +83,7 @@ var onUserAdd = pubsub.subscribe('user_add', function (data, topic) {
 ```
 <a name="PubSub+subscribeOnce"></a>
 
-### pubSub.subscribeOnce(topic, callback) ⇒ <code>number</code>
+### .subscribeOnce(topic, callback) ⇒ <code>number</code>
 Subscribe to events of interest setting a flag
 indicating the event will be published only one time.
 
@@ -103,8 +105,10 @@ var onUserAdd = pubsub.subscribeOnce('user_add', function (data, topic) {
 ```
 <a name="PubSub+publish"></a>
 
-### pubSub.publish(topic, [data]) ⇒ <code>boolean</code>
-Publishes a topic, passing the data to its subscribers.
+### .publish(topic, [data]) ⇒ <code>boolean</code>
+Publishes a topic **asynchronously**, passing the data to its subscribers.  
+Asynchronous publication helps in that the originator of the topic will not be blocked while consumers process them.  
+For synchronous topic publication check `publishSync`.
 
 **Kind**: instance method of <code>[PubSub](#PubSub)</code>  
 **Returns**: <code>boolean</code> - Returns `true` if topic exists and event is published; otheriwse `false`  
@@ -125,8 +129,8 @@ pubsub.publish('user_add', {
 ```
 <a name="PubSub+publishSync"></a>
 
-### pubSub.publishSync(topic, [data]) ⇒ <code>boolean</code>
-Publishes a topic synchronously, passing the data to its subscribers.
+### .publishSync(topic, [data]) ⇒ <code>boolean</code>
+Publishes a topic **synchronously**, passing the data to its subscribers.
 
 **Kind**: instance method of <code>[PubSub](#PubSub)</code>  
 **Returns**: <code>boolean</code> - Returns `true` if topic exists and event is published; otheriwse `false`  
@@ -147,7 +151,7 @@ pubsub.publishSync('user_add', {
 ```
 <a name="PubSub+unsubscribe"></a>
 
-### pubSub.unsubscribe(topic) ⇒ <code>boolean</code> \| <code>string</code>
+### .unsubscribe(topic) ⇒ <code>boolean</code> \| <code>string</code>
 Unsubscribes from a specific topic, based on the topic name,
 or based on a tokenized reference to the subscription.
 
@@ -169,7 +173,7 @@ pubsub.unsubscribe(onUserAdd);
 ```
 <a name="PubSub+unsubscribeAll"></a>
 
-### pubSub.unsubscribeAll() ⇒ <code>[PubSub](#PubSub)</code>
+### .unsubscribeAll() ⇒ <code>[PubSub](#PubSub)</code>
 Clears all subscriptions whatsoever.
 
 **Kind**: instance method of <code>[PubSub](#PubSub)</code>  
@@ -184,7 +188,7 @@ pubsub.unsubscribeAll();
 ```
 <a name="PubSub+hasSubscribers"></a>
 
-### pubSub.hasSubscribers([topic]) ⇒ <code>boolean</code>
+### .hasSubscribers([topic]) ⇒ <code>boolean</code>
 Checks if there are subscribers for a specific topic.
 If `topic` is not provided, checks if there is at least one subscriber.
 
@@ -208,7 +212,7 @@ pubsub.hasSubscribers('message');
 ```
 <a name="PubSub+subscribers"></a>
 
-### pubSub.subscribers() ⇒ <code>object</code>
+### .subscribers() ⇒ <code>object</code>
 Gets all the subscribers as a set of key value pairs that
 represent the topic's name and the event listener(s) bound.
 
@@ -228,7 +232,7 @@ pubsub.subscribers();
 ```
 <a name="PubSub+subscribersByTopic"></a>
 
-### pubSub.subscribersByTopic(topic) ⇒ <code>array</code>
+### .subscribersByTopic(topic) ⇒ <code>array</code>
 Gets subscribers for a specific topic.
 
 **Kind**: instance method of <code>[PubSub](#PubSub)</code>  
@@ -258,7 +262,7 @@ pubsub.subscribersByTopic('some_message_not_existing');
 ```
 <a name="PubSub+alias"></a>
 
-### pubSub.alias(aliasMap) ⇒ <code>[PubSub](#PubSub)</code>
+### .alias(aliasMap) ⇒ <code>[PubSub](#PubSub)</code>
 Creates aliases for public methods.
 
 **Kind**: instance method of <code>[PubSub](#PubSub)</code>  
@@ -281,7 +285,7 @@ var pubsub = new PubSub().alias({
 });
 ```
 
-## Minify
+## Minify source code
 
 ```sh
 $ npm run build
@@ -295,6 +299,11 @@ To run the tests:
 ```sh
 $ npm test
 ```
+
+## More about Publish/Subscribe pattern
+
+- [The Observer Pattern - Addy Osmani](https://addyosmani.com/resources/essentialjsdesignpatterns/book/#observerpatternjavascript)
+- [Publish–Subscribe pattern - Wikipedia](http://en.wikipedia.org/wiki/Publish%E2%80%93subscribe_pattern)
 
 ## License
 
