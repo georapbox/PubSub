@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## v3.2.6
+- Ensure that listeners registered on the same topic are invoked in the order they are added.
+- Minor updates on documentation.
+- Update angular_1.x_example.
+
 ## v3.2.5
 - Add working example using Angular 1.x.
 - Update devDependencies.

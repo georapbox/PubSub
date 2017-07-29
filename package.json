@@ -1,6 +1,6 @@
 {
   "name": "PubSub",
-  "version": "3.2.5",
+  "version": "3.2.6",
   "description": "Javascript implementation of the Publish/Subscribe pattern.",
   "main": "src/pubsub.js",
   "scripts": {
