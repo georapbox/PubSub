@@ -17,6 +17,8 @@
       $scope.$apply(); // Do not forget to call $apply when publishing events asynchronously
     });
 
+    $scope.isCounterRegistered = true;
+
     $scope.sendUsers = function () {
       // publish 'USERS_SENT' event with some data
       eventEmitter.publishSync(USERS_SENT, {
@@ -30,6 +32,7 @@
 
     $scope.unsubscribeCounter = function () {
       eventEmitter.unsubscribe(COUNTER_CHANGED);
+      $scope.isCounterRegistered = eventEmitter.hasSubscribers(COUNTER_CHANGED);
     };
   }]);
 
@@ -50,7 +53,6 @@
       });
     };
   }]);
-
 
   app.controller('ControllerC', ['$scope', 'eventEmitter', function ($scope, eventEmitter) {
     eventEmitter.subscribe(USERS_SENT, function (data) {

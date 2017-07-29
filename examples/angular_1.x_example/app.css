@@ -21,3 +21,11 @@ button {
   cursor: pointer;
   padding: 10px;
 }
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+.invalid {
+  color: red;
+}

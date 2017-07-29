@@ -10,8 +10,8 @@
 
   <div ng-controller="ControllerA" class="ctrl">
     <h2>ControllerA</h2>
-    <p>
-      Counter: {{counter || 0}} <button ng-click="unsubscribeCounter()">Unsubscribe</button>
+    <p ng-class="{invalid : !isCounterRegistered}">
+      Counter: {{counter || 0}} <button ng-disabled="!isCounterRegistered" ng-click="unsubscribeCounter()">Unsubscribe</button>
     </p>
     <button ng-click="sendUsers()">Send users data to ControllerC</button>
   </div>
@@ -34,8 +34,8 @@
     </ul>
   </div>
 
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.js"></script>
-  <script src="../../src/pubsub.js"></script>
+  <script src="node_modules/angular/angular.min.js"></script>
+  <script src="node_modules/PubSub/dist/pubsub.min.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
