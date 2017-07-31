@@ -17,5 +17,6 @@ ratings:
   paths:
   - src/**
 exclude_paths:
-- dist/**/*
-- tests/**/*
+  - dist/**/*
+  - tests/**/*
+  - examples/
