@@ -1,0 +1,19 @@
+{
+  "name": "dummy_add_to_cart",
+  "version": "1.0.0",
+  "description": "Add to Cart PubSub usage example",
+  "scripts": {
+    "start": "http-server -o"
+  },
+  "author": "George Raptis <georapbox@gmail.com> (georapbox.github.io)",
+  "license": "MIT",
+  "dependencies": {
+    "PubSub": "*",
+    "bootstrap": "~4.0.0-beta",
+    "jquery": "~3.2.1",
+    "popper.js": "~1.12.3"
+  },
+  "devDependencies": {
+    "http-server": "~0.10.0"
+  }
+}
