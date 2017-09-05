@@ -1,5 +1,30 @@
 # CHANGELOG
 
+## v3.2.7
+Allow passing multiple data arguments to `publish` and `publishSync` methods.
+```js
+var pubsub = new PubSub();
+
+pubsub.subscribe('event', function (data) {
+  console.log(data);
+  // => Array [{fname: 'John'}, {lname: 'Doe'}, [1, 2, 3], 'Lorem ipsum dolor sit amet.']
+
+  console.log(data[0]);
+  // => Object {lname: 'John'}
+
+  console.log(data[1]);
+  // => Object {lname: 'Doe'}
+
+  console.log(data[2]);
+  // => Array [1, 2, 3]
+
+  console.log(data[3]);
+  // => String "Lorem ipsum dolor sit amet."
+});
+
+pubsub.publish('event', {fname: 'John'}, {lname: 'Doe'}, [1, 2, 3], 'Lorem ipsum dolor sit amet.');
+```
+
 ## v3.2.6
 - Ensure that listeners registered on the same topic are invoked in the order they are added.
 - Minor updates on documentation.

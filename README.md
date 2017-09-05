@@ -117,7 +117,7 @@ For synchronous topic publication check `publishSync`.
 | Param | Type | Description |
 | --- | --- | --- |
 | topic | <code>string</code> | The topic's name |
-| [data] | <code>\*</code> | The data to be passed to its subscribers |
+| [data] | <code>...\*</code> | The data to be passed to its subscribers |
 
 **Example**  
 ```js
@@ -139,7 +139,7 @@ Publishes a topic **synchronously**, passing the data to its subscribers.
 | Param | Type | Description |
 | --- | --- | --- |
 | topic | <code>string</code> | The topic's name |
-| [data] | <code>\*</code> | The data to be passed to its subscribers |
+| [data] | <code>...\*</code> | The data to be passed to its subscribers |
 
 **Example**  
 ```js

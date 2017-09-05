@@ -1,6 +1,6 @@
 {
   "name": "PubSub",
-  "version": "3.2.6",
+  "version": "3.2.7",
   "description": "Javascript implementation of the Publish/Subscribe pattern.",
   "main": "src/pubsub.js",
   "scripts": {
@@ -32,12 +32,12 @@
   },
   "homepage": "https://github.com/georapbox/PubSub#readme",
   "devDependencies": {
-    "eslint": "~4.2.0",
+    "eslint": "~4.6.1",
     "grunt": "~1.0.1",
     "grunt-cli": "~1.2.0",
     "grunt-contrib-uglify": "~3.0.1",
     "grunt-remove-logging": "~0.2.0",
-    "jasmine-core": "~2.6.4",
+    "jasmine-core": "~2.8.0",
     "jsdoc-to-markdown": "~3.0.0",
     "karma": "~1.7.0",
     "karma-chrome-launcher": "~2.2.0",

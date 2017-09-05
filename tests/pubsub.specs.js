@@ -2,15 +2,18 @@
 
 describe('Should return a new PubSub instance', function () {
   it('Creates a new instance of PubSub.', function () {
-    var pubsub = new PubSub();
-    expect(pubsub).not.toBeNull();
-    expect(pubsub instanceof PubSub);
+    var ps = new PubSub();
+
+    expect(ps).not.toBeNull();
+
+    expect(ps instanceof PubSub);
   });
 
   it('Should return a new instance of PubSub if new keyword is omitted', function () {
-    var pubsub = PubSub();
-    expect(pubsub).not.toBeNull();
-    expect(pubsub instanceof PubSub);
+    var ps = PubSub();
+
+    expect(ps).not.toBeNull();
+    expect(ps instanceof PubSub);
   });
 });
 
@@ -30,7 +33,6 @@ describe('Subscribe/Register to an event', function () {
     function listener() {}
 
     ps.subscribeOnce('one-time-event', listener);
-
     ps.publishSync('one-time-event'); // Publish once
 
     expect(ps.hasSubscribers('one-time-event')).toBe(false);
@@ -47,11 +49,13 @@ describe('Subscribe/Register to an event', function () {
 
 // Publish scenarios.
 describe('Publish/Emmit an event', function () {
-  var ps = new PubSub();
-  function listener() {}
-  ps.subscribe('example-event', listener);
-
   it('Should publish "example-event" passing data: "{ dummyKey : \'dummyValue\' }"', function () {
+    var ps = new PubSub();
+
+    function listener() {}
+
+    ps.subscribe('example-event', listener);
+
     spyOn(ps, 'publish');
 
     ps.publish('example-event', {
@@ -62,6 +66,12 @@ describe('Publish/Emmit an event', function () {
   });
 
   it('Should publish "example-event"', function () {
+    var ps = new PubSub();
+
+    function listener() {}
+
+    ps.subscribe('example-event', listener);
+
     ps.publish('example-event', {
       dummyKey: 'dummyValue'
     });
@@ -70,11 +80,17 @@ describe('Publish/Emmit an event', function () {
   });
 
   it('Should not publish an event that was not subscribed', function () {
+    var ps = new PubSub();
+
+    function listener() {}
+
+    ps.subscribe('example-event', listener);
+
     expect(ps.publish('unsubscribed-event')).toBe(false);
   });
 
   it('Should publish asynchronously', function () {
-    var pubsub = new PubSub();
+    var ps = new PubSub();
     var counter = 0;
     var handler = function () {
       counter += 1;
@@ -96,7 +112,7 @@ describe('Publish/Emmit an event', function () {
   });
 
   it('Should publish synchronously', function () {
-    var pubsub = new PubSub();
+    var ps = new PubSub();
     var counter = 0;
     var handler = function () {
       counter += 1;
@@ -110,6 +126,41 @@ describe('Publish/Emmit an event', function () {
   });
 });
 
+it('Should allow to pass multiple data arguments to publish and publishSync methods', function () {
+  var ps = new PubSub();
+
+  ps.subscribe('eventA', function (data) {
+    expect(data).toEqual(['John', 'Doe']);
+  });
+
+  ps.subscribe('eventB', function (data) {
+    expect(data).toEqual([{fname: 'John'}, {lname: 'Doe'}]);
+  });
+
+  ps.subscribe('eventC', function (data) {
+    expect(data).toEqual('John Doe');
+  });
+
+  ps.subscribe('eventD', function (data) {
+    expect(data).toEqual([null, null]);
+  });
+
+  ps.subscribe('eventE', function (data) {
+    expect(data).toEqual([[1, 2, 3], ['a', 'b', 'c']]);
+  });
+
+  ps.subscribe('eventF', function (data) {
+    expect(data).toEqual({fname: 'John', lname: 'Doe'});
+  });
+
+  ps.publish('eventA', 'John', 'Doe');
+  ps.publishSync('eventB', {fname: 'John'}, {lname: 'Doe'});
+  ps.publishSync('eventC', 'John Doe');
+  ps.publishSync('eventD', null, null);
+  ps.publishSync('eventE', [1, 2, 3], ['a', 'b', 'c']);
+  ps.publishSync('eventF', {fname: 'John', lname: 'Doe'});
+});
+
 // Unsubscribe scenarios.
 describe('Unsubscribe from event', function () {
   it('Should unsubscribe from event using the event name ("example-event")', function () {
@@ -119,6 +170,7 @@ describe('Unsubscribe from event', function () {
     function listener() {}
 
     ps.subscribe('example-event', listener);
+
     unsub = ps.unsubscribe('example-event');
 
     expect(unsub).toBe('example-event');
@@ -126,10 +178,10 @@ describe('Unsubscribe from event', function () {
   });
 
   it('Should unsubscribe from event using tokenized reference to the subscription', function () {
-    var ps = new PubSub(),
-      sub = ps.subscribe('example-event', listener),
-      sub2 = ps.subscribe('example-event', listener),
-      sub3 = ps.subscribe('example-event', listener);
+    var ps = new PubSub();
+    var sub = ps.subscribe('example-event', listener);
+    var sub2 = ps.subscribe('example-event', listener);
+    var sub3 = ps.subscribe('example-event', listener);
 
     function listener() {}
 
@@ -138,8 +190,8 @@ describe('Unsubscribe from event', function () {
   });
 
   it('Should unsubscribe from an event that was not subscribed before', function () {
-    var ps = new PubSub(),
-      unsub = ps.unsubscribe('fake-event');
+    var ps = new PubSub();
+    var unsub = ps.unsubscribe('fake-event');
 
     expect(unsub).toBe(false);
   });

@@ -2,7 +2,7 @@
  * PubSub.js
  * Javascript implementation of the Publish/Subscribe pattern.
  *
- * @version 3.2.6
+ * @version 3.2.7
  * @author George Raptis <georapbox@gmail.com> (georapbox.github.io)
  * @homepage https://github.com/georapbox/PubSub#readme
  * @repository https://github.com/georapbox/PubSub.git
@@ -186,7 +186,7 @@
    * @memberof PubSub
    * @this {PubSub}
    * @param {string} topic The topic's name
-   * @param {*} [data] The data to be passed to its subscribers
+   * @param {...*} [data] The data to be passed to its subscribers
    * @return {boolean} Returns `true` if topic exists and event is published; otheriwse `false`
    * @example
    *
@@ -197,7 +197,8 @@
    * });
    */
   PubSub.prototype.publish = function (topic, data) {
-    return publish(this, topic, data, false);
+    var dataArgs = Array.prototype.slice.call(arguments, 1);
+    return publish(this, topic, dataArgs.length <= 1 ? data : dataArgs, false);
   };
 
   /**
@@ -206,7 +207,7 @@
    * @memberof PubSub
    * @this {PubSub}
    * @param {string} topic The topic's name
-   * @param {*} [data] The data to be passed to its subscribers
+   * @param {...*} [data] The data to be passed to its subscribers
    * @return {boolean} Returns `true` if topic exists and event is published; otheriwse `false`
    * @example
    *
@@ -217,7 +218,8 @@
    * });
    */
   PubSub.prototype.publishSync = function (topic, data) {
-    return publish(this, topic, data, true);
+    var dataArgs = Array.prototype.slice.call(arguments, 1);
+    return publish(this, topic, dataArgs.length <= 1 ? data : dataArgs, true);
   };
 
   /**
