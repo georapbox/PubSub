@@ -84,6 +84,11 @@
     }
   }
 
+  function publishData(args) {
+    var dataArgs = Array.prototype.slice.call(args, 1);
+    return dataArgs.length <= 1 ? dataArgs[0] : dataArgs;
+  }
+
   function publish(instance, topic, data, sync) {
     var topics = instance._pubsub_topics;
 
@@ -196,9 +201,8 @@
    *   email: 'johndoe@gmail.com'
    * });
    */
-  PubSub.prototype.publish = function (topic, data) {
-    var dataArgs = Array.prototype.slice.call(arguments, 1);
-    return publish(this, topic, dataArgs.length <= 1 ? data : dataArgs, false);
+  PubSub.prototype.publish = function (topic /* , data */) {
+    return publish(this, topic, publishData(arguments), false);
   };
 
   /**
@@ -217,9 +221,8 @@
    *   email: 'johndoe@gmail.com'
    * });
    */
-  PubSub.prototype.publishSync = function (topic, data) {
-    var dataArgs = Array.prototype.slice.call(arguments, 1);
-    return publish(this, topic, dataArgs.length <= 1 ? data : dataArgs, true);
+  PubSub.prototype.publishSync = function (topic /* , data */) {
+    return publish(this, topic, publishData(arguments), true);
   };
 
   /**
