@@ -2,7 +2,7 @@
  * PubSub.js
  * Javascript implementation of the Publish/Subscribe pattern.
  *
- * @version 3.2.7
+ * @version 3.3.0
  * @author George Raptis <georapbox@gmail.com> (georapbox.github.io)
  * @homepage https://github.com/georapbox/PubSub#readme
  * @repository https://github.com/georapbox/PubSub.git
@@ -19,26 +19,6 @@
   }
 }('PubSub', this, function () {
   'use strict';
-
-  function extend() {
-    var i, l, key;
-
-    for (i = 1, l = arguments.length; i < l; i++) {
-      for (key in arguments[i]) {
-        if (Object.prototype.hasOwnProperty.call(arguments[i], key)) {
-          if (arguments[i][key] && arguments[i][key].constructor &&
-              arguments[i][key].constructor === Object) {
-            arguments[0][key] = arguments[0][key] || {};
-            extend(arguments[0][key], arguments[i][key]);
-          } else {
-            arguments[0][key] = arguments[i][key];
-          }
-        }
-      }
-    }
-
-    return arguments[0];
-  }
 
   function forOwn(obj, callback, thisArg) {
     var key;
@@ -62,9 +42,9 @@
 
   function deliverTopic(instance, topic, data) {
     var topics = instance._pubsub_topics;
-    var subscribers = topics[topic];
+    var subscribers = topics[topic] ? topics[topic].slice(0) : [];
     var i = 0;
-    var len = subscribers ? subscribers.length : 0;
+    var len = subscribers.length;
     var currentSubscriber, token;
 
     for (; i < len; i += 1) {
@@ -257,12 +237,18 @@
             // `topic` is a tokenized reference to the subscription.
             if (topics[prop][len].token === topic) {
               topics[prop].splice(len, 1);
+              if (topics[prop].length === 0) {
+                delete topics[prop];
+              }
               return topic;
             }
 
             // `topic` is the event name.
             if (prop === topic) {
               topics[prop].splice(len, 1);
+              if (topics[prop].length === 0) {
+                delete topics[prop];
+              }
               tf = true;
             }
           }
@@ -286,15 +272,14 @@
    * @example
    *
    * var pubsub = new PubSub();
-   * ...
-   * ...
+   * pubsub.subscribe('message1', function () {});
+   * pubsub.subscribe('message2', function () {});
+   * pubsub.subscribe('message3', function () {});
    * pubsub.unsubscribeAll();
+   * pubsub.hasSubscribers(); // -> false
    */
   PubSub.prototype.unsubscribeAll = function () {
-    forOwn(this._pubsub_topics, function (topicValue, topicKey, topic) {
-      topic[topicKey] = [];
-    });
-
+    this._pubsub_topics = {};
     return this;
   };
 
@@ -322,8 +307,8 @@
 
     // If no arguments passed
     if (topic == null) {
-      forOwn(topics, function (topicValue) {
-        if (topicValue.length > 0) {
+      forOwn(topics, function (value, key) {
+        if (key) {
           hasSubscribers = true;
           return false;
         }
@@ -333,16 +318,14 @@
     }
 
     // If a topic's name is passed as argument
-    if (Object.prototype.hasOwnProperty.call(topics, topic) && topics[topic].length > 0) {
-      return true;
-    }
-
-    return false;
+    return Object.prototype.hasOwnProperty.call(topics, topic);
   };
 
   /**
    * Gets all the subscribers as a set of key value pairs that
    * represent the topic's name and the event listener(s) bound.
+   *
+   * @NOTE Mutating the result of this method does not affect the real subscribers. This is for reference only.
    *
    * @memberof PubSub
    * @this {PubSub}
@@ -359,16 +342,22 @@
    * // -> Object { message: Array[2], another_message: Array[1] }
    */
   PubSub.prototype.subscribers = function () {
-    return extend({}, this._pubsub_topics);
+    var res = {};
+    forOwn(this._pubsub_topics, function (topicValue, topicKey) {
+      res[topicKey] = topicValue.slice(0);
+    });
+    return res;
   };
 
   /**
    * Gets subscribers for a specific topic.
    *
+   * @NOTE Mutating the result of this method does not affect the real subscribers. This is for reference only.
+   *
    * @memberof PubSub
    * @this {PubSub}
    * @param {string} topic The topic's name to check for subscribers
-   * @return {array} An array of all subscribers for a topic if exist; otherwise an empty array
+   * @return {array} A copy array of all subscribers for a topic if exist; otherwise an empty array
    * @example
    *
    * var pubsub = new PubSub();

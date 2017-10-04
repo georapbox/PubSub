@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v3.3.0
+- If there is no subscriber for a topic, delete topic property when unsubscribing. Used to leave it as an empty array before.
+- Keep devDependencies up to date.
+
 ## v3.2.7
 Allow passing multiple data arguments to `publish` and `publishSync` methods.
 ```js

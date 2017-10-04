@@ -5,7 +5,7 @@ engines:
     enabled: false
   eslint:
     enabled: true
-    channel: "eslint-3"
+    channel: "eslint-4"
   csslint:
     enabled: false
   duplication:

@@ -64,7 +64,6 @@ callback function, to be executed when the topic/event is observed.
 
 **Kind**: instance method of <code>[PubSub](#PubSub)</code>  
 **Returns**: <code>number</code> - The topic's token  
-**this**: <code>{PubSub}</code>  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -89,7 +88,6 @@ indicating the event will be published only one time.
 
 **Kind**: instance method of <code>[PubSub](#PubSub)</code>  
 **Returns**: <code>number</code> - The topic's token  
-**this**: <code>{PubSub}</code>  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -112,7 +110,6 @@ For synchronous topic publication check `publishSync`.
 
 **Kind**: instance method of <code>[PubSub](#PubSub)</code>  
 **Returns**: <code>boolean</code> - Returns `true` if topic exists and event is published; otheriwse `false`  
-**this**: <code>{PubSub}</code>  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -134,7 +131,6 @@ Publishes a topic **synchronously**, passing the data to its subscribers.
 
 **Kind**: instance method of <code>[PubSub](#PubSub)</code>  
 **Returns**: <code>boolean</code> - Returns `true` if topic exists and event is published; otheriwse `false`  
-**this**: <code>{PubSub}</code>  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -157,7 +153,6 @@ or based on a tokenized reference to the subscription.
 
 **Kind**: instance method of <code>[PubSub](#PubSub)</code>  
 **Returns**: <code>boolean</code> \| <code>string</code> - Returns `false` if `topic` does not match a subscribed event; otherwise the topic's name  
-**this**: <code>{PubSub}</code>  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -178,13 +173,14 @@ Clears all subscriptions whatsoever.
 
 **Kind**: instance method of <code>[PubSub](#PubSub)</code>  
 **Returns**: <code>[PubSub](#PubSub)</code> - The PubSub instance.  
-**this**: <code>{PubSub}</code>  
 **Example**  
 ```js
 var pubsub = new PubSub();
-...
-...
+pubsub.subscribe('message1', function () {});
+pubsub.subscribe('message2', function () {});
+pubsub.subscribe('message3', function () {});
 pubsub.unsubscribeAll();
+pubsub.hasSubscribers(); // -> false
 ```
 <a name="PubSub+hasSubscribers"></a>
 
@@ -194,7 +190,6 @@ If `topic` is not provided, checks if there is at least one subscriber.
 
 **Kind**: instance method of <code>[PubSub](#PubSub)</code>  
 **Returns**: <code>boolean</code> - Returns `true` there are subscribers; otherwise `false`  
-**this**: <code>{PubSub}</code>  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -216,9 +211,10 @@ pubsub.hasSubscribers('message');
 Gets all the subscribers as a set of key value pairs that
 represent the topic's name and the event listener(s) bound.
 
+**NOTE**: Mutating the result of this method does not affect the real subscribers. This is for reference only.
+
 **Kind**: instance method of <code>[PubSub](#PubSub)</code>  
 **Returns**: <code>object</code> - A readonly object with all subscribers.  
-**this**: <code>{PubSub}</code>  
 **Example**  
 ```js
 var pubsub = new PubSub();
@@ -235,9 +231,10 @@ pubsub.subscribers();
 ### .subscribersByTopic(topic) ⇒ <code>array</code>
 Gets subscribers for a specific topic.
 
+**NOTE**: Mutating the result of this method does not affect the real subscribers. This is for reference only.
+
 **Kind**: instance method of <code>[PubSub](#PubSub)</code>  
-**Returns**: <code>array</code> - An array of all subscribers for a topic if exist; otherwise an empty array  
-**this**: <code>{PubSub}</code>  
+**Returns**: <code>array</code> - A copy array of all subscribers for a topic if exist; otherwise an empty array  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -267,7 +264,6 @@ Creates aliases for public methods.
 
 **Kind**: instance method of <code>[PubSub](#PubSub)</code>  
 **Returns**: <code>[PubSub](#PubSub)</code> - The PubSub instance.  
-**this**: <code>{PubSub}</code>  
 
 | Param | Type | Description |
 | --- | --- | --- |
