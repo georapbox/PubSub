@@ -2,6 +2,7 @@
 
 ## v3.3.0
 - If there is no subscriber for a topic, delete topic property when unsubscribing. Used to leave it as an empty array before.
+- The result of `subscribers` and `subscribersByTopic` methods is just a copy of the original object or array accordingly.
 - Keep devDependencies up to date.
 
 ## v3.2.7
