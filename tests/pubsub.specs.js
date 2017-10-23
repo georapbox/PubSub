@@ -327,3 +327,14 @@ describe('Ensure that listeners registered on the same topic are invoked in the 
     expect(arr).toEqual(['A', 'B', 'C']);
   });
 });
+
+// noConflict functionality
+describe('noConflict static method', function () {
+  it('should roll back the global PubSub identifier and return the current constructor function', function () {
+    var EventEmitter = PubSub.noConflict();
+    var emitter = new EventEmitter();
+
+    expect(PubSub).toBeUndefined();
+    expect(emitter instanceof EventEmitter).toBe(true);
+  });
+});

@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## v3.4.0
+- Add static method `PubSub.noConflict()` to roll back the global `PubSub` identifier. Used in a normal browser global namespace environment to avoid conflicts, etc.
+
 ## v3.3.0
 - If there is no subscriber for a topic, delete topic property when unsubscribing. Used to leave it as an empty array before.
 - The result of `subscribers` and `subscribersByTopic` methods is just a copy of the original object or array accordingly.

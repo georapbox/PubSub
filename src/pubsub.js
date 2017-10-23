@@ -2,7 +2,7 @@
  * PubSub.js
  * Javascript implementation of the Publish/Subscribe pattern.
  *
- * @version 3.3.0
+ * @version 3.4.0
  * @author George Raptis <georapbox@gmail.com> (georapbox.github.io)
  * @homepage https://github.com/georapbox/PubSub#readme
  * @repository https://github.com/georapbox/PubSub.git
@@ -16,10 +16,13 @@
   } else if (typeof module !== 'undefined' && module.exports) {
     module.exports = definition();
   } else {
-    context[name] = definition();
+    context[name] = definition(name, context);
   }
-}('PubSub', this, function () {
+}('PubSub', this, function (name, context) {
   'use strict';
+
+  var VERSION = '3.4.0';
+  var OLD_PUBLIC_API = (context || {})[name];
 
   function forOwn(obj, callback, thisArg) {
     var key;
@@ -407,6 +410,34 @@
 
     return this;
   };
+
+  /**
+   * Rolls back the global `PubSub` identifier and returns the current constructor function.
+   * This can be used to keep the global namespace clean, or it can be used to have multiple simultaneous libraries
+   * (including separate versions/copies of `PubSub`) in the same project without conflicts over the `PubSub` global identifier.
+   *
+   * @NOTE The `PubSub.noConflict()` static method only makes sense when used in a normal browser global namespace environment.
+   * It should not be used with CommonJS or AMD style modules.
+   *
+   * @memberof PubSub
+   * @return {PubSub} The PubSub constructor.
+   * @example
+   *
+   * var EventEmitter = PubSub.noConflict();
+   * var emitter = new EventEmitter();
+   */
+  PubSub.noConflict = function noConflict() {
+    if (context) {
+      context[name] = OLD_PUBLIC_API;
+    }
+    return PubSub;
+  };
+
+  /**
+   * PubSub version
+   * @type {String}
+   */
+  PubSub.version = VERSION;
 
   return PubSub;
 }));

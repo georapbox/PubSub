@@ -30,35 +30,34 @@ $ npm install PubSub
 $ bower install georapbox.pubsub.js
 ```
 
-## Changelog
-
-For API updates and breaking changes, check the [CHANGELOG](https://github.com/georapbox/PubSub/blob/master/CHANGELOG.md).
-
 ## API
 
 * [PubSub](#PubSub)
     * [new PubSub()](#new_PubSub_new)
-    * [.subscribe(topic, callback, [once])](#PubSub+subscribe) ⇒ <code>number</code>
-    * [.subscribeOnce(topic, callback)](#PubSub+subscribeOnce) ⇒ <code>number</code>
-    * [.publish(topic, [data])](#PubSub+publish) ⇒ <code>boolean</code>
-    * [.publishSync(topic, [data])](#PubSub+publishSync) ⇒ <code>boolean</code>
-    * [.unsubscribe(topic)](#PubSub+unsubscribe) ⇒ <code>boolean</code> \| <code>string</code>
-    * [.unsubscribeAll()](#PubSub+unsubscribeAll) ⇒ <code>[PubSub](#PubSub)</code>
-    * [.hasSubscribers([topic])](#PubSub+hasSubscribers) ⇒ <code>boolean</code>
-    * [.subscribers()](#PubSub+subscribers) ⇒ <code>object</code>
-    * [.subscribersByTopic(topic)](#PubSub+subscribersByTopic) ⇒ <code>array</code>
-    * [.alias(aliasMap)](#PubSub+alias) ⇒ <code>[PubSub](#PubSub)</code>
+    * _instance_
+        * [.subscribe(topic, callback, [once])](#PubSub+subscribe) ⇒ <code>number</code>
+        * [.subscribeOnce(topic, callback)](#PubSub+subscribeOnce) ⇒ <code>number</code>
+        * [.publish(topic, [...data])](#PubSub+publish) ⇒ <code>boolean</code>
+        * [.publishSync(topic, [...data])](#PubSub+publishSync) ⇒ <code>boolean</code>
+        * [.unsubscribe(topic)](#PubSub+unsubscribe) ⇒ <code>boolean</code> \| <code>string</code>
+        * [.unsubscribeAll()](#PubSub+unsubscribeAll) ⇒ <code>[PubSub](#PubSub)</code>
+        * [.hasSubscribers([topic])](#PubSub+hasSubscribers) ⇒ <code>boolean</code>
+        * [.subscribers()](#PubSub+subscribers) ⇒ <code>object</code>
+        * [.subscribersByTopic(topic)](#PubSub+subscribersByTopic) ⇒ <code>array</code>
+        * [.alias(aliasMap)](#PubSub+alias) ⇒ <code>[PubSub](#PubSub)</code>
+    * _static_
+        * [.noConflict()](#PubSub.noConflict) ⇒ <code>[PubSub](#PubSub)</code>
 
 <a name="new_PubSub_new"></a>
 
 ### new PubSub()
 Creates a PubSub instance.
 
-### Methods
+## Instance Methods
 
 <a name="PubSub+subscribe"></a>
 
-### .subscribe(topic, callback, [once]) ⇒ <code>number</code>
+### pubSub.subscribe(topic, callback, [once]) ⇒ <code>number</code>
 Subscribe to events of interest with a specific topic name and a
 callback function, to be executed when the topic/event is observed.
 
@@ -82,7 +81,7 @@ var onUserAdd = pubsub.subscribe('user_add', function (data, topic) {
 ```
 <a name="PubSub+subscribeOnce"></a>
 
-### .subscribeOnce(topic, callback) ⇒ <code>number</code>
+### pubSub.subscribeOnce(topic, callback) ⇒ <code>number</code>
 Subscribe to events of interest setting a flag
 indicating the event will be published only one time.
 
@@ -103,7 +102,7 @@ var onUserAdd = pubsub.subscribeOnce('user_add', function (data, topic) {
 ```
 <a name="PubSub+publish"></a>
 
-### .publish(topic, [data]) ⇒ <code>boolean</code>
+### pubSub.publish(topic, [data]) ⇒ <code>boolean</code>
 Publishes a topic **asynchronously**, passing the data to its subscribers.  
 Asynchronous publication helps in that the originator of the topics will not be blocked while consumers process them.  
 For synchronous topic publication check `publishSync`.
@@ -126,7 +125,7 @@ pubsub.publish('user_add', {
 ```
 <a name="PubSub+publishSync"></a>
 
-### .publishSync(topic, [data]) ⇒ <code>boolean</code>
+### pubSub.publishSync(topic, [data]) ⇒ <code>boolean</code>
 Publishes a topic **synchronously**, passing the data to its subscribers.
 
 **Kind**: instance method of <code>[PubSub](#PubSub)</code>  
@@ -147,7 +146,7 @@ pubsub.publishSync('user_add', {
 ```
 <a name="PubSub+unsubscribe"></a>
 
-### .unsubscribe(topic) ⇒ <code>boolean</code> \| <code>string</code>
+### pubSub.unsubscribe(topic) ⇒ <code>boolean</code> \| <code>string</code>
 Unsubscribes from a specific topic, based on the topic name,
 or based on a tokenized reference to the subscription.
 
@@ -168,7 +167,7 @@ pubsub.unsubscribe(onUserAdd);
 ```
 <a name="PubSub+unsubscribeAll"></a>
 
-### .unsubscribeAll() ⇒ <code>[PubSub](#PubSub)</code>
+### pubSub.unsubscribeAll() ⇒ <code>[PubSub](#PubSub)</code>
 Clears all subscriptions whatsoever.
 
 **Kind**: instance method of <code>[PubSub](#PubSub)</code>  
@@ -184,7 +183,7 @@ pubsub.hasSubscribers(); // -> false
 ```
 <a name="PubSub+hasSubscribers"></a>
 
-### .hasSubscribers([topic]) ⇒ <code>boolean</code>
+### pubSub.hasSubscribers([topic]) ⇒ <code>boolean</code>
 Checks if there are subscribers for a specific topic.
 If `topic` is not provided, checks if there is at least one subscriber.
 
@@ -207,14 +206,13 @@ pubsub.hasSubscribers('message');
 ```
 <a name="PubSub+subscribers"></a>
 
-### .subscribers() ⇒ <code>object</code>
+### pubSub.subscribers() ⇒ <code>object</code>
 Gets all the subscribers as a set of key value pairs that
 represent the topic's name and the event listener(s) bound.
 
-**NOTE**: Mutating the result of this method does not affect the real subscribers. This is for reference only.
-
 **Kind**: instance method of <code>[PubSub](#PubSub)</code>  
 **Returns**: <code>object</code> - A readonly object with all subscribers.  
+**Note**: Mutating the result of this method does not affect the real subscribers. This is for reference only.  
 **Example**  
 ```js
 var pubsub = new PubSub();
@@ -228,13 +226,12 @@ pubsub.subscribers();
 ```
 <a name="PubSub+subscribersByTopic"></a>
 
-### .subscribersByTopic(topic) ⇒ <code>array</code>
+### pubSub.subscribersByTopic(topic) ⇒ <code>array</code>
 Gets subscribers for a specific topic.
-
-**NOTE**: Mutating the result of this method does not affect the real subscribers. This is for reference only.
 
 **Kind**: instance method of <code>[PubSub](#PubSub)</code>  
 **Returns**: <code>array</code> - A copy array of all subscribers for a topic if exist; otherwise an empty array  
+**Note**: Mutating the result of this method does not affect the real subscribers. This is for reference only.
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -259,7 +256,7 @@ pubsub.subscribersByTopic('some_message_not_existing');
 ```
 <a name="PubSub+alias"></a>
 
-### .alias(aliasMap) ⇒ <code>[PubSub](#PubSub)</code>
+### pubSub.alias(aliasMap) ⇒ <code>[PubSub](#PubSub)</code>
 Creates aliases for public methods.
 
 **Kind**: instance method of <code>[PubSub](#PubSub)</code>  
@@ -281,6 +278,24 @@ var pubsub = new PubSub().alias({
 });
 ```
 
+## Static methods
+
+<a name="PubSub.noConflict"></a>
+
+### PubSub.noConflict() ⇒ <code>[PubSub](#PubSub)</code>
+Rolls back the global `PubSub` identifier and returns the current constructor function.
+This can be used to keep the global namespace clean, or it can be used to have multiple simultaneous libraries
+(including separate versions/copies of `PubSub`) in the same project without conflicts over the `PubSub` global identifier.
+
+**Kind**: static method of <code>[PubSub](#PubSub)</code>  
+**Returns**: <code>[PubSub](#PubSub)</code> - The PubSub constructor.  
+**Note**: The `PubSub.noConflict()` static method only makes sense when used in a normal browser global namespace environment. It should not be used with CommonJS or AMD style modules.  
+**Example**  
+```js
+var EventEmitter = PubSub.noConflict();
+var emitter = new EventEmitter();
+```
+
 ## Minify source code
 
 ```sh
@@ -295,6 +310,10 @@ To run the tests:
 ```sh
 $ npm test
 ```
+
+## Changelog
+
+For API updates and breaking changes, check the [CHANGELOG](https://github.com/georapbox/PubSub/blob/master/CHANGELOG.md).
 
 ## More about Publish/Subscribe pattern
 
