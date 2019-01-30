@@ -15,19 +15,14 @@ Javascript implementation of the [Publish/Subscribe](http://en.wikipedia.org/wik
 
 ## Install
 
-### Git
-```sh
-$ git clone https://github.com/georapbox/PubSub.git
-```
-
 ### npm
 ```sh
 $ npm install PubSub
 ```
 
-### Bower
-```sh
-$ bower install georapbox.pubsub.js
+### Old school browser global
+```html
+<script src="https://unpkg.com/PubSub@<YOUR_PREFERRED_VERSION>/dist/pubsub.min.js"></script>
 ```
 
 ## API

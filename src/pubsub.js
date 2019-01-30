@@ -1,13 +1,3 @@
-/**
- * PubSub.js
- * Javascript implementation of the Publish/Subscribe pattern.
- *
- * @version 3.4.0
- * @author George Raptis <georapbox@gmail.com> (georapbox.github.io)
- * @homepage https://github.com/georapbox/PubSub#readme
- * @repository https://github.com/georapbox/PubSub.git
- * @license MIT
- */
 (function (name, context, definition) {
   'use strict';
   /* istanbul ignore next */
@@ -21,7 +11,6 @@
 }('PubSub', this, function (name, context) {
   'use strict';
 
-  var VERSION = '3.4.0';
   var OLD_PUBLIC_API = (context || {})[name];
 
   function forOwn(obj, callback, thisArg) {
@@ -432,12 +421,6 @@
     }
     return PubSub;
   };
-
-  /**
-   * PubSub version
-   * @type {String}
-   */
-  PubSub.version = VERSION;
 
   return PubSub;
 }));

@@ -5,7 +5,7 @@ engines:
     enabled: false
   eslint:
     enabled: true
-    channel: "eslint-4"
+    channel: "eslint-5"
   csslint:
     enabled: false
   duplication:
@@ -18,5 +18,5 @@ ratings:
   - src/**
 exclude_paths:
   - dist/**/*
-  - tests/**/*
+  - test/**/*
   - examples/

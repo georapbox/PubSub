@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v3.5.0
+- Update `devDependencies`
+- Use `mocha` and `chai` for testing instead of `karma` and `jasmine`
+- Drop support Bower support
+- Exclude `dist` folder from source control
+
 ## v3.4.0
 - Add static method `PubSub.noConflict()` to roll back the global `PubSub` identifier. Used in a normal browser global namespace environment to avoid conflicts, etc.
 

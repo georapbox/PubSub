@@ -2,7 +2,7 @@
   "env": {
     "browser": true,
     "node": true,
-    "jasmine": true,
+    "mocha": true,
     "commonjs": true,
     "amd": true
   },
