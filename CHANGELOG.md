@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## v3.6.0
+- Fix issue #4
+- Add `immediateExceptions` option when creating instance
+
+
 ## v3.5.0
 - Update `devDependencies`
 - Use `mocha` and `chai` for testing instead of `karma` and `jasmine`
