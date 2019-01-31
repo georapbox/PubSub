@@ -13,6 +13,29 @@
 
   var OLD_PUBLIC_API = (context || {})[name];
 
+  function assign(target) {
+    var to, index, nextSource, nextKey;
+
+    if (target == null) {
+      throw new TypeError('Cannot convert undefined or null to object');
+    }
+
+    to = Object(target);
+
+    for (index = 1; index < arguments.length; index++) {
+      nextSource = arguments[index];
+
+      if (nextSource != null) {
+        for (nextKey in nextSource) {
+          if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
+            to[nextKey] = nextSource[nextKey];
+          }
+        }
+      }
+    }
+    return to;
+  }
+
   function forOwn(obj, callback, thisArg) {
     var key;
 
@@ -44,10 +67,17 @@
       token = subscribers[i].token;
       currentSubscriber = subscribers[i];
 
-      currentSubscriber.callback(data, {
-        name: topic,
-        token: token
-      });
+      if (!instance._options.immediateExceptions) {
+        try {
+          currentSubscriber.callback(data, { name: topic, token: token });
+        } catch (exception) {
+          setTimeout(function () {
+            throw exception;
+          }, 0);
+        }
+      } else {
+        currentSubscriber.callback(data, { name: topic, token: token });
+      }
 
       // Unsubscribe from event based on tokenized reference,
       // if subscriber's property once is set to true.
@@ -79,14 +109,24 @@
   /**
    * Creates a PubSub instance.
    * @constructor PubSub
+   *
+   * @param {object} [options] User options
+   * @param {boolean} [options.immediateExceptions=false] Forces exceptions to be thrown immediately instead of delayed exceptions
    */
-  function PubSub() {
+  function PubSub(options) {
+    var defaults = {
+      immediateExceptions: false
+    };
+
+    options = assign({}, defaults, options);
+
     if (!(this instanceof PubSub)) {
-      return new PubSub();
+      return new PubSub(options);
     }
 
     this._pubsub_topics = {}; // Storage for topics that can be broadcast or listened to.
     this._pubsub_uid = -1; // A topic identifier.
+    this._options = options;
     return this;
   }
 

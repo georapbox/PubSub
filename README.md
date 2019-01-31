@@ -28,7 +28,7 @@ $ npm install PubSub
 ## API
 
 * [PubSub](#PubSub)
-    * [new PubSub()](#new_PubSub_new)
+    * [new PubSub([options])](#new_PubSub_new)
     * _instance_
         * [.subscribe(topic, callback, [once])](#PubSub+subscribe) ⇒ <code>number</code>
         * [.subscribeOnce(topic, callback)](#PubSub+subscribeOnce) ⇒ <code>number</code>
@@ -45,14 +45,22 @@ $ npm install PubSub
 
 <a name="new_PubSub_new"></a>
 
-### new PubSub()
+### new PubSub([options])
 Creates a PubSub instance.
 
-## Instance Methods
+#### Available options
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| immediateExceptions<sup>1</sup> | <code>boolean</code> | <code>false</code> | Force immediate exceptions (instead of delayed exceptions). |
+
+<sup>1</sup> *Before version 3.6.0 PubSub would fail to deliver your topics to all subscribers if one or more failed (see issue [#4](https://github.com/georapbox/PubSub/issues/4)). As of version 3.6.0 PubSub handles this by delaying thrown exceptions by default. You can set `immediateExceptions` to `true` in order to maintain the stack trace for development reasons but this is not recommended for production.*
+
+## Public Methods
 
 <a name="PubSub+subscribe"></a>
 
-### pubSub.subscribe(topic, callback, [once]) ⇒ <code>number</code>
+### subscribe(topic, callback, [once]) ⇒ <code>number</code>
 Subscribe to events of interest with a specific topic name and a
 callback function, to be executed when the topic/event is observed.
 
@@ -76,7 +84,7 @@ var onUserAdd = pubsub.subscribe('user_add', function (data, topic) {
 ```
 <a name="PubSub+subscribeOnce"></a>
 
-### pubSub.subscribeOnce(topic, callback) ⇒ <code>number</code>
+### subscribeOnce(topic, callback) ⇒ <code>number</code>
 Subscribe to events of interest setting a flag
 indicating the event will be published only one time.
 
@@ -90,6 +98,8 @@ indicating the event will be published only one time.
 
 **Example**  
 ```js
+var pubsub = new PubSub();
+
 var onUserAdd = pubsub.subscribeOnce('user_add', function (data, topic) {
   console.log('User added');
   console.log('user data:', data);
@@ -97,7 +107,7 @@ var onUserAdd = pubsub.subscribeOnce('user_add', function (data, topic) {
 ```
 <a name="PubSub+publish"></a>
 
-### pubSub.publish(topic, [data]) ⇒ <code>boolean</code>
+### publish(topic, [data]) ⇒ <code>boolean</code>
 Publishes a topic **asynchronously**, passing the data to its subscribers.  
 Asynchronous publication helps in that the originator of the topics will not be blocked while consumers process them.  
 For synchronous topic publication check `publishSync`.
@@ -112,6 +122,8 @@ For synchronous topic publication check `publishSync`.
 
 **Example**  
 ```js
+var pubsub = new PubSub();
+
 pubsub.publish('user_add', {
   firstName: 'John',
   lastName: 'Doe',
@@ -120,7 +132,7 @@ pubsub.publish('user_add', {
 ```
 <a name="PubSub+publishSync"></a>
 
-### pubSub.publishSync(topic, [data]) ⇒ <code>boolean</code>
+### publishSync(topic, [data]) ⇒ <code>boolean</code>
 Publishes a topic **synchronously**, passing the data to its subscribers.
 
 **Kind**: instance method of <code>[PubSub](#PubSub)</code>  
@@ -133,6 +145,8 @@ Publishes a topic **synchronously**, passing the data to its subscribers.
 
 **Example**  
 ```js
+var pubsub = new PubSub();
+
 pubsub.publishSync('user_add', {
   firstName: 'John',
   lastName: 'Doe',
@@ -141,7 +155,7 @@ pubsub.publishSync('user_add', {
 ```
 <a name="PubSub+unsubscribe"></a>
 
-### pubSub.unsubscribe(topic) ⇒ <code>boolean</code> \| <code>string</code>
+### unsubscribe(topic) ⇒ <code>boolean</code> \| <code>string</code>
 Unsubscribes from a specific topic, based on the topic name,
 or based on a tokenized reference to the subscription.
 
@@ -154,6 +168,8 @@ or based on a tokenized reference to the subscription.
 
 **Example**  
 ```js
+var pubsub = new PubSub();
+
 // Unsubscribe using the topic's name.
 pubsub.unsubscribe('user_add');
 
@@ -162,7 +178,7 @@ pubsub.unsubscribe(onUserAdd);
 ```
 <a name="PubSub+unsubscribeAll"></a>
 
-### pubSub.unsubscribeAll() ⇒ <code>[PubSub](#PubSub)</code>
+### unsubscribeAll() ⇒ <code>[PubSub](#PubSub)</code>
 Clears all subscriptions whatsoever.
 
 **Kind**: instance method of <code>[PubSub](#PubSub)</code>  
@@ -170,6 +186,7 @@ Clears all subscriptions whatsoever.
 **Example**  
 ```js
 var pubsub = new PubSub();
+
 pubsub.subscribe('message1', function () {});
 pubsub.subscribe('message2', function () {});
 pubsub.subscribe('message3', function () {});
@@ -178,7 +195,7 @@ pubsub.hasSubscribers(); // -> false
 ```
 <a name="PubSub+hasSubscribers"></a>
 
-### pubSub.hasSubscribers([topic]) ⇒ <code>boolean</code>
+### hasSubscribers([topic]) ⇒ <code>boolean</code>
 Checks if there are subscribers for a specific topic.
 If `topic` is not provided, checks if there is at least one subscriber.
 
@@ -192,6 +209,7 @@ If `topic` is not provided, checks if there is at least one subscriber.
 **Example**  
 ```js
 var pubsub = new PubSub();
+
 pubsub.on('message', function (data) {
   console.log(data);
 });
@@ -201,7 +219,7 @@ pubsub.hasSubscribers('message');
 ```
 <a name="PubSub+subscribers"></a>
 
-### pubSub.subscribers() ⇒ <code>object</code>
+### subscribers() ⇒ <code>object</code>
 Gets all the subscribers as a set of key value pairs that
 represent the topic's name and the event listener(s) bound.
 
@@ -221,7 +239,7 @@ pubsub.subscribers();
 ```
 <a name="PubSub+subscribersByTopic"></a>
 
-### pubSub.subscribersByTopic(topic) ⇒ <code>array</code>
+### subscribersByTopic(topic) ⇒ <code>array</code>
 Gets subscribers for a specific topic.
 
 **Kind**: instance method of <code>[PubSub](#PubSub)</code>  
@@ -251,7 +269,7 @@ pubsub.subscribersByTopic('some_message_not_existing');
 ```
 <a name="PubSub+alias"></a>
 
-### pubSub.alias(aliasMap) ⇒ <code>[PubSub](#PubSub)</code>
+### alias(aliasMap) ⇒ <code>[PubSub](#PubSub)</code>
 Creates aliases for public methods.
 
 **Kind**: instance method of <code>[PubSub](#PubSub)</code>  
