@@ -10,7 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "PubSub": "*",
-    "angular": "~1.6.5"
+    "angular": "~1.8.2"
   },
   "devDependencies": {
     "http-server": "~0.10.0"
