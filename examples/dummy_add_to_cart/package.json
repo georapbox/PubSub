@@ -10,7 +10,7 @@
   "dependencies": {
     "PubSub": "*",
     "bootstrap": "~4.0.0-beta",
-    "jquery": "~3.2.1",
+    "jquery": "~3.5.1",
     "popper.js": "~1.12.3"
   },
   "devDependencies": {
