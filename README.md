@@ -2,7 +2,7 @@
 
 Javascript implementation of the [Publish/Subscribe](http://en.wikipedia.org/wiki/Publish%E2%80%93subscribe_pattern) pattern.
 
-[![Build Status](https://travis-ci.org/georapbox/PubSub.svg?branch=master)](https://travis-ci.org/georapbox/PubSub)
+[![Build Status](https://travis-ci.com/georapbox/PubSub.svg?branch=master)](https://travis-ci.com/georapbox/PubSub)
 [![npm version](https://badge.fury.io/js/PubSub.svg)](http://badge.fury.io/js/PubSub)
 [![npm downloads](https://img.shields.io/npm/dt/PubSub.svg)](http://badge.fury.io/js/PubSub)
 [![npm license](https://img.shields.io/npm/l/PubSub.svg)](http://badge.fury.io/js/PubSub)
