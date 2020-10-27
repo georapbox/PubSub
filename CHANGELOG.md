@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## v3.6.2
+- Update `devDependencies`
+- Update CI configuration
+- Delete examples folder
+
 ## v3.6.0
 - Fix issue #4
 - Add `immediateExceptions` option when creating instance
