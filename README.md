@@ -10,7 +10,7 @@ Javascript implementation of the [Publish/Subscribe](http://en.wikipedia.org/wik
 [![Issue Count](https://codeclimate.com/github/georapbox/PubSub/badges/issue_count.svg)](https://codeclimate.com/github/georapbox/PubSub)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 [![Dependencies](https://david-dm.org/georapbox/PubSub.svg?theme=shields.io)](https://david-dm.org/georapbox/PubSub)
-[![devDependency Status](https://david-dm.org/georapbox/PubSub/dev-status.svg)](https://david-dm.org/georapbox/PubSub#info=devDependencies)
+[![devDependency Status](https://david-dm.org/georapbox/PubSub/dev-status.svg)](https://david-dm.org/georapbox/PubSub?type=dev)
 
 ## Install
 
