@@ -6,11 +6,12 @@ Javascript implementation of the [Publish/Subscribe](http://en.wikipedia.org/wik
 [![npm version](https://badge.fury.io/js/PubSub.svg)](http://badge.fury.io/js/PubSub)
 [![npm downloads](https://img.shields.io/npm/dt/PubSub.svg)](http://badge.fury.io/js/PubSub)
 [![npm license](https://img.shields.io/npm/l/PubSub.svg)](http://badge.fury.io/js/PubSub)
+[![Coverage Status](https://coveralls.io/repos/github/georapbox/PubSub/badge.svg?branch=master)](https://coveralls.io/github/georapbox/PubSub?branch=master)
 [![Code Climate](https://codeclimate.com/github/georapbox/PubSub/badges/gpa.svg)](https://codeclimate.com/github/georapbox/PubSub)
 [![Issue Count](https://codeclimate.com/github/georapbox/PubSub/badges/issue_count.svg)](https://codeclimate.com/github/georapbox/PubSub)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
-[![Dependencies](https://david-dm.org/georapbox/PubSub.svg?theme=shields.io)](https://david-dm.org/georapbox/PubSub)
-[![devDependency Status](https://david-dm.org/georapbox/PubSub/dev-status.svg)](https://david-dm.org/georapbox/PubSub?type=dev)
+[![dependencies Status](https://status.david-dm.org/gh/georapbox/PubSub.svg)](https://david-dm.org/georapbox/PubSub)
+[![devDependencies Status](https://status.david-dm.org/gh/georapbox/PubSub.svg?type=dev)](https://david-dm.org/georapbox/PubSub?type=dev)
 
 ## Install
 
@@ -19,9 +20,29 @@ Javascript implementation of the [Publish/Subscribe](http://en.wikipedia.org/wik
 $ npm install PubSub
 ```
 
+## Usage
+
+The library is exported in UMD, CommonJS, and ESM formats. You can import it the following ways:
+
+### Using ESM import statement
+
+```js
+import PubSub from 'PubSub';
+```
+
+### Using CommonJS require statement
+
+```js
+const PubSub = require('PubSub');
+
+// If you use a bundler like Webpack, you may need to import it the following way 
+// as it might try to use the ESM module instead of the CommonJS.
+const PubSub = require('PubSub').default; 
+```
+
 ### Old school browser global
 ```html
-<script src="https://unpkg.com/PubSub@<YOUR_PREFERRED_VERSION>/dist/pubsub.min.js"></script>
+<script src="https://unpkg.com/PubSub"></script>
 ```
 
 ## API
@@ -39,8 +60,6 @@ $ npm install PubSub
         * [.subscribers()](#PubSub+subscribers) ⇒ <code>object</code>
         * [.subscribersByTopic(topic)](#PubSub+subscribersByTopic) ⇒ <code>array</code>
         * [.alias(aliasMap)](#PubSub+alias) ⇒ <code>[PubSub](#PubSub)</code>
-    * _static_
-        * [.noConflict()](#PubSub.noConflict) ⇒ <code>[PubSub](#PubSub)</code>
 
 <a name="new_PubSub_new"></a>
 
@@ -74,9 +93,9 @@ callback function, to be executed when the topic/event is observed.
 
 **Example**  
 ```js
-var pubsub = new PubSub();
+const pubsub = new PubSub();
 
-var onUserAdd = pubsub.subscribe('user_add', function (data, topic) {
+const onUserAdd = pubsub.subscribe('user_add', (data, topic) => {
   console.log('User added');
   console.log('user data:', data);
 });
@@ -97,9 +116,9 @@ indicating the event will be published only one time.
 
 **Example**  
 ```js
-var pubsub = new PubSub();
+const pubsub = new PubSub();
 
-var onUserAdd = pubsub.subscribeOnce('user_add', function (data, topic) {
+const onUserAdd = pubsub.subscribeOnce('user_add', (data, topic) => {
   console.log('User added');
   console.log('user data:', data);
 });
@@ -121,7 +140,7 @@ For synchronous topic publication check `publishSync`.
 
 **Example**  
 ```js
-var pubsub = new PubSub();
+const pubsub = new PubSub();
 
 pubsub.publish('user_add', {
   firstName: 'John',
@@ -144,7 +163,7 @@ Publishes a topic **synchronously**, passing the data to its subscribers.
 
 **Example**  
 ```js
-var pubsub = new PubSub();
+const pubsub = new PubSub();
 
 pubsub.publishSync('user_add', {
   firstName: 'John',
@@ -167,7 +186,7 @@ or based on a tokenized reference to the subscription.
 
 **Example**  
 ```js
-var pubsub = new PubSub();
+const pubsub = new PubSub();
 
 // Unsubscribe using the topic's name.
 pubsub.unsubscribe('user_add');
@@ -184,11 +203,11 @@ Clears all subscriptions whatsoever.
 **Returns**: <code>[PubSub](#PubSub)</code> - The PubSub instance.  
 **Example**  
 ```js
-var pubsub = new PubSub();
+const pubsub = new PubSub();
 
-pubsub.subscribe('message1', function () {});
-pubsub.subscribe('message2', function () {});
-pubsub.subscribe('message3', function () {});
+pubsub.subscribe('message1', () => {});
+pubsub.subscribe('message2', () => {});
+pubsub.subscribe('message3', () => {});
 pubsub.unsubscribeAll();
 pubsub.hasSubscribers(); // -> false
 ```
@@ -207,11 +226,9 @@ If `topic` is not provided, checks if there is at least one subscriber.
 
 **Example**  
 ```js
-var pubsub = new PubSub();
+const pubsub = new PubSub();
 
-pubsub.on('message', function (data) {
-  console.log(data);
-});
+pubsub.on('message', data => console.log(data));
 
 pubsub.hasSubscribers('message');
 // -> true
@@ -227,7 +244,7 @@ represent the topic's name and the event listener(s) bound.
 **Note**: Mutating the result of this method does not affect the real subscribers. This is for reference only.  
 **Example**  
 ```js
-var pubsub = new PubSub();
+const pubsub = new PubSub();
 
 pubsub.subscribe('message', listener);
 pubsub.subscribe('message', listener);
@@ -251,7 +268,7 @@ Gets subscribers for a specific topic.
 
 **Example**  
 ```js
-var pubsub = new PubSub();
+const pubsub = new PubSub();
 
 pubsub.subscribe('message', listener1);
 pubsub.subscribeOnce('message', listener2);
@@ -280,7 +297,7 @@ Creates aliases for public methods.
 
 **Example**  
 ```js
-var pubsub = new PubSub().alias({
+const pubsub = new PubSub().alias({
   subscribe: 'on',
   subscribeOnce: 'once',
   publish: 'trigger',
@@ -288,39 +305,6 @@ var pubsub = new PubSub().alias({
   unsubscribe: 'off',
   hasSubscribers: 'has'
 });
-```
-
-## Static methods
-
-<a name="PubSub.noConflict"></a>
-
-### PubSub.noConflict() ⇒ <code>[PubSub](#PubSub)</code>
-Rolls back the global `PubSub` identifier and returns the current constructor function.
-This can be used to keep the global namespace clean, or it can be used to have multiple simultaneous libraries
-(including separate versions/copies of `PubSub`) in the same project without conflicts over the `PubSub` global identifier.
-
-**Kind**: static method of <code>[PubSub](#PubSub)</code>  
-**Returns**: <code>[PubSub](#PubSub)</code> - The PubSub constructor.  
-**Note**: The `PubSub.noConflict()` static method only makes sense when used in a normal browser global namespace environment. It should not be used with CommonJS or AMD style modules.  
-**Example**  
-```js
-var EventEmitter = PubSub.noConflict();
-var emitter = new EventEmitter();
-```
-
-## Minify source code
-
-```sh
-$ npm run build
-```
-
-This will run the remove logging and uglify the code into `dist/pubsub.min.js`.
-
-## Test
-
-To run the tests:
-```sh
-$ npm test
 ```
 
 ## Changelog

@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## v4.0.0 - 2021-23-01
+### Breaking changes
+  - Remove static method `noConflict`.
+
+### Other changes
+- Export library in UMD, ESM and CommonJS formats.
+- Refactor code to ES2015+.
+- Replace Mocha with Jest as testing framework.
+
 ## v3.6.2
 - Update `devDependencies`
 - Update CI configuration

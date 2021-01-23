@@ -1,0 +1,66 @@
+module.exports = {
+  env: {
+    browser: true,
+    node: true,
+    jest: true
+  },
+  parserOptions: {
+    ecmaVersion: 9,
+    sourceType: 'module',
+    allowImportExportEverywhere: true
+  },
+  extends: [
+    'eslint:recommended'
+  ],
+  rules: {
+    // Possible Errors
+    'no-empty': ['error', {
+      'allowEmptyCatch': true
+    }],
+    'no-use-before-define': ['error', {
+      'functions': false
+    }],
+    // Stylistic Issues
+    'indent': ['warn', 2, {
+      'SwitchCase': 1,
+      'ignoredNodes': ['TemplateLiteral']
+    }],
+    'quotes': ['warn', 'single', {
+      'allowTemplateLiterals': true
+    }],
+    'no-multiple-empty-lines': ['warn', {
+      'max': 1
+    }],
+    'space-infix-ops': ['warn', {
+      'int32Hint': false
+    }],
+    'semi': ['warn', 'always'],
+    'no-trailing-spaces': ['warn'],
+    'comma-spacing': ['warn'],
+    'comma-style': ['warn'],
+    'operator-linebreak': ['warn', 'before'],
+    'brace-style': ['warn'],
+    'keyword-spacing': ['warn'],
+    'object-curly-spacing': ['warn', 'always'],
+    'space-before-blocks': ['warn', 'always'],
+    'spaced-comment': ['warn', 'always'],
+    'space-before-function-paren': ['warn', {
+      'anonymous': 'always',
+      'named': 'never',
+      'asyncArrow': 'always'
+    }],
+    'padded-blocks': ['warn', 'never'],
+    'comma-dangle': ['warn', 'never'],
+    // Best Practices
+    'curly': ['warn'],
+    'eqeqeq': ['error', 'always', {
+      'null': 'ignore'
+    }],
+    'no-multi-spaces': ['warn', {
+      'ignoreEOLComments': true,
+      'exceptions': {
+        'Property': false
+      }
+    }]
+  }
+};
