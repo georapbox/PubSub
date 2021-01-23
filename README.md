@@ -60,6 +60,8 @@ const PubSub = require('PubSub').default;
         * [.subscribers()](#PubSub+subscribers) ⇒ <code>object</code>
         * [.subscribersByTopic(topic)](#PubSub+subscribersByTopic) ⇒ <code>array</code>
         * [.alias(aliasMap)](#PubSub+alias) ⇒ <code>[PubSub](#PubSub)</code>
+    * _static_
+        * [.createInstance([options])](#PubSub.createInstance) ⇒ <code>[PubSub](#PubSub)</code>
 
 <a name="new_PubSub_new"></a>
 
@@ -305,6 +307,20 @@ const pubsub = new PubSub().alias({
   unsubscribe: 'off',
   hasSubscribers: 'has'
 });
+```
+
+## Static methods
+
+<a name="PubSub.createInstance"></a>
+
+### PubSub.createInstance([options]) ⇒ <code>[PubSub](#PubSub)</code>
+Creates a PubSub instance. This is an alternative way to create a new instance if you don't prefer using the `new` keyword.
+
+**Kind**: static method of <code>[PubSub](#PubSub)</code>  
+**Returns**: <code>[PubSub](#PubSub)</code> - The PubSub constructor.  
+**Example**  
+```js
+const pubsub = PubSub.createInstance();
 ```
 
 ## Changelog

@@ -328,4 +328,6 @@ class PubSub {
   }
 }
 
+PubSub.createInstance = options => new PubSub(options);
+
 export default PubSub;

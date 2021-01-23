@@ -2,10 +2,13 @@
 
 ## v4.0.0 - 2021-23-01
 ### Breaking changes
-  - Remove static method `noConflict`.
+  - Remove static method `noConflict()`.
 
-### Other changes
+### New features
+- Add a new static method `createInstance()` as alternative way to create a new `PubSub` instance.
 - Export library in UMD, ESM and CommonJS formats.
+
+### Internal changes
 - Refactor code to ES2015+.
 - Replace Mocha with Jest as testing framework.
 
