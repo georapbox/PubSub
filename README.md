@@ -3,8 +3,6 @@
 [![npm downloads](https://img.shields.io/npm/dt/PubSub.svg)](http://badge.fury.io/js/PubSub)
 [![npm license](https://img.shields.io/npm/l/PubSub.svg)](http://badge.fury.io/js/PubSub)
 [![Coverage Status](https://coveralls.io/repos/github/georapbox/PubSub/badge.svg?branch=master)](https://coveralls.io/github/georapbox/PubSub?branch=master)
-[![Code Climate](https://codeclimate.com/github/georapbox/PubSub/badges/gpa.svg)](https://codeclimate.com/github/georapbox/PubSub)
-[![Issue Count](https://codeclimate.com/github/georapbox/PubSub/badges/issue_count.svg)](https://codeclimate.com/github/georapbox/PubSub)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 [![dependencies Status](https://status.david-dm.org/gh/georapbox/PubSub.svg)](https://david-dm.org/georapbox/PubSub)
 [![devDependencies Status](https://status.david-dm.org/gh/georapbox/PubSub.svg?type=dev)](https://david-dm.org/georapbox/PubSub?type=dev)
