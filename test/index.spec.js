@@ -3,7 +3,7 @@ import PubSub from '../src/index';
 const noop = () => {};
 
 describe('PubSub', () => {
-  it('Creates a new instance of PubSub.', () => {
+  it('Should create a new instance of PubSub.', () => {
     const pubsub = new PubSub();
 
     expect(pubsub).not.toBeUndefined();
@@ -11,21 +11,25 @@ describe('PubSub', () => {
     expect(pubsub instanceof PubSub).toBe(true);
   });
 
-  it('Should return a new instance of PubSub if new keyword is omitted', () => {
-    const pubsub = new PubSub();
+  it('Should create a new instance of PubSub using the "createInstance()" static method.', () => {
+    const pubsub = PubSub.createInstance({
+      immediateExceptions: true
+    });
 
     expect(pubsub).not.toBeNull();
+
+    expect(pubsub._options.immediateExceptions).toBe(true);
 
     expect(pubsub instanceof PubSub).toBe(true);
   });
 
-  it('Subscribes to an event called: "example-event".', () => {
+  it('Should subscribe to an event.', () => {
     const pubsub = new PubSub();
 
-    expect(pubsub.subscribe('example-event', noop)).toBe(0);
+    expect(pubsub.subscribe('topic', noop)).toBe(0);
   });
 
-  it('Should subscribes to an event only once', () => {
+  it('Should subscribe to an event only once', () => {
     const pubsub = new PubSub();
 
     pubsub.subscribeOnce('one-time-event', noop);
@@ -35,205 +39,175 @@ describe('PubSub', () => {
     expect(pubsub.hasSubscribers('one-time-event')).toBe(false);
   });
 
-  it('Should throw exception if a callback is not provided', () => {
+  it('Should throw exception if a callback is not provided to the subscriber.', () => {
     const pubsub = new PubSub();
 
     expect(() => {
-      return pubsub.subscribe('example-event');
+      return pubsub.subscribe('topic');
     }).toThrow(new TypeError('When subscribing for an event, a callback function must be defined.'));
   });
 
-  it('Should publish "example-event" passing data: "{ dummyKey : \'dummyValue\' }"', () => {
+  it('Should publish an event with name "topic" passing data: "{ dummyKey : \'dummyValue\' }"', () => {
     const pubsub = new PubSub();
     const spy = jest.spyOn(pubsub, 'publish');
 
-    pubsub.subscribe('example-event', noop);
+    pubsub.subscribe('topic', noop);
 
-    pubsub.publish('example-event', {
+    pubsub.publish('topic', {
       dummyKey: 'dummyValue'
     });
 
-    expect(spy).toHaveBeenCalledWith('example-event', { dummyKey: 'dummyValue' });
+    expect(spy).toHaveBeenCalledWith('topic', { dummyKey: 'dummyValue' });
 
     spy.mockRestore();
   });
 
-  it('Should not publish an event that was not subscribed', () => {
+  it('Should not publish an event that was not subscribed.', () => {
     const pubsub = new PubSub();
 
-    pubsub.subscribe('example-event', noop);
+    pubsub.subscribe('topic', noop);
 
-    expect(pubsub.publish('unsubscribed-event')).toBe(false);
+    expect(pubsub.publish('unknown-topic')).toBe(false);
   });
 
-  it('Should publish asynchronously', done => {
+  it('Should publish an event asynchronously.', done => {
     const pubsub = new PubSub();
     let counter = 0;
-    const handler = () => {
+
+    pubsub.subscribe('topic', () => {
       counter += 1;
       expect(counter).toBe(1);
       done();
-    };
+    });
 
-    pubsub.subscribe('async-event', handler);
-
-    pubsub.publish('async-event');
+    pubsub.publish('topic');
 
     expect(counter).toBe(0);
   });
 
-  it('Should publish synchronously', () => {
+  it('Should publish an event synchronously.', () => {
     const pubsub = new PubSub();
     let counter = 0;
-    const handler = () => {
+
+    pubsub.subscribe('topic', () => {
       counter += 1;
-    };
+    });
 
-    pubsub.subscribe('async-event', handler);
-
-    pubsub.publishSync('async-event');
+    pubsub.publishSync('topic');
 
     expect(counter).toBe(1);
   });
 
-  it('Should allow to pass multiple data arguments to publish and publishSync methods', () => {
+  it('Should allow to pass multiple data arguments to "publish" methods.', done => {
     const pubsub = new PubSub();
 
-    pubsub.subscribe('eventA', data => {
-      expect(data).toEqual(['John', 'Doe']);
+    pubsub.subscribe('topic', data => {
+      expect(data).toEqual(['foo', 'bar']);
+      done();
     });
 
-    pubsub.subscribe('eventB', data => {
-      expect(data).toEqual([{ fname: 'John' }, { lname: 'Doe' }]);
-    });
-
-    pubsub.subscribe('eventC', data => {
-      expect(data).toBe('John Doe');
-    });
-
-    pubsub.subscribe('eventD', data => {
-      expect(data).toEqual([null, null]);
-    });
-
-    pubsub.subscribe('eventE', data => {
-      expect(data).toEqual([[1, 2, 3], ['a', 'b', 'c']]);
-    });
-
-    pubsub.subscribe('eventF', data => {
-      expect(data).toEqual({ fname: 'John', lname: 'Doe' });
-    });
-
-    pubsub.publish('eventA', 'John', 'Doe');
-    pubsub.publishSync('eventB', { fname: 'John' }, { lname: 'Doe' });
-    pubsub.publishSync('eventC', 'John Doe');
-    pubsub.publishSync('eventD', null, null);
-    pubsub.publishSync('eventE', [1, 2, 3], ['a', 'b', 'c']);
-    pubsub.publishSync('eventF', { fname: 'John', lname: 'Doe' });
+    pubsub.publish('topic', 'foo', 'bar');
   });
 
-  it('Should unsubscribe from event using the event name ("example-event")', () => {
+  it('Should allow to pass multiple data arguments to "publishSync" methods.', done => {
     const pubsub = new PubSub();
 
-    pubsub.subscribe('example-event', noop);
+    pubsub.subscribe('topic', data => {
+      expect(data).toEqual(['foo', 'bar']);
+      done();
+    });
 
-    const unsub = pubsub.unsubscribe('example-event');
-
-    expect(unsub).toBe('example-event');
-    expect(pubsub.hasSubscribers('example-event')).toBe(false);
+    pubsub.publishSync('topic', 'foo', 'bar');
   });
 
-  it('Should unsubscribe from event using tokenized reference to the subscription', () => {
+  it('Should unsubscribe from event using the event name "topic".', () => {
     const pubsub = new PubSub();
-    const sub = pubsub.subscribe('example-event', noop);
 
-    pubsub.subscribe('example-event', noop);
-    pubsub.subscribe('example-event', noop);
+    pubsub.subscribe('topic', noop);
+
+    const unsub = pubsub.unsubscribe('topic');
+
+    expect(unsub).toBe('topic');
+    expect(pubsub.hasSubscribers('topic')).toBe(false);
+  });
+
+  it('Should unsubscribe from event using tokenized reference to the subscription.', () => {
+    const pubsub = new PubSub();
+    const sub = pubsub.subscribe('topic', noop);
+
+    pubsub.subscribe('topic', noop);
+    pubsub.subscribe('topic', noop);
 
     expect(pubsub.unsubscribe(sub)).toBe(0);
-    expect(pubsub.subscribers()['example-event'].length).toBe(2);
+    expect(pubsub.subscribers()['topic']).toHaveLength(2);
   });
 
-  it('Should unsubscribe from an event that was not subscribed before', () => {
+  it('Should unsubscribe from an event that was not subscribed before.', () => {
     const pubsub = new PubSub();
-    const unsub = pubsub.unsubscribe('fake-event');
+    const unsub = pubsub.unsubscribe('topic');
 
     expect(unsub).toBe(false);
   });
 
-  it('Should return true when checking if there are subscribers for "message" event.', () => {
+  it('Should return true when checking if there are subscribers for an event that has been a subscription for.', () => {
     const pubsub = new PubSub();
-    pubsub.subscribe('message', noop);
 
-    expect(pubsub.hasSubscribers('message')).toBe(true);
+    pubsub.subscribe('topic', noop);
+
+    expect(pubsub.hasSubscribers('topic')).toBe(true);
   });
 
-  it('Should return false when checking if there are subscribers for "message" event after unsubscribing', () => {
+  it('Should return false when checking if there are subscribers for an event that we unsubscribed from.', () => {
     const pubsub = new PubSub();
 
-    pubsub.subscribe('message', noop);
-    pubsub.unsubscribe('message');
+    pubsub.subscribe('topic', noop);
+    pubsub.unsubscribe('topic');
 
-    expect(pubsub.hasSubscribers('message')).toBe(false);
+    expect(pubsub.hasSubscribers('topic')).toBe(false);
   });
 
-  it('Should return false when checking if there are subscribers for "message" without subscribing before', () => {
+  it('Should return false when checking if there are subscribers for an event that has NOT been a subscription for.', () => {
     const pubsub = new PubSub();
 
-    expect(pubsub.hasSubscribers('message')).toBe(false);
+    expect(pubsub.hasSubscribers('topic')).toBe(false);
   });
 
-  it('Should return true when checking if there are any subscribers', () => {
+  it('Should return false when checking if there are any subscribers after unsubscribing ALL subscribers.', () => {
     const pubsub = new PubSub();
 
-    pubsub.subscribe('message', noop);
-
-    expect(pubsub.hasSubscribers()).toBe(true);
-  });
-
-  it('Should return false when checking if there are any subscribers after unsubscribing all subscribers', () => {
-    const pubsub = new PubSub();
-
-    pubsub.subscribe('message', noop);
-    pubsub.subscribe('message2', noop);
+    pubsub.subscribe('topic-A', noop);
+    pubsub.subscribe('topic-B', noop);
+    pubsub.subscribe('topic-C', noop);
 
     pubsub.unsubscribeAll();
 
     expect(pubsub.hasSubscribers()).toBe(false);
   });
 
-  it('Should unsubscribe from all subscriptions', () => {
+  it('Should return true when checking if there any subscribers when we have subscribed at least for one event.', () => {
     const pubsub = new PubSub();
 
-    pubsub.subscribe('eventA', noop);
-    pubsub.subscribe('eventB', noop);
-    pubsub.subscribe('eventC', noop);
-    pubsub.subscribeOnce('eventA', noop);
-    pubsub.subscribeOnce('eventB', noop);
-    pubsub.subscribeOnce('eventC', noop);
+    pubsub.subscribe('topic', noop);
 
-    pubsub.unsubscribeAll();
-
-    expect(pubsub.hasSubscribers('eventA')).toBe(false);
-    expect(pubsub.hasSubscribers('eventB')).toBe(false);
-    expect(pubsub.hasSubscribers('eventC')).toBe(false);
+    expect(pubsub.hasSubscribers()).toBe(true);
   });
 
-  it('Should return an array of 2 subscribers for topic named "eventA"', () => {
+  it('Should return an array of 2 subscribers for topic named "topic".', () => {
     const pubsub = new PubSub();
 
-    pubsub.subscribe('eventA', noop);
-    pubsub.subscribe('eventA', noop);
+    pubsub.subscribe('topic', noop);
+    pubsub.subscribe('topic', noop);
 
-    expect(pubsub.subscribersByTopic('eventA')).toHaveLength(2);
+    expect(pubsub.subscribersByTopic('topic')).toHaveLength(2);
   });
 
-  it('Should return an empty array if we ask for subscribers for a not existing topic', () => {
+  it('Should return an empty array if we ask for subscribers for a not existing topic.', () => {
     const pubsub = new PubSub();
 
-    expect(pubsub.subscribersByTopic('eventA')).toHaveLength(0);
+    expect(pubsub.subscribersByTopic('topic')).toHaveLength(0);
   });
 
-  it('Should create aliases "on" and "off" for "subscribe" and "unsubscribe" methods respectively', () => {
+  it('Should create aliases "on" and "off" for "subscribe" and "unsubscribe" methods respectively.', () => {
     const pubsub = new PubSub();
 
     pubsub.alias({
@@ -241,16 +215,18 @@ describe('PubSub', () => {
       unsubscribe: 'off'
     });
 
-    const t = pubsub.on('event-name', noop);
+    const t = pubsub.on('topic', noop);
 
     expect(PubSub.prototype.on).not.toBeUndefined();
+    expect(typeof PubSub.prototype.on).toBe('function');
 
     expect(PubSub.prototype.off).not.toBeUndefined();
+    expect(typeof PubSub.prototype.off).toBe('function');
 
     expect(pubsub.off(t)).toBe(0);
   });
 
-  it('Should invoke every listener in the order that was added', () => {
+  it('Should invoke every listener in the order that was subscribed.', () => {
     const pubsub = new PubSub();
     const arr = [];
 
@@ -266,16 +242,16 @@ describe('PubSub', () => {
       arr.push('C');
     }
 
-    pubsub.subscribe('my_topic', listener1);
-    pubsub.subscribe('my_topic', listener2);
-    pubsub.subscribe('my_topic', listener3);
+    pubsub.subscribe('topic', listener1);
+    pubsub.subscribe('topic', listener2);
+    pubsub.subscribe('topic', listener3);
 
-    pubsub.publishSync('my_topic');
+    pubsub.publishSync('topic');
 
     expect(arr).toEqual(['A', 'B', 'C']);
   });
 
-  it('Should throw exceptions inside subscribers immediately', () => {
+  it('Should throw exceptions inside subscribers immediately when "immediateExceptions" option is a truthy value.', () => {
     const pubsub = new PubSub({
       immediateExceptions: true
     });
@@ -289,8 +265,10 @@ describe('PubSub', () => {
     }).toThrow(new Error('Ooops!'));
   });
 
-  it('Should not throw exceptions inside subscribers immediately', () => {
-    const pubsub = new PubSub();
+  it('Should not throw exceptions inside subscribers immediately when "immediateExceptions" option is a falsy value.', () => {
+    const pubsub = new PubSub({
+      immediateExceptions: false
+    });
 
     pubsub.subscribe('topic', () => {
       throw new Error('Ooops!');
