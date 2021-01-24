@@ -15,77 +15,63 @@ const banner = `/*!
  * @license ${pkg.license}
  */`;
 
+const makeConfig = (env = 'development') => {
+  let bundleSuffix = '';
+
+  if (env === 'production') {
+    bundleSuffix = 'min.';
+  }
+
+  const config = {
+    input: 'src/index.js',
+    output: [
+      {
+        banner,
+        name: LIBRARY_NAME,
+        file: `dist/${LIBRARY_NAME}.umd.${bundleSuffix}js`, // UMD
+        format: 'umd',
+        exports: 'auto'
+      },
+      {
+        banner,
+        file: `dist/${LIBRARY_NAME}.cjs.${bundleSuffix}js`, // CommonJS
+        format: 'cjs',
+        exports: 'default'
+      },
+      {
+        banner,
+        file: `dist/${LIBRARY_NAME}.esm.${bundleSuffix}js`, // ESM
+        format: 'es',
+        exports: 'auto'
+      }
+    ],
+    plugins: [
+      babel({
+        babelHelpers: 'bundled',
+        exclude: ['node_modules/**']
+      })
+    ]
+  };
+
+  if (env === 'production') {
+    config.plugins.push(terser({
+      output: {
+        comments: /^!/
+      }
+    }));
+  }
+
+  return config;
+};
+
 export default commandLineArgs => {
   const configs = [
-    {
-      input: 'src/index.js',
-      output: [
-        {
-          banner,
-          name: LIBRARY_NAME,
-          file: `dist/${LIBRARY_NAME}.umd.js`, // UMD
-          format: 'umd',
-          exports: 'auto'
-        },
-        {
-          banner,
-          file: `dist/${LIBRARY_NAME}.cjs.js`, // CommonJS
-          format: 'cjs',
-          exports: 'default'
-        },
-        {
-          banner,
-          file: `dist/${LIBRARY_NAME}.esm.js`, // ESM
-          format: 'es',
-          exports: 'auto'
-        }
-      ],
-      plugins: [
-        babel({
-          babelHelpers: 'bundled',
-          exclude: ['node_modules/**']
-        })
-      ]
-    }
+    makeConfig()
   ];
 
   // Production
   if (commandLineArgs.environment === 'BUILD:production') {
-    configs.push({
-      input: 'src/index.js',
-      output: [
-        {
-          banner,
-          name: LIBRARY_NAME,
-          file: `dist/${LIBRARY_NAME}.umd.min.js`, // UMD
-          format: 'umd',
-          exports: 'auto'
-        },
-        {
-          banner,
-          file: `dist/${LIBRARY_NAME}.cjs.min.js`, // CommonJS
-          format: 'cjs',
-          exports: 'default'
-        },
-        {
-          banner,
-          file: `dist/${LIBRARY_NAME}.esm.min.js`, // ESM
-          format: 'es',
-          exports: 'auto'
-        }
-      ],
-      plugins: [
-        babel({
-          babelHelpers: 'bundled',
-          exclude: ['node_modules/**']
-        }),
-        terser({
-          output: {
-            comments: /^!/
-          }
-        })
-      ]
-    });
+    configs.push(makeConfig('production'));
   }
 
   return configs;
