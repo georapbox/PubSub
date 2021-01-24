@@ -1,5 +1,19 @@
 # CHANGELOG
 
+## v4.0.0 (2021-24-01)
+### Breaking changes
+  - Remove static method `noConflict()`.
+
+### New features
+- Add a new static method `createInstance()` as alternative way to create a new `PubSub` instance.
+- Export library in UMD, ESM and CommonJS formats.
+
+### Internal changes
+- Refactor source code to ES2015+.
+- Use rollup.js to bundle the library.
+- Replace Mocha with Jest as testing framework.
+- Improve tests and coverage.
+
 ## v3.6.2
 - Update `devDependencies`
 - Update CI configuration

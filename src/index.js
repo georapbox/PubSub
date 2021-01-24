@@ -1,111 +1,6 @@
-(function (name, context, definition) {
-  'use strict';
-  /* istanbul ignore next */
-  if (typeof define === 'function' && define.amd) {
-    define(definition);
-  } else if (typeof module !== 'undefined' && module.exports) {
-    module.exports = definition();
-  } else {
-    context[name] = definition(name, context);
-  }
-}('PubSub', this, function (name, context) {
-  'use strict';
+import { forOwn, publish, publishData, alias } from './utils';
 
-  var OLD_PUBLIC_API = (context || {})[name];
-
-  function assign(target) {
-    var to, index, nextSource, nextKey;
-
-    if (target == null) {
-      throw new TypeError('Cannot convert undefined or null to object');
-    }
-
-    to = Object(target);
-
-    for (index = 1; index < arguments.length; index++) {
-      nextSource = arguments[index];
-
-      if (nextSource != null) {
-        for (nextKey in nextSource) {
-          if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
-            to[nextKey] = nextSource[nextKey];
-          }
-        }
-      }
-    }
-    return to;
-  }
-
-  function forOwn(obj, callback, thisArg) {
-    var key;
-
-    for (key in obj) {
-      if (Object.prototype.hasOwnProperty.call(obj, key)) {
-        if (callback && callback.call(thisArg, obj[key], key, obj) === false) {
-          return;
-        }
-      }
-    }
-
-    return obj;
-  }
-
-  function alias(fn) {
-    return function closure() {
-      return this[fn].apply(this, arguments);
-    };
-  }
-
-  function deliverTopic(instance, topic, data) {
-    var topics = instance._pubsub_topics;
-    var subscribers = topics[topic] ? topics[topic].slice(0) : [];
-    var i = 0;
-    var len = subscribers.length;
-    var currentSubscriber, token;
-
-    for (; i < len; i += 1) {
-      token = subscribers[i].token;
-      currentSubscriber = subscribers[i];
-
-      if (!instance._options.immediateExceptions) {
-        try {
-          currentSubscriber.callback(data, { name: topic, token: token });
-        } catch (exception) {
-          setTimeout(function () {
-            throw exception;
-          }, 0);
-        }
-      } else {
-        currentSubscriber.callback(data, { name: topic, token: token });
-      }
-
-      // Unsubscribe from event based on tokenized reference,
-      // if subscriber's property once is set to true.
-      if (currentSubscriber.once === true) {
-        instance.unsubscribe(token);
-      }
-    }
-  }
-
-  function publishData(args) {
-    var dataArgs = Array.prototype.slice.call(args, 1);
-    return dataArgs.length <= 1 ? dataArgs[0] : dataArgs;
-  }
-
-  function publish(instance, topic, data, sync) {
-    var topics = instance._pubsub_topics;
-
-    if (!topics[topic]) {
-      return false;
-    }
-
-    sync ? deliverTopic(instance, topic, data) : setTimeout(function () {
-      deliverTopic(instance, topic, data);
-    }, 0);
-
-    return true;
-  }
-
+class PubSub {
   /**
    * Creates a PubSub instance.
    * @constructor PubSub
@@ -113,21 +8,14 @@
    * @param {object} [options] User options
    * @param {boolean} [options.immediateExceptions=false] Forces exceptions to be thrown immediately instead of delayed exceptions
    */
-  function PubSub(options) {
-    var defaults = {
+  constructor(options) {
+    const defaults = {
       immediateExceptions: false
     };
 
-    options = assign({}, defaults, options);
-
-    if (!(this instanceof PubSub)) {
-      return new PubSub(options);
-    }
-
     this._pubsub_topics = {}; // Storage for topics that can be broadcast or listened to.
     this._pubsub_uid = -1; // A topic identifier.
-    this._options = options;
-    return this;
+    this._options = { ...defaults, ...options };
   }
 
   /**
@@ -144,17 +32,17 @@
    * @return {number} The topic's token
    * @example
    *
-   * var pubsub = new PubSub();
+   * const pubsub = new PubSub();
    *
-   * var onUserAdd = pubsub.subscribe('user_add', function (data, topic) {
+   * const onUserAdd = pubsub.subscribe('user_add', (data, topic) => {
    *   console.log('User added');
    *   console.log('user data:', data);
    * });
    */
-  PubSub.prototype.subscribe = function (topic, callback, once) {
-    var topics = this._pubsub_topics;
-    var token = this._pubsub_uid += 1;
-    var obj = {};
+  subscribe(topic, callback, once) {
+    const topics = this._pubsub_topics;
+    const token = this._pubsub_uid += 1;
+    const obj = {};
 
     if (typeof callback !== 'function') {
       throw new TypeError('When subscribing for an event, a callback function must be defined.');
@@ -171,7 +59,7 @@
     topics[topic].push(obj);
 
     return token;
-  };
+  }
 
   /**
    * Subscribe to events of interest setting a flag
@@ -186,14 +74,14 @@
    * @return {number} The topic's token
    * @example
    *
-   * var onUserAdd = pubsub.subscribeOnce('user_add', function (data, topic) {
+   * const onUserAdd = pubsub.subscribeOnce('user_add', (data, topic) => {
    *   console.log('User added');
    *   console.log('user data:', data);
    * });
    */
-  PubSub.prototype.subscribeOnce = function (topic, callback) {
+  subscribeOnce(topic, callback) {
     return this.subscribe(topic, callback, true);
-  };
+  }
 
   /**
    * Publishes a topic asynchronously, passing the data to its subscribers.
@@ -214,9 +102,9 @@
    *   email: 'johndoe@gmail.com'
    * });
    */
-  PubSub.prototype.publish = function (topic /* , data */) {
-    return publish(this, topic, publishData(arguments), false);
-  };
+  publish(topic, ...data) {
+    return publish(this, topic, publishData(topic, ...data), false);
+  }
 
   /**
    * Publishes a topic synchronously, passing the data to its subscribers.
@@ -234,9 +122,9 @@
    *   email: 'johndoe@gmail.com'
    * });
    */
-  PubSub.prototype.publishSync = function (topic /* , data */) {
-    return publish(this, topic, publishData(arguments), true);
-  };
+  publishSync(topic, ...data) {
+    return publish(this, topic, publishData(topic, ...data), true);
+  }
 
   /**
    * Unsubscribes from a specific topic, based on the topic name,
@@ -254,15 +142,14 @@
    * // Unsubscribe using a tokenized reference to the subscription.
    * pubsub.unsubscribe(onUserAdd);
    */
-  PubSub.prototype.unsubscribe = function (topic) {
-    var topics = this._pubsub_topics;
-    var tf = false;
-    var prop, len;
+  unsubscribe(topic) {
+    const topics = this._pubsub_topics;
+    let tf = false;
 
-    for (prop in topics) {
+    for (const prop in topics) {
       if (Object.prototype.hasOwnProperty.call(topics, prop)) {
         if (topics[prop]) {
-          len = topics[prop].length;
+          let len = topics[prop].length;
 
           while (len) {
             len -= 1;
@@ -294,7 +181,7 @@
     }
 
     return false;
-  };
+  }
 
   /**
    * Clears all subscriptions whatsoever.
@@ -304,17 +191,17 @@
    * @return {PubSub} The PubSub instance.
    * @example
    *
-   * var pubsub = new PubSub();
-   * pubsub.subscribe('message1', function () {});
-   * pubsub.subscribe('message2', function () {});
-   * pubsub.subscribe('message3', function () {});
+   * const pubsub = new PubSub();
+   * pubsub.subscribe('message1', () => {});
+   * pubsub.subscribe('message2', () => {});
+   * pubsub.subscribe('message3', () => {});
    * pubsub.unsubscribeAll();
    * pubsub.hasSubscribers(); // -> false
    */
-  PubSub.prototype.unsubscribeAll = function () {
+  unsubscribeAll() {
     this._pubsub_topics = {};
     return this;
-  };
+  }
 
   /**
    * Checks if there are subscribers for a specific topic.
@@ -326,21 +213,19 @@
    * @return {boolean} Returns `true` there are subscribers; otherwise `false`
    * @example
    *
-   * var pubsub = new PubSub();
-   * pubsub.on('message', function (data) {
-   *   console.log(data);
-   * });
+   * const pubsub = new PubSub();
+   * pubsub.on('message', data => console.log(data));
    *
    * pubsub.hasSubscribers('message');
    * // -> true
    */
-  PubSub.prototype.hasSubscribers = function (topic) {
-    var topics = this._pubsub_topics;
-    var hasSubscribers = false;
+  hasSubscribers(topic) {
+    const topics = this._pubsub_topics;
+    let hasSubscribers = false;
 
     // If no arguments passed
     if (topic == null) {
-      forOwn(topics, function (value, key) {
+      forOwn(topics, (value, key) => {
         if (key) {
           hasSubscribers = true;
           return false;
@@ -352,7 +237,7 @@
 
     // If a topic's name is passed as argument
     return Object.prototype.hasOwnProperty.call(topics, topic);
-  };
+  }
 
   /**
    * Gets all the subscribers as a set of key value pairs that
@@ -365,7 +250,7 @@
    * @return {object} A readonly object with all subscribers.
    * @example
    *
-   * var pubsub = new PubSub();
+   * const pubsub = new PubSub();
    *
    * pubsub.subscribe('message', listener);
    * pubsub.subscribe('message', listener);
@@ -374,13 +259,15 @@
    * pubsub.subscribers();
    * // -> Object { message: Array[2], another_message: Array[1] }
    */
-  PubSub.prototype.subscribers = function () {
-    var res = {};
-    forOwn(this._pubsub_topics, function (topicValue, topicKey) {
-      res[topicKey] = topicValue.slice(0);
+  subscribers() {
+    const res = {};
+
+    forOwn(this._pubsub_topics, (topicValue, topicKey) => {
+      res[topicKey] = [...topicValue];
     });
+
     return res;
-  };
+  }
 
   /**
    * Gets subscribers for a specific topic.
@@ -393,7 +280,7 @@
    * @return {array} A copy array of all subscribers for a topic if exist; otherwise an empty array
    * @example
    *
-   * var pubsub = new PubSub();
+   * const pubsub = new PubSub();
    *
    * pubsub.subscribe('message', listener1);
    * pubsub.subscribeOnce('message', listener2);
@@ -408,9 +295,9 @@
    * pubsub.subscribersByTopic('some_message_not_existing');
    * // -> Array []
    */
-  PubSub.prototype.subscribersByTopic = function (topic) {
-    return this._pubsub_topics[topic] ? this._pubsub_topics[topic].slice(0) : [];
-  };
+  subscribersByTopic(topic) {
+    return this._pubsub_topics[topic] ? [...this._pubsub_topics[topic]] : [];
+  }
 
   /**
    * Creates aliases for public methods.
@@ -421,7 +308,7 @@
    * @return {PubSub} The PubSub instance.
    * @example
    *
-   * var pubsub = new PubSub().alias({
+   * const pubsub = new PubSub().alias({
    *   subscribe: 'on',
    *   subscribeOnce: 'once',
    *   publish: 'trigger',
@@ -430,37 +317,17 @@
    *   hasSubscribers: 'has'
    * });
    */
-  PubSub.prototype.alias = function (aliasMap) {
-    forOwn(aliasMap, function (value, key) {
+  alias(aliasMap) {
+    forOwn(aliasMap, (value, key) => {
       if (PubSub.prototype[key]) {
-        PubSub.prototype[aliasMap[key]] = alias(key);
+        PubSub.prototype[aliasMap[key]] = alias(key, this);
       }
     });
 
     return this;
-  };
+  }
+}
 
-  /**
-   * Rolls back the global `PubSub` identifier and returns the current constructor function.
-   * This can be used to keep the global namespace clean, or it can be used to have multiple simultaneous libraries
-   * (including separate versions/copies of `PubSub`) in the same project without conflicts over the `PubSub` global identifier.
-   *
-   * @NOTE The `PubSub.noConflict()` static method only makes sense when used in a normal browser global namespace environment.
-   * It should not be used with CommonJS or AMD style modules.
-   *
-   * @memberof PubSub
-   * @return {PubSub} The PubSub constructor.
-   * @example
-   *
-   * var EventEmitter = PubSub.noConflict();
-   * var emitter = new EventEmitter();
-   */
-  PubSub.noConflict = function noConflict() {
-    if (context) {
-      context[name] = OLD_PUBLIC_API;
-    }
-    return PubSub;
-  };
+PubSub.createInstance = options => new PubSub(options);
 
-  return PubSub;
-}));
+export default PubSub;
