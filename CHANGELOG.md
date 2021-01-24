@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## v4.0.0 - 2021-23-01
+## v4.0.0 (2021-24-01)
 ### Breaking changes
   - Remove static method `noConflict()`.
 
@@ -9,8 +9,10 @@
 - Export library in UMD, ESM and CommonJS formats.
 
 ### Internal changes
-- Refactor code to ES2015+.
+- Refactor source code to ES2015+.
+- Use rollup.js to bundle the library.
 - Replace Mocha with Jest as testing framework.
+- Improve tests and coverage.
 
 ## v3.6.2
 - Update `devDependencies`
