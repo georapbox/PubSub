@@ -1,7 +1,3 @@
-# PubSub
-
-Javascript implementation of the [Publish/Subscribe](http://en.wikipedia.org/wiki/Publish%E2%80%93subscribe_pattern) pattern.
-
 [![Build Status](https://travis-ci.com/georapbox/PubSub.svg?branch=master)](https://travis-ci.com/georapbox/PubSub)
 [![npm version](https://badge.fury.io/js/PubSub.svg)](http://badge.fury.io/js/PubSub)
 [![npm downloads](https://img.shields.io/npm/dt/PubSub.svg)](http://badge.fury.io/js/PubSub)
@@ -12,6 +8,10 @@ Javascript implementation of the [Publish/Subscribe](http://en.wikipedia.org/wik
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 [![dependencies Status](https://status.david-dm.org/gh/georapbox/PubSub.svg)](https://david-dm.org/georapbox/PubSub)
 [![devDependencies Status](https://status.david-dm.org/gh/georapbox/PubSub.svg?type=dev)](https://david-dm.org/georapbox/PubSub?type=dev)
+
+# PubSub
+
+Javascript implementation of the [Publish/Subscribe](http://en.wikipedia.org/wiki/Publish%E2%80%93subscribe_pattern) pattern.
 
 ## Install
 
@@ -74,7 +74,7 @@ Creates a PubSub instance.
 | --- | --- | --- | --- |
 | immediateExceptions<sup>1</sup> | <code>boolean</code> | <code>false</code> | Force immediate exceptions (instead of delayed exceptions). |
 
-<sup>1</sup> *Before version 3.6.0 PubSub would fail to deliver your topics to all subscribers if one or more failed (see issue [#4](https://github.com/georapbox/PubSub/issues/4)). As of version 3.6.0 PubSub handles this by delaying thrown exceptions by default. You can set `immediateExceptions` to `true` in order to maintain the stack trace for development reasons but this is not recommended for production.*
+<sup>1</sup> *Before version 3.6.0 PubSub would fail to deliver your topics to all subscribers if one or more failed (see issue [#4](https://github.com/georapbox/PubSub/issues/4)). As of version 3.6.0 PubSub handles this by delaying thrown exceptions by default. You can set `immediateExceptions` to `true` or any truthy value in order to maintain the stack trace for development reasons but this is not recommended for production.*
 
 ## Public Methods
 
