@@ -13,6 +13,7 @@
 - Use rollup.js to bundle the library.
 - Replace Mocha with Jest as testing framework.
 - Improve tests and coverage.
+- Replace Travis with Github Actions for CI.
 
 ## v3.6.2
 - Update `devDependencies`
