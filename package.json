@@ -16,7 +16,6 @@
     "test": "jest --config jest.config.js",
     "test:watch": "npm run test -- --watch",
     "test:coverage": "npm run test -- --coverage",
-    "coveralls": "npm run test:coverage && cat ./coverage/lcov.info | coveralls",
     "clean": "rimraf dist coverage",
     "prepare": "npm-run-all clean lint test build"
   },
