@@ -1,9 +1,5 @@
-![Build](https://github.com/georapbox/PubSub/workflows/Build/badge.svg)
-[![npm version](https://badge.fury.io/js/PubSub.svg)](http://badge.fury.io/js/PubSub)
-[![npm downloads](https://img.shields.io/npm/dt/PubSub.svg)](http://badge.fury.io/js/PubSub)
-[![npm license](https://img.shields.io/npm/l/PubSub.svg)](http://badge.fury.io/js/PubSub)
-[![Coverage Status](https://coveralls.io/repos/github/georapbox/PubSub/badge.svg?branch=master)](https://coveralls.io/github/georapbox/PubSub?branch=master)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
+[![npm version](https://img.shields.io/npm/v/PubSub.svg)](https://www.npmjs.com/package/PubSub)
+[![npm license](https://img.shields.io/npm/l/PubSub.svg)](https://www.npmjs.com/package/PubSub)
 
 # PubSub
 
@@ -37,8 +33,9 @@ const PubSub = require('PubSub').default;
 ```
 
 ### Old school browser global
+
 ```html
-<script src="https://unpkg.com/PubSub"></script>
+<script src="https://cdn.jsdelivr.net/npm/PubSub@latest/dist/PubSub.umd.min.js"></script>
 ```
 
 ## API
@@ -330,4 +327,4 @@ For API updates and breaking changes, check the [CHANGELOG](https://github.com/g
 
 ## License
 
-[The MIT License (MIT)](https://georapbox.mit-license.org/@2014)
+[The MIT License (MIT)](https://github.com/georapbox/PubSub/blob/master/LICENSE)

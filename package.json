@@ -1,6 +1,6 @@
 {
   "name": "PubSub",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "Javascript implementation of the Publish/Subscribe pattern.",
   "main": "dist/PubSub.cjs.min.js",
   "module": "dist/PubSub.esm.min.js",

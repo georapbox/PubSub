@@ -1,14 +1,25 @@
 # CHANGELOG
 
+## v4.0.1 (2025-04-05)
+
+- Modified README.md to update CDN links for the library.
+- Updated LICENSE to reflect the current copyright year.
+- Introduced a new .nvmrc file specifying Node.js version 20.
+- Removed CI configuration file as part of repository cleanup.
+
 ## v4.0.0 (2021-24-01)
+
 ### Breaking changes
-  - Remove static method `noConflict()`.
+
+- Remove static method `noConflict()`.
 
 ### New features
+
 - Add a new static method `createInstance()` as alternative way to create a new `PubSub` instance.
 - Export library in UMD, ESM and CommonJS formats.
 
 ### Internal changes
+
 - Refactor source code to ES2015+.
 - Use rollup.js to bundle the library.
 - Replace Mocha with Jest as testing framework.
@@ -16,31 +27,38 @@
 - Replace Travis with Github Actions for CI.
 
 ## v3.6.2
+
 - Update `devDependencies`
 - Update CI configuration
 - Delete examples folder
 
 ## v3.6.0
+
 - Fix issue #4
 - Add `immediateExceptions` option when creating instance
 
 
 ## v3.5.0
+
 - Update `devDependencies`
 - Use `mocha` and `chai` for testing instead of `karma` and `jasmine`
 - Drop support Bower support
 - Exclude `dist` folder from source control
 
 ## v3.4.0
+
 - Add static method `PubSub.noConflict()` to roll back the global `PubSub` identifier. Used in a normal browser global namespace environment to avoid conflicts, etc.
 
 ## v3.3.0
+
 - If there is no subscriber for a topic, delete topic property when unsubscribing. Used to leave it as an empty array before.
 - The result of `subscribers` and `subscribersByTopic` methods is just a copy of the original object or array accordingly.
 - Keep devDependencies up to date.
 
 ## v3.2.7
+
 Allow passing multiple data arguments to `publish` and `publishSync` methods.
+
 ```js
 var pubsub = new PubSub();
 
@@ -65,31 +83,39 @@ pubsub.publish('event', {fname: 'John'}, {lname: 'Doe'}, [1, 2, 3], 'Lorem ipsum
 ```
 
 ## v3.2.6
+
 - Ensure that listeners registered on the same topic are invoked in the order they are added.
 - Minor updates on documentation.
 - Update angular_1.x_example.
 
 ## v3.2.5
+
 - Add working example using Angular 1.x.
 - Update devDependencies.
 
 ## v3.2.4
+
 - Improve tests and coverage
 
 ## v3.2.3
+
 - Return a new instance of `PubSub` if it is invoked without the `new` keyword.
 - Add code coverage.
 
 ## v3.2.2
+
 - Keep devDependencies up to date
 
 ## v3.2.1
+
 - Fix License
 
 ## v3.2.0
+
 - Add public method `subscribersByTopic()` to get an array of subscribers for a specific topic.
 
 ## v3.1.0
+
 - `hasSubscribers` checks if there is at least one subscriber, no matter its name, if no argument is passed.
 - Add public method `subscribers()` to get a readonly object of the current subscribers.
 
@@ -129,14 +155,17 @@ var pubsub = new PubSub().alias({
 - Provide source-map for the minified library.
 
 ## v2.1.0
+
 - Add support for publishing events synchronously using `publishSync` method.
 - Add public method `hasSubscribers` to check if there are subscribers for a specific topic.
 
 ## v2.0.3
+
 - Add support for Travis CI.
 - Lint source code using ESLint.
 
 ## v2.0.2
+
 - Keep devDependencies up to date.
 
 ## v2.0.0
